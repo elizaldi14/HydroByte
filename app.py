@@ -8,9 +8,9 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 import pandas as pd
 from dtview import ChartWidget, DonutWidget
+from controllers.data import ph_data
 
 ui, _ = loadUiType("dynamic_layout.ui")
-
 
 class DynamicApp(QMainWindow, ui):
     def __init__(self):
@@ -22,6 +22,7 @@ class DynamicApp(QMainWindow, ui):
         self.pos_ = self.pos()
         self.setWindowFlags(flags)
         self.activate_()
+        self.setup_timer()
 
         self.stackedWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
@@ -31,6 +32,17 @@ class DynamicApp(QMainWindow, ui):
         self.pushButton_4.clicked.connect(lambda: self.cambiar_pagina(2))
         self.pushButton_5.clicked.connect(lambda: self.cambiar_pagina(3))
         self.pushButton_6.clicked.connect(lambda: self.cambiar_pagina(4))
+
+    def setup_timer(self):
+        """Configura el QTimer para actualizar el pH cada 5 segundos."""
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.actualizar_data)
+        self.timer.start(5000)  # Se ejecutará cada 5000 ms (5 segundos)d
+
+    def actualizar_data(self):
+        data = ph_data()
+        self.label_3.setText(str(data))
+
 
     def cambiar_pagina(self, index):
         """ Cambia la página del QStackedWidget al índice especificado """
