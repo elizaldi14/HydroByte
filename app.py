@@ -8,21 +8,24 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 import pandas as pd
 from dtview import ChartWidget, DonutWidget
-from controllers.data import ph_data
+from models.socket_client import SocketClient
 
 ui, _ = loadUiType("dynamic_layout.ui")
 
 class DynamicApp(QMainWindow, ui):
     def __init__(self):
         super(DynamicApp, self).__init__()
-        self.setupUi(self)  # Configurar la interfaz en la ventana
+        self.setupUi(self)
+        
+        # Inicializar cliente socket
+        self.socket_client = SocketClient()
+        self.socket_client.datos_actualizados.connect(self.actualizar_ui)
 
         # Remove default frame
         flags = Qt.WindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.pos_ = self.pos()
         self.setWindowFlags(flags)
         self.activate_()
-        self.setup_timer()
 
         self.stackedWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
@@ -33,15 +36,20 @@ class DynamicApp(QMainWindow, ui):
         self.pushButton_5.clicked.connect(lambda: self.cambiar_pagina(3))
         self.pushButton_6.clicked.connect(lambda: self.cambiar_pagina(4))
 
-    def setup_timer(self):
-        """Configura el QTimer para actualizar el pH cada 5 segundos."""
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.actualizar_data)
-        self.timer.start(5000)  # Se ejecutará cada 5000 ms (5 segundos)d
+    def actualizar_ui(self, data):
+        """Actualiza la interfaz con los datos recibidos."""
+        ph = data.get("ph", "N/A")
+        ppm = data.get("ppm", "N/A")
+        temp = data.get("temp", "N/A")
+        distancia = data.get("distancia", "N/A")
 
-    def actualizar_data(self):
-        data = ph_data()
-        self.label_3.setText(str(data))
+        self.label_3.setText(f"pH: {ph} | PPM: {ppm} | Temp: {temp} | Distancia: {distancia} cm")
+        print(f"📊 Datos actualizados en UI: {data}")
+
+    def closeEvent(self, event):
+        """Cerrar conexión cuando se cierre la aplicación."""
+        self.socket_client.cerrar_conexion()
+        event.accept()
 
 
     def cambiar_pagina(self, index):
