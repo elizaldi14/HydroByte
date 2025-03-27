@@ -1,4 +1,5 @@
 import sys
+from datetime import date
 from threading import Thread
 
 from PySide6.QtCharts import *
@@ -43,7 +44,18 @@ class DynamicApp(QMainWindow, ui):
         temp = data.get("temp", "N/A")
         distancia = data.get("distancia", "N/A")
 
-        self.label_3.setText(f"pH: {ph} | PPM: {ppm} | Temp: {temp} | Distancia: {distancia} cm")
+        self.label_3.setText(str(ph))
+        self.label_5.setText(date.today().strftime("%d-%m-%Y"))
+
+        self.label_6.setText(str(temp) + "°C")
+        self.label_8.setText(date.today().strftime("%d-%m-%Y"))
+
+        self.label_14.setText(str(distancia) + " cm")
+        self.label_16.setText(date.today().strftime("%d-%m-%Y"))
+
+        self.label_27.setText(str(ppm) + " ppm")
+        self.label_29.setText(date.today().strftime("%d-%m-%Y"))
+
         print(f"📊 Datos actualizados en UI: {data}")
 
     def closeEvent(self, event):

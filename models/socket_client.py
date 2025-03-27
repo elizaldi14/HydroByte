@@ -5,7 +5,7 @@ from PySide6.QtCore import QTimer, QObject, Signal
 class SocketClient(QObject):
     datos_actualizados = Signal(dict)  # Señal para enviar datos al UI
 
-    def __init__(self, host="192.168.136.140", port=12345, parent=None):
+    def __init__(self, host="192.168.1.98", port=12345, parent=None):
         super().__init__(parent)
         self.host = host
         self.port = port
