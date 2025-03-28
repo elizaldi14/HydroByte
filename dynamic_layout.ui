@@ -156,11 +156,11 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Dashboard</string>
+                <string>Inicio</string>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_keypad.svg</normaloff>:/icons/icons/icons8_keypad.svg</iconset>
+                <iconset>
+                 <normaloff>menu (1).png</normaloff>menu (1).png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -212,16 +212,16 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Orders</string>
+                <string>Bombas</string>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_todo_list.svg</normaloff>:/icons/icons/icons8_todo_list.svg</iconset>
+                <iconset>
+                 <normaloff>water-pump.png</normaloff>water-pump.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>25</width>
-                 <height>25</height>
+                 <width>35</width>
+                 <height>35</height>
                 </size>
                </property>
               </widget>
@@ -268,16 +268,16 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Email</string>
+                <string>pH</string>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_secured_letter.svg</normaloff>:/icons/icons/icons8_secured_letter.svg</iconset>
+                <iconset>
+                 <normaloff>ph-sensor.png</normaloff>ph-sensor.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>24</width>
-                 <height>24</height>
+                 <width>35</width>
+                 <height>35</height>
                 </size>
                </property>
               </widget>
@@ -324,16 +324,16 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Store</string>
+                <string>Temperatura</string>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_shopping_cart.svg</normaloff>:/icons/icons/icons8_shopping_cart.svg</iconset>
+                <iconset>
+                 <normaloff>temperature-sensor.png</normaloff>temperature-sensor.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>25</width>
-                 <height>25</height>
+                 <width>35</width>
+                 <height>35</height>
                 </size>
                </property>
               </widget>
@@ -380,16 +380,16 @@ QPushButton:pressed {
 </string>
                </property>
                <property name="text">
-                <string> Payments</string>
+                <string>Conductividad</string>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_mastercard_credit_card.svg</normaloff>:/icons/icons/icons8_mastercard_credit_card.svg</iconset>
+                <iconset>
+                 <normaloff>humidity.png</normaloff>humidity.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>25</width>
-                 <height>25</height>
+                 <width>35</width>
+                 <height>35</height>
                 </size>
                </property>
               </widget>
@@ -449,56 +449,6 @@ QPushButton:pressed {
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <item>
-              <widget class="QPushButton" name="pushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>45</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>45</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	background-color: rgb(25, 25, 25);
-	color: rgb(204, 204, 204);
-	border: none;
-	border-left: 3px solid rgb(25, 25, 25);
-	text-align: left;
-	padding-left: 10px;
-}
-
-QPushButton:hover {
-	border-left: 3px solid rgb(255, 85, 0);
-	background-color: rgb(18, 18, 18);
-}
-
-QPushButton:pressed {
-	background-color: rgb(0, 0, 0);
-}
-
-</string>
-               </property>
-               <property name="text">
-                <string>Signout</string>
-               </property>
-               <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_logout_rounded_down.svg</normaloff>:/icons/icons/icons8_logout_rounded_down.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-              </widget>
-             </item>
             </layout>
            </widget>
           </item>
@@ -674,29 +624,7 @@ QFrame:hover {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_10">
-                         <property name="font">
-                          <font>
-                           <pointsize>13</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>$125, 300</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_13">
+                        <widget class="QLabel" name="label_28">
                          <property name="font">
                           <font>
                            <pointsize>10</pointsize>
@@ -705,12 +633,12 @@ QFrame:hover {
                          </property>
                          <property name="styleSheet">
                           <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
+	color: red;
 	border: none;
 }</string>
                          </property>
                          <property name="text">
-                          <string>Activo</string>
+                          <string>Inactivo</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -732,7 +660,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>N/A</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -791,7 +719,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>Ph</string>
+                          <string>pH</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -813,29 +741,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>5, 625</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_4">
-                         <property name="font">
-                          <font>
-                           <pointsize>10</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>Activo</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -857,7 +763,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -924,29 +830,7 @@ QFrame:hover {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_23">
-                         <property name="font">
-                          <font>
-                           <pointsize>13</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>2,122</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_24">
+                        <widget class="QLabel" name="label_17">
                          <property name="font">
                           <font>
                            <pointsize>10</pointsize>
@@ -955,12 +839,12 @@ QFrame:hover {
                          </property>
                          <property name="styleSheet">
                           <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
+	color: red;
 	border: none;
 }</string>
                          </property>
                          <property name="text">
-                          <string>Activo</string>
+                          <string>Inactivo</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -982,7 +866,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>N/A</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1060,29 +944,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>2,122</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="2" column="0">
-                        <widget class="QLabel" name="label_28">
-                         <property name="font">
-                          <font>
-                           <pointsize>10</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: red;
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>Inactivo</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1104,7 +966,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1163,7 +1025,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>Temperatura Ambiental</string>
+                          <string>Nivel del Agua</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1185,29 +1047,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>+9.8%</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_17">
-                         <property name="font">
-                          <font>
-                           <pointsize>10</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: red;
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>Inactivo</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1229,7 +1069,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1288,7 +1128,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>Temperatura Agua</string>
+                          <string>Temperatura</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1310,29 +1150,7 @@ QFrame:hover {
 }</string>
                          </property>
                          <property name="text">
-                          <string>2,122</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_9">
-                         <property name="font">
-                          <font>
-                           <pointsize>10</pointsize>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                         </property>
-                         <property name="text">
-                          <string>Activo</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1354,7 +1172,7 @@ QFrame:hover {
 </string>
                          </property>
                          <property name="text">
-                          <string>9th Aug 2021</string>
+                          <string>Cargando...</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1730,103 +1548,6 @@ QPushButton:pressed {
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <item>
-              <widget class="QPushButton" name="toggleButton_5">
-               <property name="minimumSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: none;
-	background-color: rgb(0, 0, 0);
-	border-left: 3px solid rgb(0, 0, 0);
-}
-
-QPushButton:hover {
-	border-left: 3px solid rgb(255, 85, 0);
-}
-
-QPushButton:pressed {
-	background-color: rgb(25, 25, 25);
-}</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_maintenance_2.svg</normaloff>:/icons/icons/icons8_maintenance_2.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="toggleButton_7">
-               <property name="minimumSize">
-                <size>
-                 <width>90</width>
-                 <height>26</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>26</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: none;
-	background-color: rgb(30, 30, 30);
-	border-left: 3px solid rgb(30, 30, 30);
-	border-right: 3px solid rgb(30, 30, 30);
-	color: rgb(255, 85, 0);
-	border-radius: 13px;
-}
-
-QPushButton:hover {
-	border-left: 3px solid rgb(255, 85, 0);
-	border-right: 3px solid rgb(255, 85, 0);
-}
-
-QPushButton:pressed {
-	background-color: rgb(25, 25, 25);
-}</string>
-               </property>
-               <property name="text">
-                <string>Admin </string>
-               </property>
-               <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/icons/icons/icons8_account_1.svg</normaloff>:/icons/icons/icons8_account_1.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
-              </widget>
-             </item>
              <item>
               <widget class="QPushButton" name="toggleButton_6">
                <property name="minimumSize">
