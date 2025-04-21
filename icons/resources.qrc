@@ -1,0 +1,21 @@
+<RCC>
+  <qresource>
+    <file>img/exit_black.svg</file>
+    <file>img/exit_white.svg</file>
+    <file>img/notifications_black.svg</file>
+    <file>img/notifications_white.svg</file>
+    <file>img/logo.jpg</file>
+    <file>img/help__white.svg</file>
+    <file>img/help_black.svg</file>
+    <file>img/home_black.svg</file>
+    <file>img/home_white.svg</file>
+    <file>img/menu_black.svg</file>
+    <file>img/menu_white.svg</file>
+    <file>img/settings_black.svg</file>
+    <file>img/settings_white.svg</file>
+    <file>img/timeline__white.svg</file>
+    <file>img/timeline_black.svg</file>
+    <file>img/warning_black.svg</file>
+    <file>img/warning_white.svg</file>
+  </qresource>
+</RCC>
