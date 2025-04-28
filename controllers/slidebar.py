@@ -1,4 +1,5 @@
 from ui_slidebar import Ui_MainWindow
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
 from controllers.graphcs.realTimeGraphc import GraphRealTime
 from controllers.graphcs.historialGraphc import GraphHistory
@@ -27,7 +28,11 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.configuracion_1.clicked.connect(lambda: self.change_page(3))
         self.configuracion_2.clicked.connect(lambda: self.change_page(3))
         
-        self.change_page(0)
+        self.listWidget.itemClicked.connect(lambda _: self.change_page_ayuda())
+
+        # No necesitas setear manualmente keyPressEvent aquí
+
+        self.change_page(5)
         self.graphcRealTime()
         self.graphcHistory()
         TablaAlertas(self)
@@ -39,7 +44,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.graphcRealTime = GraphRealTime()
 
         # Crear layout dentro del widget realTime
-        layout = QVBoxLayout(self.realTime)  # Aquí usas self.realTime
+        layout = QVBoxLayout(self.realTime)
         layout.addWidget(self.graphcRealTime)
         self.realTime.setLayout(layout)
 
@@ -47,6 +52,26 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.graphcHistory = GraphHistory()
 
         # Crear layout dentro del widget history
-        layout = QVBoxLayout(self.history)  # Aquí usas self.history
+        layout = QVBoxLayout(self.history)
         layout.addWidget(self.graphcHistory)
         self.history.setLayout(layout)
+
+    def change_page_ayuda(self, index=None):
+        if isinstance(index, int):
+            self.stackAyuda.setCurrentIndex(index)
+        else:
+            index = self.listWidget.currentRow()
+            self.stackAyuda.setCurrentIndex(index)
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Escape:
+            if self.stackedWidget.currentIndex() == 2 and not self.stackAyuda.currentIndex() == 4:  # Si estamos en la página de Ayuda
+                self.listWidget.clearSelection()
+                self.change_page_ayuda(4)
+            elif self.stackAyuda.currentIndex() == 4 and self.stackedWidget.currentIndex() == 2:
+                self.change_page(5)
+            else:
+                self.change_page(5)
+
+        else:
+            super().keyPressEvent(event)

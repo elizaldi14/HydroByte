@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1005, 649)
+        MainWindow.resize(1920, 1080)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_4 = QGridLayout(self.centralwidget)
@@ -864,13 +864,62 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.historial_page)
         self.ayuda_page = QWidget()
         self.ayuda_page.setObjectName(u"ayuda_page")
+        self.stackAyuda = QStackedWidget(self.ayuda_page)
+        self.stackAyuda.setObjectName(u"stackAyuda")
+        self.stackAyuda.setGeometry(QRect(250, 10, 1421, 981))
+        self.stackAyuda.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.ph = QWidget()
+        self.ph.setObjectName(u"ph")
+        self.gridLayout_8 = QGridLayout(self.ph)
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.plainTextEdit = QPlainTextEdit(self.ph)
+        self.plainTextEdit.setObjectName(u"plainTextEdit")
+
+        self.gridLayout_8.addWidget(self.plainTextEdit, 0, 0, 1, 1)
+
+        self.stackAyuda.addWidget(self.ph)
+        self.ce = QWidget()
+        self.ce.setObjectName(u"ce")
+        self.gridLayout_7 = QGridLayout(self.ce)
+        self.gridLayout_7.setObjectName(u"gridLayout_7")
+        self.plainTextEdit_2 = QPlainTextEdit(self.ce)
+        self.plainTextEdit_2.setObjectName(u"plainTextEdit_2")
+
+        self.gridLayout_7.addWidget(self.plainTextEdit_2, 0, 0, 1, 1)
+
+        self.stackAyuda.addWidget(self.ce)
+        self.tmp = QWidget()
+        self.tmp.setObjectName(u"tmp")
+        self.gridLayout_9 = QGridLayout(self.tmp)
+        self.gridLayout_9.setObjectName(u"gridLayout_9")
+        self.plainTextEdit_3 = QPlainTextEdit(self.tmp)
+        self.plainTextEdit_3.setObjectName(u"plainTextEdit_3")
+
+        self.gridLayout_9.addWidget(self.plainTextEdit_3, 0, 0, 1, 1)
+
+        self.stackAyuda.addWidget(self.tmp)
+        self.bomb = QWidget()
+        self.bomb.setObjectName(u"bomb")
+        self.plainTextEdit_4 = QPlainTextEdit(self.bomb)
+        self.plainTextEdit_4.setObjectName(u"plainTextEdit_4")
+        self.plainTextEdit_4.setGeometry(QRect(10, 0, 1391, 971))
+        self.stackAyuda.addWidget(self.bomb)
+        self.bv = QWidget()
+        self.bv.setObjectName(u"bv")
+        self.label_4 = QLabel(self.bv)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(180, 190, 801, 161))
+        font7 = QFont()
+        font7.setPointSize(40)
+        self.label_4.setFont(font7)
+        self.stackAyuda.addWidget(self.bv)
         self.listWidget = QListWidget(self.ayuda_page)
         QListWidgetItem(self.listWidget)
         QListWidgetItem(self.listWidget)
         QListWidgetItem(self.listWidget)
         QListWidgetItem(self.listWidget)
         self.listWidget.setObjectName(u"listWidget")
-        self.listWidget.setGeometry(QRect(0, 0, 191, 571))
+        self.listWidget.setGeometry(QRect(0, 0, 250, 1001))
         self.listWidget.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.listWidget.setStyleSheet(u"QWidget {\n"
 "    background-color: #f9f9f9;  /* Fondo blanco suave */\n"
@@ -917,34 +966,6 @@ class Ui_MainWindow(object):
 "    font-weight: bold;\n"
 "}\n"
 "")
-        self.stackedWidget_2 = QStackedWidget(self.ayuda_page)
-        self.stackedWidget_2.setObjectName(u"stackedWidget_2")
-        self.stackedWidget_2.setGeometry(QRect(180, 10, 561, 551))
-        self.stackedWidget_2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.ph = QWidget()
-        self.ph.setObjectName(u"ph")
-        self.plainTextEdit = QPlainTextEdit(self.ph)
-        self.plainTextEdit.setObjectName(u"plainTextEdit")
-        self.plainTextEdit.setGeometry(QRect(20, 10, 531, 531))
-        self.stackedWidget_2.addWidget(self.ph)
-        self.ce = QWidget()
-        self.ce.setObjectName(u"ce")
-        self.plainTextEdit_2 = QPlainTextEdit(self.ce)
-        self.plainTextEdit_2.setObjectName(u"plainTextEdit_2")
-        self.plainTextEdit_2.setGeometry(QRect(10, 10, 541, 531))
-        self.stackedWidget_2.addWidget(self.ce)
-        self.tmp = QWidget()
-        self.tmp.setObjectName(u"tmp")
-        self.plainTextEdit_3 = QPlainTextEdit(self.tmp)
-        self.plainTextEdit_3.setObjectName(u"plainTextEdit_3")
-        self.plainTextEdit_3.setGeometry(QRect(10, 10, 541, 531))
-        self.stackedWidget_2.addWidget(self.tmp)
-        self.bomb = QWidget()
-        self.bomb.setObjectName(u"bomb")
-        self.plainTextEdit_4 = QPlainTextEdit(self.bomb)
-        self.plainTextEdit_4.setObjectName(u"plainTextEdit_4")
-        self.plainTextEdit_4.setGeometry(QRect(10, 10, 541, 531))
-        self.stackedWidget_2.addWidget(self.bomb)
         self.stackedWidget.addWidget(self.ayuda_page)
         self.configuracion_page = QWidget()
         self.configuracion_page.setObjectName(u"configuracion_page")
@@ -1081,6 +1102,15 @@ class Ui_MainWindow(object):
         self.gridLayout_6.addWidget(self.tabla_alertas, 1, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.alerta_page)
+        self.bienvenida_page = QWidget()
+        self.bienvenida_page.setObjectName(u"bienvenida_page")
+        self.label_5 = QLabel(self.bienvenida_page)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(250, 190, 771, 211))
+        font8 = QFont()
+        font8.setPointSize(50)
+        self.label_5.setFont(font8)
+        self.stackedWidget.addWidget(self.bienvenida_page)
 
         self.verticalLayout_5.addWidget(self.stackedWidget)
 
@@ -1104,8 +1134,8 @@ class Ui_MainWindow(object):
         self.configuracion_2.toggled.connect(self.configuracion_1.setChecked)
         self.salir_1.toggled.connect(MainWindow.close)
 
-        self.stackedWidget.setCurrentIndex(2)
-        self.stackedWidget_2.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
+        self.stackAyuda.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1160,19 +1190,6 @@ class Ui_MainWindow(object):
 
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Historial", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Real Time", None))
-
-        __sortingEnabled = self.listWidget.isSortingEnabled()
-        self.listWidget.setSortingEnabled(False)
-        ___qlistwidgetitem = self.listWidget.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("MainWindow", u"Ph", None));
-        ___qlistwidgetitem1 = self.listWidget.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Conductividad Electrica", None));
-        ___qlistwidgetitem2 = self.listWidget.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Temperatura", None));
-        ___qlistwidgetitem3 = self.listWidget.item(3)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Bombas", None));
-        self.listWidget.setSortingEnabled(__sortingEnabled)
-
         self.plainTextEdit.setPlainText(QCoreApplication.translate("MainWindow", u"\u00bfSab\u00edas que todo a tu alrededor tiene un pH?\n"
 "\n"
 "El pH (potencial de hidr\u00f3geno) es una forma de medir qu\u00e9 tan \u00e1cido o alcalino (b\u00e1sico) es algo. Vamos a descubrirlo paso a paso.\n"
@@ -1327,6 +1344,20 @@ class Ui_MainWindow(object):
 "\n"
 "Dato interesante:\n"
 "En la agricultura moderna, muchas veces se combinan ambos tipos de bombas para asegurar que el agua y los nutrientes lleguen de forma continua y precisa a las plantas.", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bienvenido a la pagina de ayuda", None))
+
+        __sortingEnabled = self.listWidget.isSortingEnabled()
+        self.listWidget.setSortingEnabled(False)
+        ___qlistwidgetitem = self.listWidget.item(0)
+        ___qlistwidgetitem.setText(QCoreApplication.translate("MainWindow", u"Ph", None));
+        ___qlistwidgetitem1 = self.listWidget.item(1)
+        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Conductividad Electrica", None));
+        ___qlistwidgetitem2 = self.listWidget.item(2)
+        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Temperatura", None));
+        ___qlistwidgetitem3 = self.listWidget.item(3)
+        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Bombas", None));
+        self.listWidget.setSortingEnabled(__sortingEnabled)
+
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Configuracion Page", None))
         self.pbSearch.setText("")
         ___qtablewidgetitem = self.tabla_alertas.horizontalHeaderItem(0)
@@ -1339,5 +1370,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Estado", None));
         ___qtablewidgetitem4 = self.tabla_alertas.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Fecha", None));
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bienvenidos a HydroByte", None))
     # retranslateUi
 

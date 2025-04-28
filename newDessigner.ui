@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1005</width>
-    <height>649</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -555,7 +555,7 @@ QPushButton:checked{
           <string notr="true">background-color: #F3F6FF;</string>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="estado_page">
           <layout class="QGridLayout" name="gridLayout_5">
@@ -1525,13 +1525,243 @@ QComboBox:editable {
           </layout>
          </widget>
          <widget class="QWidget" name="ayuda_page">
+          <widget class="QStackedWidget" name="stackAyuda">
+           <property name="geometry">
+            <rect>
+             <x>250</x>
+             <y>10</y>
+             <width>1421</width>
+             <height>981</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="currentIndex">
+            <number>4</number>
+           </property>
+           <widget class="QWidget" name="ph">
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="plainTextEdit">
+               <property name="plainText">
+                <string>¿Sabías que todo a tu alrededor tiene un pH?
+
+El pH (potencial de hidrógeno) es una forma de medir qué tan ácido o alcalino (básico) es algo. Vamos a descubrirlo paso a paso.
+
+¿Qué es el pH?
+Imagina que el pH es una escala que va del 0 al 14. En esta escala:
+
+0 a 6: ¡Ácido!
+
+¡El vinagre y el jugo de limón son ácidos! Son como los superhéroes del mundo ácido.
+
+7: ¡Neutral!
+
+El agua pura tiene un pH de 7. Ni ácido, ni alcalino. ¡Es como un árbitro imparcial!
+
+8 a 14: ¡Alcalino o básico!
+
+Las soluciones como el bicarbonato de sodio son básicas. Son como los &quot;calmantes&quot; del mundo químico.
+
+¿Por qué es importante el pH?
+El pH afecta muchas cosas que usamos todos los días, como:
+
+Tu cuerpo
+
+Tu estómago necesita un pH ácido para digerir la comida.
+
+Pero tu sangre debe tener un pH casi neutro, ¡para que todo funcione correctamente!
+
+La naturaleza
+
+El pH del suelo es clave para que las plantas crezcan bien. Si el suelo es demasiado ácido o básico, las plantas pueden no crecer.
+
+La comida
+
+El pH en la comida también es importante. Un pH demasiado bajo (como en los jugos ácidos) puede hacer que algunos alimentos se descompongan rápidamente.
+
+¿Cómo medimos el pH?
+Hay diferentes formas de medir el pH, como:
+
+Papeles indicadores: Se vuelven de diferentes colores según si la solución es ácida o básica.
+
+Medidores electrónicos: Los más avanzados y precisos, perfectos para los laboratorios.
+
+Un dato curioso...
+El pH perfecto para el cuerpo humano es ligeramente básico, alrededor de 7.4. ¡Es como un equilibrio perfecto entre ácido y alcalino!</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="ce">
+            <layout class="QGridLayout" name="gridLayout_7">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="plainTextEdit_2">
+               <property name="plainText">
+                <string>¿Sabías que algunos materiales permiten el paso de la electricidad mejor que otros?
+
+Eso se debe a su conductividad eléctrica, que es la capacidad que tiene un material para conducir una corriente eléctrica. Vamos a entenderlo paso a paso.
+
+¿Qué es la conductividad eléctrica?
+La conductividad eléctrica mide qué tan fácil puede moverse una corriente eléctrica a través de un material. Depende de cuánto dejan pasar los electrones.
+
+Materiales con alta conductividad permiten que la electricidad fluya fácilmente.
+
+Materiales con baja conductividad resisten el paso de la electricidad.
+
+Ejemplos de buenos conductores:
+
+Metales como el cobre, la plata y el oro.
+
+El agua con sales disueltas.
+
+Ejemplos de malos conductores o aislantes:
+
+Plásticos
+
+Madera seca
+
+Goma
+
+¿Por qué es importante la conductividad eléctrica?
+La conductividad es fundamental en muchos aspectos de la vida diaria:
+
+Electricidad en casa: Los cables que llevan electricidad están hechos de cobre, un excelente conductor.
+
+Dispositivos electrónicos: El diseño de computadoras y teléfonos depende de materiales que conducen electricidad de forma controlada.
+
+Seguridad: Los aislantes protegen a las personas de sufrir descargas eléctricas.
+
+¿Cómo se mide la conductividad eléctrica?
+Se utiliza un aparato llamado conductímetro, que mide cuánta corriente pasa a través de un material en condiciones específicas.
+
+Dato curioso:
+La plata es el mejor conductor eléctrico que existe, pero debido a su alto costo, normalmente se usa cobre en la mayoría de los cables.</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tmp">
+            <layout class="QGridLayout" name="gridLayout_9">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="plainTextEdit_3">
+               <property name="plainText">
+                <string>¿Sabías que la temperatura del agua es crucial para el crecimiento de las hortalizas?
+
+La temperatura del agua que se usa en el riego puede afectar directamente la salud, el crecimiento y la productividad de las plantas.
+
+¿Por qué importa la temperatura del agua?
+Cuando riegas las hortalizas:
+
+Agua demasiado fría: Puede &quot;estresar&quot; a las plantas, ralentizar su crecimiento y afectar la absorción de nutrientes.
+
+Agua demasiado caliente: Puede dañar las raíces sensibles y reducir la disponibilidad de oxígeno en el suelo.
+
+¿Cuál es la temperatura ideal del agua para las hortalizas?
+Lo más recomendable es que el agua esté entre 18 y 24 grados Celsius. A esta temperatura:
+
+Las raíces absorben mejor el agua y los nutrientes.
+
+Se minimiza el riesgo de enfermedades por hongos o bacterias.
+
+Se favorece un desarrollo vigoroso y saludable.
+
+Consejos para un riego efectivo:
+
+Riega en las primeras horas de la mañana o al final de la tarde para evitar cambios bruscos de temperatura.
+
+Evita usar agua de pozos muy fríos directamente, especialmente en climas cálidos.
+
+Si es posible, deja reposar el agua al sol un tiempo antes de regar para equilibrar su temperatura.
+
+Dato interesante:
+Algunas hortalizas, como el tomate y el pepino, son especialmente sensibles a la temperatura del agua, y un riego adecuado puede marcar la diferencia entre una planta fuerte o una planta débil.
+
+</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="bomb">
+            <widget class="QPlainTextEdit" name="plainTextEdit_4">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>0</y>
+               <width>1391</width>
+               <height>971</height>
+              </rect>
+             </property>
+             <property name="plainText">
+              <string>¿Sabías que las bombas de agua son esenciales para mover líquidos en muchos sistemas agrícolas e industriales?
+
+Entre las más utilizadas están las bombas de circulación y las bombas peristálticas.
+
+¿Qué es una bomba de circulación?
+Las bombas de circulación son dispositivos que mantienen el flujo constante de agua u otros líquidos en un sistema cerrado.
+Son ideales para:
+
+Sistemas de riego.
+
+Sistemas de calefacción o enfriamiento.
+
+Mantenimiento de nutrientes en sistemas hidropónicos.
+
+Funcionan empujando el agua de manera continua, asegurando que siempre haya movimiento y evitando el estancamiento.
+
+¿Qué es una bomba peristáltica?
+Una bomba peristáltica transporta líquidos a través de un tubo flexible que es comprimido de manera controlada.
+Son especialmente útiles cuando:
+
+Se necesita mover líquidos de manera muy precisa.
+
+El líquido debe evitar el contacto directo con partes mecánicas.
+
+Se transportan líquidos viscosos, sensibles o con partículas sólidas.
+
+Ventajas de cada tipo:
+
+Bombas de circulación: Alta eficiencia en mover grandes volúmenes de líquido de manera constante.
+
+Bombas peristálticas: Precisión en el volumen transportado, ideal para dosificar fertilizantes o nutrientes en pequeñas cantidades.
+
+Dato interesante:
+En la agricultura moderna, muchas veces se combinan ambos tipos de bombas para asegurar que el agua y los nutrientes lleguen de forma continua y precisa a las plantas.</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="bv">
+            <widget class="QLabel" name="label_4">
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>190</y>
+               <width>801</width>
+               <height>161</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>40</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Bienvenido a la pagina de ayuda</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
           <widget class="QListWidget" name="listWidget">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>191</width>
-             <height>571</height>
+             <width>250</width>
+             <height>1001</height>
             </rect>
            </property>
            <property name="focusPolicy">
@@ -1603,228 +1833,6 @@ QPushButton:checked {
              <string>Bombas</string>
             </property>
            </item>
-          </widget>
-          <widget class="QStackedWidget" name="stackedWidget_2">
-           <property name="geometry">
-            <rect>
-             <x>180</x>
-             <y>10</y>
-             <width>561</width>
-             <height>551</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);</string>
-           </property>
-           <property name="currentIndex">
-            <number>3</number>
-           </property>
-           <widget class="QWidget" name="ph">
-            <widget class="QPlainTextEdit" name="plainTextEdit">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>10</y>
-               <width>531</width>
-               <height>531</height>
-              </rect>
-             </property>
-             <property name="plainText">
-              <string>¿Sabías que todo a tu alrededor tiene un pH?
-
-El pH (potencial de hidrógeno) es una forma de medir qué tan ácido o alcalino (básico) es algo. Vamos a descubrirlo paso a paso.
-
-¿Qué es el pH?
-Imagina que el pH es una escala que va del 0 al 14. En esta escala:
-
-0 a 6: ¡Ácido!
-
-¡El vinagre y el jugo de limón son ácidos! Son como los superhéroes del mundo ácido.
-
-7: ¡Neutral!
-
-El agua pura tiene un pH de 7. Ni ácido, ni alcalino. ¡Es como un árbitro imparcial!
-
-8 a 14: ¡Alcalino o básico!
-
-Las soluciones como el bicarbonato de sodio son básicas. Son como los &quot;calmantes&quot; del mundo químico.
-
-¿Por qué es importante el pH?
-El pH afecta muchas cosas que usamos todos los días, como:
-
-Tu cuerpo
-
-Tu estómago necesita un pH ácido para digerir la comida.
-
-Pero tu sangre debe tener un pH casi neutro, ¡para que todo funcione correctamente!
-
-La naturaleza
-
-El pH del suelo es clave para que las plantas crezcan bien. Si el suelo es demasiado ácido o básico, las plantas pueden no crecer.
-
-La comida
-
-El pH en la comida también es importante. Un pH demasiado bajo (como en los jugos ácidos) puede hacer que algunos alimentos se descompongan rápidamente.
-
-¿Cómo medimos el pH?
-Hay diferentes formas de medir el pH, como:
-
-Papeles indicadores: Se vuelven de diferentes colores según si la solución es ácida o básica.
-
-Medidores electrónicos: Los más avanzados y precisos, perfectos para los laboratorios.
-
-Un dato curioso...
-El pH perfecto para el cuerpo humano es ligeramente básico, alrededor de 7.4. ¡Es como un equilibrio perfecto entre ácido y alcalino!</string>
-             </property>
-            </widget>
-           </widget>
-           <widget class="QWidget" name="ce">
-            <widget class="QPlainTextEdit" name="plainTextEdit_2">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>541</width>
-               <height>531</height>
-              </rect>
-             </property>
-             <property name="plainText">
-              <string>¿Sabías que algunos materiales permiten el paso de la electricidad mejor que otros?
-
-Eso se debe a su conductividad eléctrica, que es la capacidad que tiene un material para conducir una corriente eléctrica. Vamos a entenderlo paso a paso.
-
-¿Qué es la conductividad eléctrica?
-La conductividad eléctrica mide qué tan fácil puede moverse una corriente eléctrica a través de un material. Depende de cuánto dejan pasar los electrones.
-
-Materiales con alta conductividad permiten que la electricidad fluya fácilmente.
-
-Materiales con baja conductividad resisten el paso de la electricidad.
-
-Ejemplos de buenos conductores:
-
-Metales como el cobre, la plata y el oro.
-
-El agua con sales disueltas.
-
-Ejemplos de malos conductores o aislantes:
-
-Plásticos
-
-Madera seca
-
-Goma
-
-¿Por qué es importante la conductividad eléctrica?
-La conductividad es fundamental en muchos aspectos de la vida diaria:
-
-Electricidad en casa: Los cables que llevan electricidad están hechos de cobre, un excelente conductor.
-
-Dispositivos electrónicos: El diseño de computadoras y teléfonos depende de materiales que conducen electricidad de forma controlada.
-
-Seguridad: Los aislantes protegen a las personas de sufrir descargas eléctricas.
-
-¿Cómo se mide la conductividad eléctrica?
-Se utiliza un aparato llamado conductímetro, que mide cuánta corriente pasa a través de un material en condiciones específicas.
-
-Dato curioso:
-La plata es el mejor conductor eléctrico que existe, pero debido a su alto costo, normalmente se usa cobre en la mayoría de los cables.</string>
-             </property>
-            </widget>
-           </widget>
-           <widget class="QWidget" name="tmp">
-            <widget class="QPlainTextEdit" name="plainTextEdit_3">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>541</width>
-               <height>531</height>
-              </rect>
-             </property>
-             <property name="plainText">
-              <string>¿Sabías que la temperatura del agua es crucial para el crecimiento de las hortalizas?
-
-La temperatura del agua que se usa en el riego puede afectar directamente la salud, el crecimiento y la productividad de las plantas.
-
-¿Por qué importa la temperatura del agua?
-Cuando riegas las hortalizas:
-
-Agua demasiado fría: Puede &quot;estresar&quot; a las plantas, ralentizar su crecimiento y afectar la absorción de nutrientes.
-
-Agua demasiado caliente: Puede dañar las raíces sensibles y reducir la disponibilidad de oxígeno en el suelo.
-
-¿Cuál es la temperatura ideal del agua para las hortalizas?
-Lo más recomendable es que el agua esté entre 18 y 24 grados Celsius. A esta temperatura:
-
-Las raíces absorben mejor el agua y los nutrientes.
-
-Se minimiza el riesgo de enfermedades por hongos o bacterias.
-
-Se favorece un desarrollo vigoroso y saludable.
-
-Consejos para un riego efectivo:
-
-Riega en las primeras horas de la mañana o al final de la tarde para evitar cambios bruscos de temperatura.
-
-Evita usar agua de pozos muy fríos directamente, especialmente en climas cálidos.
-
-Si es posible, deja reposar el agua al sol un tiempo antes de regar para equilibrar su temperatura.
-
-Dato interesante:
-Algunas hortalizas, como el tomate y el pepino, son especialmente sensibles a la temperatura del agua, y un riego adecuado puede marcar la diferencia entre una planta fuerte o una planta débil.
-
-</string>
-             </property>
-            </widget>
-           </widget>
-           <widget class="QWidget" name="bomb">
-            <widget class="QPlainTextEdit" name="plainTextEdit_4">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>541</width>
-               <height>531</height>
-              </rect>
-             </property>
-             <property name="plainText">
-              <string>¿Sabías que las bombas de agua son esenciales para mover líquidos en muchos sistemas agrícolas e industriales?
-
-Entre las más utilizadas están las bombas de circulación y las bombas peristálticas.
-
-¿Qué es una bomba de circulación?
-Las bombas de circulación son dispositivos que mantienen el flujo constante de agua u otros líquidos en un sistema cerrado.
-Son ideales para:
-
-Sistemas de riego.
-
-Sistemas de calefacción o enfriamiento.
-
-Mantenimiento de nutrientes en sistemas hidropónicos.
-
-Funcionan empujando el agua de manera continua, asegurando que siempre haya movimiento y evitando el estancamiento.
-
-¿Qué es una bomba peristáltica?
-Una bomba peristáltica transporta líquidos a través de un tubo flexible que es comprimido de manera controlada.
-Son especialmente útiles cuando:
-
-Se necesita mover líquidos de manera muy precisa.
-
-El líquido debe evitar el contacto directo con partes mecánicas.
-
-Se transportan líquidos viscosos, sensibles o con partículas sólidas.
-
-Ventajas de cada tipo:
-
-Bombas de circulación: Alta eficiencia en mover grandes volúmenes de líquido de manera constante.
-
-Bombas peristálticas: Precisión en el volumen transportado, ideal para dosificar fertilizantes o nutrientes en pequeñas cantidades.
-
-Dato interesante:
-En la agricultura moderna, muchas veces se combinan ambos tipos de bombas para asegurar que el agua y los nutrientes lleguen de forma continua y precisa a las plantas.</string>
-             </property>
-            </widget>
-           </widget>
           </widget>
          </widget>
          <widget class="QWidget" name="configuracion_page">
@@ -2040,6 +2048,26 @@ QTableCornerButton::section {
             </widget>
            </item>
           </layout>
+         </widget>
+         <widget class="QWidget" name="bienvenida_page">
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>250</x>
+             <y>190</y>
+             <width>771</width>
+             <height>211</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>50</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Bienvenidos a HydroByte</string>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>
