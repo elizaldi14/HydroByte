@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>img/search.png</file>
+    <file>img/arrow_down.png</file>
     <file>img/exit_black.svg</file>
     <file>img/exit_white.svg</file>
     <file>img/notifications_black.svg</file>

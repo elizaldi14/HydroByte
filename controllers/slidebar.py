@@ -1,6 +1,8 @@
 from ui_slidebar import Ui_MainWindow
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
-from controllers.baseGraphc import GraphCE
+from controllers.graphcs.realTimeGraphc import GraphRealTime
+from controllers.graphcs.historialGraphc import GraphHistory
+from models.tablaAlerts import TablaAlertas
 
 class MySideBar(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -26,15 +28,25 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.configuracion_2.clicked.connect(lambda: self.change_page(3))
         
         self.change_page(0)
-        self.graphc()
+        self.graphcRealTime()
+        self.graphcHistory()
+        TablaAlertas(self)
 
     def change_page(self, index):
         self.stackedWidget.setCurrentIndex(index)
 
-    def graphc(self):
-        self.graph = GraphCE()
+    def graphcRealTime(self):
+        self.graphcRealTime = GraphRealTime()
 
-        # Crear layout dentro del widget de historial_1
-        layout = QVBoxLayout(self.widget)
-        layout.addWidget(self.graph)
-        self.widget.setLayout(layout)
+        # Crear layout dentro del widget realTime
+        layout = QVBoxLayout(self.realTime)  # Aquí usas self.realTime
+        layout.addWidget(self.graphcRealTime)
+        self.realTime.setLayout(layout)
+
+    def graphcHistory(self):
+        self.graphcHistory = GraphHistory()
+
+        # Crear layout dentro del widget history
+        layout = QVBoxLayout(self.history)  # Aquí usas self.history
+        layout.addWidget(self.graphcHistory)
+        self.history.setLayout(layout)

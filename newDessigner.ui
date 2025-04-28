@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>964</width>
-    <height>607</height>
+    <width>1005</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_4">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -27,1078 +27,6 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="0" column="2">
-     <widget class="QWidget" name="main_menu" native="true">
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QWidget" name="header_widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QPushButton" name="pushButton_12">
-            <property name="styleSheet">
-             <string notr="true">border: none;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/resources.qrc">
-              <normaloff>:/img/menu_black.svg</normaloff>:/img/menu_black.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>591</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_11">
-            <property name="styleSheet">
-             <string notr="true">border: none;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/resources.qrc">
-              <normaloff>:/img/notifications_black.svg</normaloff>:/img/notifications_black.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="salir_1">
-            <property name="styleSheet">
-             <string notr="true">border: none;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/resources.qrc">
-              <normaloff>:/img/exit_black.svg</normaloff>:/img/exit_black.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QStackedWidget" name="stackedWidget">
-         <property name="styleSheet">
-          <string notr="true">background-color: #F3F6FF;</string>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="estado_page">
-          <widget class="QLabel" name="label_7">
-           <property name="geometry">
-            <rect>
-             <x>260</x>
-             <y>0</y>
-             <width>171</width>
-             <height>71</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Estado Page</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="layoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>80</y>
-             <width>631</width>
-             <height>391</height>
-            </rect>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <property name="horizontalSpacing">
-             <number>20</number>
-            </property>
-            <property name="verticalSpacing">
-             <number>10</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QFrame" name="frame_8">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: #FFFFFF ;
-	border-radius: 15px;
- box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-}
-
-QFrame:hover {
-	border: 1px solid #0055ff;
-}
-
-</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_9">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_9">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_10">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_17">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QFrame" name="frame_9">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(25, 25, 25);
-	border-radius: 15px;
-}
-
-QFrame:hover {
-	border: 1px solid rgb(255, 85, 0);
-}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_10">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_18">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_19">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_20">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_21">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QFrame" name="frame_10">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(25, 25, 25);
-	border-radius: 15px;
-}
-
-QFrame:hover {
-	border: 1px solid rgb(255, 85, 0);
-}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_22">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_23">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_24">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_25">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QFrame" name="frame_13">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(25, 25, 25);
-	border-radius: 15px;
-}
-
-QFrame:hover {
-	border: 1px solid rgb(255, 85, 0);
-}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_14">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_34">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_35">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_36">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_37">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QFrame" name="frame_11">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(25, 25, 25);
-	border-radius: 15px;
-}
-
-QFrame:hover {
-	border: 1px solid rgb(255, 85, 0);
-}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_12">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_26">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_27">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_28">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_29">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QFrame" name="frame_12">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(25, 25, 25);
-	border-radius: 15px;
-}
-
-QFrame:hover {
-	border: 1px solid rgb(255, 85, 0);
-}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Sunken</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_13">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>20</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>20</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_30">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(152, 152, 152);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ph</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_31">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(199, 199, 199);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>5, 625</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_32">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(70, 255, 3);
-	border: none;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Activo</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_33">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLabel {
-	color: rgb(153, 153, 153);
-	border: none;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string>9th Aug 2021</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="historial_page">
-          <widget class="QLabel" name="label_8">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>0</y>
-             <width>211</width>
-             <height>71</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Historial Page</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="widget" native="true">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>80</y>
-             <width>271</width>
-             <height>181</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="ayuda_page">
-          <widget class="QLabel" name="label_5">
-           <property name="geometry">
-            <rect>
-             <x>220</x>
-             <y>160</y>
-             <width>171</width>
-             <height>71</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Ayuda Page</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="configuracion_page">
-          <widget class="QLabel" name="label_6">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>170</y>
-             <width>271</width>
-             <height>71</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Configuracion Page</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="alerta_page">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QTableWidget" name="tableWidget">
-             <property name="styleSheet">
-              <string notr="true">    QTableWidget {
-        background-color: #f0f0f0;
-        border: 1px solid #d3d3d3;
-        gridline-color: #ccc;
-        font-size: 14px;
-    }
-
-    QHeaderView::section {
-        background-color: #3d8cd6;
-        color: white;
-        padding: 4px;
-        font-weight: bold;
-        border: 1px solid #ccc;
-    }
-
-    QTableWidget::item {
-        padding: 5px;
-    }
-
-    QTableWidget::item:selected {
-        background-color: #a0c4ff;
-        color: black;
-    }</string>
-             </property>
-             <row>
-              <property name="text">
-               <string>New Row</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>New Row</string>
-              </property>
-             </row>
-             <column>
-              <property name="text">
-               <string>ID</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Alerta</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Nivel</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Estado</string>
-              </property>
-             </column>
-             <item row="0" column="0">
-              <property name="text">
-               <string>dd</string>
-              </property>
-             </item>
-             <item row="0" column="1">
-              <property name="text">
-               <string>d</string>
-              </property>
-             </item>
-             <item row="0" column="2">
-              <property name="text">
-               <string>d</string>
-              </property>
-             </item>
-             <item row="0" column="3">
-              <property name="text">
-               <string>d</string>
-              </property>
-             </item>
-             <item row="1" column="0">
-              <property name="text">
-               <string>aa</string>
-              </property>
-             </item>
-             <item row="1" column="1">
-              <property name="text">
-               <string>a</string>
-              </property>
-             </item>
-             <item row="1" column="2">
-              <property name="text">
-               <string>a</string>
-              </property>
-             </item>
-             <item row="1" column="3">
-              <property name="text">
-               <string>a</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QWidget" name="icon_widget" native="true">
       <property name="styleSheet">
@@ -1512,6 +440,1607 @@ QPushButton:checked{
          <property name="autoExclusive">
           <bool>true</bool>
          </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QWidget" name="main_menu" native="true">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QWidget" name="header_widget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pushButton_12">
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/resources.qrc">
+              <normaloff>:/img/menu_black.svg</normaloff>:/img/menu_black.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="font">
+             <font>
+              <pointsize>20</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Historial Page</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>591</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_11">
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/resources.qrc">
+              <normaloff>:/img/notifications_black.svg</normaloff>:/img/notifications_black.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="salir_1">
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/resources.qrc">
+              <normaloff>:/img/exit_black.svg</normaloff>:/img/exit_black.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="styleSheet">
+          <string notr="true">background-color: #F3F6FF;</string>
+         </property>
+         <property name="currentIndex">
+          <number>2</number>
+         </property>
+         <widget class="QWidget" name="estado_page">
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_2">
+             <property name="spacing">
+              <number>50</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QFrame" name="frame_10">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_15">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_16">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_19">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_20">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QFrame" name="frame_11">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_12">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_18">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_21">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_22">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QFrame" name="frame_12">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_13">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_23">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_24">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_25">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QFrame" name="frame_13">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_27">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_28">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_29">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_30">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QFrame" name="frame_14">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_15">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_31">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_32">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_33">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_34">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QFrame" name="frame_15">
+               <property name="styleSheet">
+                <string notr="true">QFrame {
+    background-color: #fefefe; /* Blanco suave */
+    border-radius: 15px;
+    border: 3px solid #d0e3ff; /* Azul muy claro */
+    transition: all 0.3s ease; /* Transiciones suaves */
+}
+
+QFrame:hover {
+    border: 3px solid #3399ff; /* Azul fuerte en hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra para profundidad */
+    transform: translateY(-5px); /* Efecto de levantar el frame */
+}
+</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_16">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>20</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_35">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #666666;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Ph</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_36">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>5, 625</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_37">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(70, 255, 3);
+	border: none;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Activo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_38">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: #000000;
+	border: none;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string>9th Aug 2021</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="historial_page">
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="comboBox">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    background-color: #F5FAFE;  /* Fondo blanco suave */
+    color: #1F95EF;  /* Texto en azul */
+    font-weight: bold;  /* Negrita en el texto */
+    border: 2px solid #1F95EF;  /* Borde azul suave en todos los lados */
+    border-radius: 12px;  /* Bordes redondeados */
+    padding: 5px 15px;  /* Espaciado interno (top-bottom, left-right) */
+    font-size: 14px;  /* Tamaño de fuente */
+    transition: all 0.3s ease;  /* Transición suave para los efectos */
+    min-width: 150px;  /* Ancho mínimo del combobox */
+
+}
+
+QComboBox:hover {
+    border: 2px solid #007acc;  /* Borde más oscuro cuando se pasa el mouse */
+    background-color: #e6f0ff;  /* Fondo azul claro al pasar el mouse */
+}
+
+QComboBox::drop-down {
+    border: none;  /* Eliminar el borde del dropdown */
+    background-color: transparent;  /* Fondo transparente */
+    width: 30px;  /* Ajusta el tamaño del área de la flecha */
+    height: 100%;  /* Ajusta para que ocupe el espacio correcto */
+    border-radius: 0px;  /* Asegúrate de que no tenga bordes redondeados */
+}
+
+QComboBox::down-arrow {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+}
+
+QComboBox QAbstractItemView {
+    border-radius: 12px;  /* Bordes redondeados para la lista de opciones */
+    background-color: #F5FAFE;  /* Fondo de las opciones */
+    border: 2px solid #1F95EF;  /* Borde azul suave alrededor de las opciones */
+    selection-background-color: #1F95EF;  /* Color de fondo de la opción seleccionada */
+    selection-color: white;  /* Color del texto de la opción seleccionada */
+    padding: 5px 0;  /* Espaciado entre las opciones */
+}
+
+QComboBox::item {
+    padding: 8px 12px;  /* Espaciado entre las opciones */
+    font-size: 14px;  /* Tamaño de fuente para las opciones */
+}
+
+QComboBox:editable {
+    background-color: #e6f0ff;  /* Fondo más claro cuando el combobox es editable */
+}
+</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>PH</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>CE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Temperatura</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>498</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>15</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Historial</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="history" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>727</width>
+                   <height>200</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>15</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Real Time</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="realTime" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>727</width>
+                   <height>200</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="ayuda_page">
+          <widget class="QListWidget" name="listWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>191</width>
+             <height>571</height>
+            </rect>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::FocusPolicy::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+    background-color: #f9f9f9;  /* Fondo blanco suave */
+    color: #333333;  /* Texto oscuro para buen contraste */
+}
+
+QListWidget {
+    background-color: #ffffff;  /* Fondo blanco para la lista */
+    border: 1px solid #e0e0e0;  /* Borde gris claro */
+    border-radius: 10px;  /* Bordes redondeados */
+    padding: 5px;  /* Espacio interno */
+    margin: 10px;  /* Espacio externo */
+}
+
+QListWidget::item {
+    padding: 10px;  /* Espacio entre los ítems */
+    border-radius: 8px;  /* Bordes redondeados para los ítems */
+}
+
+QListWidget::item:hover {
+    background-color: #e8f4fd;  /* Color suave de fondo al pasar el mouse */
+}
+
+QListWidget::item:selected {
+    background-color: #1F95EF;  /* Color azul suave cuando el ítem está seleccionado */
+    color: white;  /* Texto blanco al seleccionar */
+    font-weight: bold;  /* Poner en negrita el texto seleccionado */
+}
+
+QPushButton {
+    color: white;
+    text-align: left;
+    height: 40px;
+    border: none;
+    padding-left: 15px;
+    border-radius: 10px;
+    background-color: #007AFF;  /* Azul suave */
+}
+
+QPushButton:checked {
+    background-color: #F5FAFE;  /* Fondo muy suave para los botones seleccionados */
+    color: #1F95EF;
+    font-weight: bold;
+}
+</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Ph</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Conductividad Electrica</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Temperatura</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Bombas</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QStackedWidget" name="stackedWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>10</y>
+             <width>561</width>
+             <height>551</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="currentIndex">
+            <number>3</number>
+           </property>
+           <widget class="QWidget" name="ph">
+            <widget class="QPlainTextEdit" name="plainTextEdit">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>10</y>
+               <width>531</width>
+               <height>531</height>
+              </rect>
+             </property>
+             <property name="plainText">
+              <string>¿Sabías que todo a tu alrededor tiene un pH?
+
+El pH (potencial de hidrógeno) es una forma de medir qué tan ácido o alcalino (básico) es algo. Vamos a descubrirlo paso a paso.
+
+¿Qué es el pH?
+Imagina que el pH es una escala que va del 0 al 14. En esta escala:
+
+0 a 6: ¡Ácido!
+
+¡El vinagre y el jugo de limón son ácidos! Son como los superhéroes del mundo ácido.
+
+7: ¡Neutral!
+
+El agua pura tiene un pH de 7. Ni ácido, ni alcalino. ¡Es como un árbitro imparcial!
+
+8 a 14: ¡Alcalino o básico!
+
+Las soluciones como el bicarbonato de sodio son básicas. Son como los &quot;calmantes&quot; del mundo químico.
+
+¿Por qué es importante el pH?
+El pH afecta muchas cosas que usamos todos los días, como:
+
+Tu cuerpo
+
+Tu estómago necesita un pH ácido para digerir la comida.
+
+Pero tu sangre debe tener un pH casi neutro, ¡para que todo funcione correctamente!
+
+La naturaleza
+
+El pH del suelo es clave para que las plantas crezcan bien. Si el suelo es demasiado ácido o básico, las plantas pueden no crecer.
+
+La comida
+
+El pH en la comida también es importante. Un pH demasiado bajo (como en los jugos ácidos) puede hacer que algunos alimentos se descompongan rápidamente.
+
+¿Cómo medimos el pH?
+Hay diferentes formas de medir el pH, como:
+
+Papeles indicadores: Se vuelven de diferentes colores según si la solución es ácida o básica.
+
+Medidores electrónicos: Los más avanzados y precisos, perfectos para los laboratorios.
+
+Un dato curioso...
+El pH perfecto para el cuerpo humano es ligeramente básico, alrededor de 7.4. ¡Es como un equilibrio perfecto entre ácido y alcalino!</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="ce">
+            <widget class="QPlainTextEdit" name="plainTextEdit_2">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>541</width>
+               <height>531</height>
+              </rect>
+             </property>
+             <property name="plainText">
+              <string>¿Sabías que algunos materiales permiten el paso de la electricidad mejor que otros?
+
+Eso se debe a su conductividad eléctrica, que es la capacidad que tiene un material para conducir una corriente eléctrica. Vamos a entenderlo paso a paso.
+
+¿Qué es la conductividad eléctrica?
+La conductividad eléctrica mide qué tan fácil puede moverse una corriente eléctrica a través de un material. Depende de cuánto dejan pasar los electrones.
+
+Materiales con alta conductividad permiten que la electricidad fluya fácilmente.
+
+Materiales con baja conductividad resisten el paso de la electricidad.
+
+Ejemplos de buenos conductores:
+
+Metales como el cobre, la plata y el oro.
+
+El agua con sales disueltas.
+
+Ejemplos de malos conductores o aislantes:
+
+Plásticos
+
+Madera seca
+
+Goma
+
+¿Por qué es importante la conductividad eléctrica?
+La conductividad es fundamental en muchos aspectos de la vida diaria:
+
+Electricidad en casa: Los cables que llevan electricidad están hechos de cobre, un excelente conductor.
+
+Dispositivos electrónicos: El diseño de computadoras y teléfonos depende de materiales que conducen electricidad de forma controlada.
+
+Seguridad: Los aislantes protegen a las personas de sufrir descargas eléctricas.
+
+¿Cómo se mide la conductividad eléctrica?
+Se utiliza un aparato llamado conductímetro, que mide cuánta corriente pasa a través de un material en condiciones específicas.
+
+Dato curioso:
+La plata es el mejor conductor eléctrico que existe, pero debido a su alto costo, normalmente se usa cobre en la mayoría de los cables.</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tmp">
+            <widget class="QPlainTextEdit" name="plainTextEdit_3">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>541</width>
+               <height>531</height>
+              </rect>
+             </property>
+             <property name="plainText">
+              <string>¿Sabías que la temperatura del agua es crucial para el crecimiento de las hortalizas?
+
+La temperatura del agua que se usa en el riego puede afectar directamente la salud, el crecimiento y la productividad de las plantas.
+
+¿Por qué importa la temperatura del agua?
+Cuando riegas las hortalizas:
+
+Agua demasiado fría: Puede &quot;estresar&quot; a las plantas, ralentizar su crecimiento y afectar la absorción de nutrientes.
+
+Agua demasiado caliente: Puede dañar las raíces sensibles y reducir la disponibilidad de oxígeno en el suelo.
+
+¿Cuál es la temperatura ideal del agua para las hortalizas?
+Lo más recomendable es que el agua esté entre 18 y 24 grados Celsius. A esta temperatura:
+
+Las raíces absorben mejor el agua y los nutrientes.
+
+Se minimiza el riesgo de enfermedades por hongos o bacterias.
+
+Se favorece un desarrollo vigoroso y saludable.
+
+Consejos para un riego efectivo:
+
+Riega en las primeras horas de la mañana o al final de la tarde para evitar cambios bruscos de temperatura.
+
+Evita usar agua de pozos muy fríos directamente, especialmente en climas cálidos.
+
+Si es posible, deja reposar el agua al sol un tiempo antes de regar para equilibrar su temperatura.
+
+Dato interesante:
+Algunas hortalizas, como el tomate y el pepino, son especialmente sensibles a la temperatura del agua, y un riego adecuado puede marcar la diferencia entre una planta fuerte o una planta débil.
+
+</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="bomb">
+            <widget class="QPlainTextEdit" name="plainTextEdit_4">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>541</width>
+               <height>531</height>
+              </rect>
+             </property>
+             <property name="plainText">
+              <string>¿Sabías que las bombas de agua son esenciales para mover líquidos en muchos sistemas agrícolas e industriales?
+
+Entre las más utilizadas están las bombas de circulación y las bombas peristálticas.
+
+¿Qué es una bomba de circulación?
+Las bombas de circulación son dispositivos que mantienen el flujo constante de agua u otros líquidos en un sistema cerrado.
+Son ideales para:
+
+Sistemas de riego.
+
+Sistemas de calefacción o enfriamiento.
+
+Mantenimiento de nutrientes en sistemas hidropónicos.
+
+Funcionan empujando el agua de manera continua, asegurando que siempre haya movimiento y evitando el estancamiento.
+
+¿Qué es una bomba peristáltica?
+Una bomba peristáltica transporta líquidos a través de un tubo flexible que es comprimido de manera controlada.
+Son especialmente útiles cuando:
+
+Se necesita mover líquidos de manera muy precisa.
+
+El líquido debe evitar el contacto directo con partes mecánicas.
+
+Se transportan líquidos viscosos, sensibles o con partículas sólidas.
+
+Ventajas de cada tipo:
+
+Bombas de circulación: Alta eficiencia en mover grandes volúmenes de líquido de manera constante.
+
+Bombas peristálticas: Precisión en el volumen transportado, ideal para dosificar fertilizantes o nutrientes en pequeñas cantidades.
+
+Dato interesante:
+En la agricultura moderna, muchas veces se combinan ambos tipos de bombas para asegurar que el agua y los nutrientes lleguen de forma continua y precisa a las plantas.</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="configuracion_page">
+          <widget class="QLabel" name="label_6">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>170</y>
+             <width>271</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Configuracion Page</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="alerta_page">
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>29</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>30</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>339</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="editSearch">
+               <property name="minimumSize">
+                <size>
+                 <width>260</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #cccccc;
+    border-radius: 15px;
+    padding: 5px 10px;
+    color: #333333;
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+QLineEdit:hover {
+    border: 2px solid #aaaaaa;
+}
+
+QLineEdit:focus {
+    border: 2px solid #0078d7;
+}
+</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbSearch">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+background-color: #FFFFFF;
+border-radius: 20;
+}
+
+QPushButton::hover{
+background-color: #aaffff;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/resources.qrc">
+                 <normaloff>:/img/search.png</normaloff>:/img/search.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTableWidget" name="tabla_alertas">
+             <property name="minimumSize">
+              <size>
+               <width>740</width>
+               <height>450</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QTableWidget {
+    background-color: #ffffff;
+    border: none;
+    gridline-color: #f0f0f0;
+    font-size: 14px;
+    color: #333333;
+    selection-background-color: #1F95EF;
+    selection-color: #ffffff;
+    alternate-background-color: #f9f9f9;
+}
+
+QHeaderView::section {
+    background-color: #ffffff;
+    color: #1F95EF;
+    padding: 4px 12px; /* Espaciado más controlado */
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center; /* CENTRAR texto */
+}
+
+QHeaderView::section:hover {
+    background-color: #e6f4ff;
+}
+
+QTableWidget::item {
+    padding: 6px 10px;
+    border: none;
+    text-align: center; /* CENTRAR contenido de celdas */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+QTableWidget::item:selected {
+    background-color: #1F95EF;
+    color: #ffffff;
+}
+
+QTableCornerButton::section {
+    background-color: #ffffff;
+    border: none;
+}
+</string>
+             </property>
+             <attribute name="horizontalHeaderCascadingSectionResizes">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderCascadingSectionResizes">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Sensor</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Mensaje</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Estado</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Fecha</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
