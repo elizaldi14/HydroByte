@@ -1,9 +1,11 @@
 from ui_slidebar import Ui_MainWindow
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QGraphicsDropShadowEffect
 from controllers.graphcs.realTimeGraphc import GraphRealTime
 from controllers.graphcs.historialGraphc import GraphHistory
 from models.tablaAlerts import TablaAlertas
+# from controllers.effects import apply_shadow
+from PySide6.QtGui import QColor
 
 class MySideBar(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -13,9 +15,16 @@ class MySideBar(QMainWindow, Ui_MainWindow):
 
         self.icon_name_widget.setHidden(True)
 
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(20)
+        shadow.setColor(QColor(0, 0, 0, 160))
+        shadow.setOffset(5, 5)
+        
+        self.prueba_frame.setGraphicsEffect(shadow)
+        
         self.estado_1.clicked.connect(lambda: self.change_page(0))
         self.estado_2.clicked.connect(lambda: self.change_page(0))
-
+        
         self.alerta_1.clicked.connect(lambda: self.change_page(4))
         self.alerta_2.clicked.connect(lambda: self.change_page(4))
         
@@ -30,15 +39,16 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         
         self.listWidget.itemClicked.connect(lambda _: self.change_page_ayuda())
 
-        # No necesitas setear manualmente keyPressEvent aquí
-
         self.change_page(5)
+        TablaAlertas(self)
+
+        # Inicializar gráficos después de cambiar la página
         self.graphcRealTime()
         self.graphcHistory()
-        TablaAlertas(self)
 
     def change_page(self, index):
         self.stackedWidget.setCurrentIndex(index)
+        
 
     def graphcRealTime(self):
         self.graphcRealTime = GraphRealTime()

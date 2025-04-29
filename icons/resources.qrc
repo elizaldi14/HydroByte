@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file>img/gota-de-agua.png</file>
     <file>img/search.png</file>
     <file>img/arrow_down.png</file>
     <file>img/exit_black.svg</file>

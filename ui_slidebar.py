@@ -747,16 +747,12 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.estado_page)
         self.historial_page = QWidget()
         self.historial_page.setObjectName(u"historial_page")
-        self.gridLayout_3 = QGridLayout(self.historial_page)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.gridLayout = QGridLayout()
-        self.gridLayout.setSpacing(0)
-        self.gridLayout.setObjectName(u"gridLayout")
         self.comboBox = QComboBox(self.historial_page)
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setGeometry(QRect(523, 10, 216, 35))
         self.comboBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.comboBox.setStyleSheet(u"QComboBox {\n"
 "    background-color: #F5FAFE;  /* Fondo blanco suave */\n"
@@ -810,56 +806,189 @@ class Ui_MainWindow(object):
                         " /* Fondo m\u00e1s claro cuando el combobox es editable */\n"
 "}\n"
 "")
-
-        self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
-
-        self.horizontalSpacer_2 = QSpacerItem(498, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer_2, 0, 0, 1, 1)
-
-        self.verticalLayout_7 = QVBoxLayout()
+        self.frame_2 = QFrame(self.historial_page)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setGeometry(QRect(60, 60, 345, 315))
+        self.frame_2.setStyleSheet(u"background-color: #0b468e;\n"
+"border-radius: 20px;")
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.card_ph_widget = QWidget(self.frame_2)
+        self.card_ph_widget.setObjectName(u"card_ph_widget")
+        self.card_ph_widget.setGeometry(QRect(0, 0, 341, 310))
+        self.card_ph_widget.setStyleSheet(u"QWidget {\n"
+"	\n"
+"	background-color: #00aaff;\n"
+"	border-radius: 20px;\n"
+"}")
+        self.label_7 = QLabel(self.card_ph_widget)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(20, 0, 81, 91))
+        font6 = QFont()
+        font6.setFamilies([u"Segoe UI"])
+        font6.setPointSize(30)
+        font6.setBold(True)
+        font6.setItalic(True)
+        font6.setUnderline(False)
+        font6.setStrikeOut(False)
+        self.label_7.setFont(font6)
+        self.label_7.setStyleSheet(u"QLabel {\n"
+"	background: transparent;\n"
+"	color: white;\n"
+"\n"
+"}")
+        self.label_9 = QLabel(self.card_ph_widget)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setGeometry(QRect(95, 90, 161, 91))
+        font7 = QFont()
+        font7.setFamilies([u"Segoe UI"])
+        font7.setPointSize(60)
+        font7.setBold(True)
+        self.label_9.setFont(font7)
+        self.label_9.setStyleSheet(u"background: transparent;\n"
+"	color: white;")
+        self.label_13 = QLabel(self.card_ph_widget)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setGeometry(QRect(248, 20, 61, 51))
+        font8 = QFont()
+        font8.setPointSize(15)
+        font8.setBold(True)
+        self.label_13.setFont(font8)
+        self.label_13.setStyleSheet(u"background: transparent;\n"
+"color: rgb(85, 255, 127);")
+        self.label_10 = QLabel(self.card_ph_widget)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(100, 230, 141, 51))
+        font9 = QFont()
+        font9.setPointSize(30)
+        font9.setBold(True)
+        font9.setItalic(True)
+        self.label_10.setFont(font9)
+        self.label_10.setStyleSheet(u"background: transparent;\n"
+"	color: white;")
+        self.label_14 = QLabel(self.card_ph_widget)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setGeometry(QRect(100, 90, 131, 91))
+        self.label_14.setFont(font7)
+        self.label_14.setStyleSheet(u"background: transparent;\n"
+"	color: black;")
+        self.label_39 = QLabel(self.card_ph_widget)
+        self.label_39.setObjectName(u"label_39")
+        self.label_39.setGeometry(QRect(250, 20, 61, 51))
+        self.label_39.setFont(font8)
+        self.label_39.setStyleSheet(u"background: transparent;\n"
+"color: black;")
+        self.pushButton = QPushButton(self.card_ph_widget)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setGeometry(QRect(250, 210, 80, 80))
+        icon8 = QIcon()
+        icon8.addFile(u":/img/gota-de-agua.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton.setIcon(icon8)
+        self.pushButton.setIconSize(QSize(80, 80))
+        self.label_7.raise_()
+        self.label_10.raise_()
+        self.label_14.raise_()
+        self.label_9.raise_()
+        self.label_39.raise_()
+        self.label_13.raise_()
+        self.pushButton.raise_()
+        self.shadow_historial = QFrame(self.historial_page)
+        self.shadow_historial.setObjectName(u"shadow_historial")
+        self.shadow_historial.setGeometry(QRect(60, 390, 1275, 315))
+        self.shadow_historial.setStyleSheet(u"background-color: rgb(0, 0, 0);\n"
+"	border-radius: 20px;")
+        self.shadow_historial.setFrameShape(QFrame.Shape.StyledPanel)
+        self.shadow_historial.setFrameShadow(QFrame.Shadow.Raised)
+        self.top_widget_2 = QWidget(self.shadow_historial)
+        self.top_widget_2.setObjectName(u"top_widget_2")
+        self.top_widget_2.setGeometry(QRect(0, 0, 1271, 310))
+        self.top_widget_2.setStyleSheet(u"QWidget {\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.010989 rgba(0, 170, 255, 255), stop:1 rgba(21, 232, 255, 255));\n"
+"	border-radius: 20px;\n"
+"}")
+        self.widget = QWidget(self.top_widget_2)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(21, 20, 1231, 271))
+        self.verticalLayout_7 = QVBoxLayout(self.widget)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.label_11 = QLabel(self.historial_page)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalSpacer_7 = QSpacerItem(248, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_7)
+
+        self.label_11 = QLabel(self.widget)
         self.label_11.setObjectName(u"label_11")
         self.label_11.setMinimumSize(QSize(0, 50))
         self.label_11.setMaximumSize(QSize(16777215, 50))
-        font6 = QFont()
-        font6.setPointSize(15)
-        font6.setBold(True)
-        self.label_11.setFont(font6)
+        self.label_11.setFont(font9)
+        self.label_11.setStyleSheet(u"	background: transparent;\n"
+"	color: white;")
 
-        self.verticalLayout_7.addWidget(self.label_11)
+        self.horizontalLayout_6.addWidget(self.label_11)
 
-        self.history = QWidget(self.historial_page)
+        self.horizontalSpacer_8 = QSpacerItem(248, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_8)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_6)
+
+        self.history = QWidget(self.widget)
         self.history.setObjectName(u"history")
         self.history.setMinimumSize(QSize(727, 200))
 
         self.verticalLayout_7.addWidget(self.history)
 
-
-        self.gridLayout.addLayout(self.verticalLayout_7, 2, 0, 1, 2)
-
-        self.verticalLayout_6 = QVBoxLayout()
+        self.frame_3 = QFrame(self.historial_page)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setGeometry(QRect(440, 60, 900, 312))
+        self.frame_3.setStyleSheet(u"background-color: rgb(0, 0, 0);\n"
+"	border-radius: 20px;")
+        self.frame_3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.top_widget = QWidget(self.frame_3)
+        self.top_widget.setObjectName(u"top_widget")
+        self.top_widget.setGeometry(QRect(0, 0, 896, 310))
+        self.top_widget.setStyleSheet(u"QWidget {\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.010989 rgba(0, 170, 255, 255), stop:1 rgba(21, 232, 255, 255));\n"
+"	border-radius: 20px;\n"
+"}")
+        self.widget1 = QWidget(self.top_widget)
+        self.widget1.setObjectName(u"widget1")
+        self.widget1.setGeometry(QRect(11, 30, 861, 260))
+        self.verticalLayout_6 = QVBoxLayout(self.widget1)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.label_12 = QLabel(self.historial_page)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalSpacer_2 = QSpacerItem(208, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_2)
+
+        self.label_12 = QLabel(self.widget1)
         self.label_12.setObjectName(u"label_12")
         self.label_12.setMinimumSize(QSize(0, 50))
         self.label_12.setMaximumSize(QSize(16777215, 50))
-        self.label_12.setFont(font6)
+        self.label_12.setFont(font9)
+        self.label_12.setStyleSheet(u"	background: transparent;\n"
+"	color: white;")
 
-        self.verticalLayout_6.addWidget(self.label_12)
+        self.horizontalLayout_5.addWidget(self.label_12)
 
-        self.realTime = QWidget(self.historial_page)
+        self.horizontalSpacer_6 = QSpacerItem(208, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_6)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
+
+        self.realTime = QWidget(self.widget1)
         self.realTime.setObjectName(u"realTime")
         self.realTime.setMinimumSize(QSize(727, 200))
 
         self.verticalLayout_6.addWidget(self.realTime)
-
-
-        self.gridLayout.addLayout(self.verticalLayout_6, 1, 0, 1, 2)
-
-
-        self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.historial_page)
         self.ayuda_page = QWidget()
@@ -909,9 +1038,9 @@ class Ui_MainWindow(object):
         self.label_4 = QLabel(self.bv)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(180, 190, 801, 161))
-        font7 = QFont()
-        font7.setPointSize(40)
-        self.label_4.setFont(font7)
+        font10 = QFont()
+        font10.setPointSize(40)
+        self.label_4.setFont(font10)
         self.stackAyuda.addWidget(self.bv)
         self.listWidget = QListWidget(self.ayuda_page)
         QListWidgetItem(self.listWidget)
@@ -1027,9 +1156,9 @@ class Ui_MainWindow(object):
 "QPushButton::hover{\n"
 "background-color: #aaffff;\n"
 "}")
-        icon8 = QIcon()
-        icon8.addFile(u":/img/search.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pbSearch.setIcon(icon8)
+        icon9 = QIcon()
+        icon9.addFile(u":/img/search.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pbSearch.setIcon(icon9)
 
         self.horizontalLayout_4.addWidget(self.pbSearch)
 
@@ -1107,9 +1236,16 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.bienvenida_page)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(250, 190, 771, 211))
-        font8 = QFont()
-        font8.setPointSize(50)
-        self.label_5.setFont(font8)
+        font11 = QFont()
+        font11.setPointSize(50)
+        self.label_5.setFont(font11)
+        self.prueba_frame = QFrame(self.bienvenida_page)
+        self.prueba_frame.setObjectName(u"prueba_frame")
+        self.prueba_frame.setGeometry(QRect(240, 110, 511, 91))
+        self.prueba_frame.setStyleSheet(u"background-color: rgb(0, 170, 255);\n"
+"border-radius: 15px;")
+        self.prueba_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.prueba_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.stackedWidget.addWidget(self.bienvenida_page)
 
         self.verticalLayout_5.addWidget(self.stackedWidget)
@@ -1134,7 +1270,7 @@ class Ui_MainWindow(object):
         self.configuracion_2.toggled.connect(self.configuracion_1.setChecked)
         self.salir_1.toggled.connect(MainWindow.close)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(5)
         self.stackAyuda.setCurrentIndex(4)
 
 
@@ -1188,8 +1324,15 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"CE", None))
         self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Temperatura", None))
 
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"PH", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"793", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Activo", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Estable", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"793", None))
+        self.label_39.setText(QCoreApplication.translate("MainWindow", u"Activo", None))
+        self.pushButton.setText("")
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Historial", None))
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Real Time", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Tiempo Real", None))
         self.plainTextEdit.setPlainText(QCoreApplication.translate("MainWindow", u"\u00bfSab\u00edas que todo a tu alrededor tiene un pH?\n"
 "\n"
 "El pH (potencial de hidr\u00f3geno) es una forma de medir qu\u00e9 tan \u00e1cido o alcalino (b\u00e1sico) es algo. Vamos a descubrirlo paso a paso.\n"

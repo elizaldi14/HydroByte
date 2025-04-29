@@ -29,28 +29,28 @@ class GraphRealTime(QWidget):
         self.graphWidget.showGrid(x=False, y=True, alpha=0.5)
 
         # Estilo de los ejes
-        axis_pen = pg.mkPen(color='#000000', width=1)
+        axis_pen = pg.mkPen(color='#FFFFFF', width=1)
         for orientation in ['bottom', 'left']:
             self.graphWidget.getAxis(orientation).setPen(axis_pen)
             self.graphWidget.getAxis(orientation).setTextPen(axis_pen)
             self.graphWidget.getAxis(orientation).setStyle(tickLength=-5)
 
         # Marcar cada número del 0 al 15 en Y con espaciado
-        yticks = [(i, str(i)) for i in range(0, 16)]
-        self.graphWidget.getAxis('left').setTicks([yticks])
+        # yticks = [(i, str(i)) for i in range(0, 16)]
+        # self.graphWidget.getAxis('left').setTicks([yticks])
 
-        # Ajustar la posición de los ticks del eje Y para espaciado
-        y_axis = self.graphWidget.getAxis('left')
-        y_axis.setTickSpacing(2)  # Aumenta el espaciado entre los números
+        # # Ajustar la posición de los ticks del eje Y para espaciado
+        # y_axis = self.graphWidget.getAxis('left')
+        # y_axis.setTickSpacing(2)  # Aumenta el espaciado entre los números
 
         # Curva
         self.data_line = self.graphWidget.plot(
             self.x,
             self.y,
-            pen=pg.mkPen(color='#00AAFF', width=3),
+            pen=pg.mkPen(color='#000000', width=3),
             symbol='o',
             symbolSize=8,
-            symbolBrush='#00AAFF'
+            symbolBrush='#000000'
         )
 
         # Fijar rango en Y

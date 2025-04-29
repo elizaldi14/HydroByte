@@ -6,7 +6,6 @@ from controllers.slidebar import MySideBar
 app = QApplication(sys.argv)
 
 window = MySideBar()    
+window.showMaximized()
 
-window.show()
 app.exec()
-
