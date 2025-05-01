@@ -34,6 +34,7 @@ class ChartWidget(QWidget):
         title_label.setFont(QFont("Segoe UI", 14, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         self.title_label = title_label
+        self.title_label.setStyleSheet("background-color: transparent;")
 
         self.plot_widgets = []
         self.data_lines = []

@@ -129,17 +129,30 @@ class Sidebar(QWidget):
         title_layout = QHBoxLayout(title_container)
         title_layout.setContentsMargins(15, 0, 15, 0)
 
-        logo_label = QLabel("H")
-        logo_label.setFixedSize(40, 40)
+        # --- LOGO ICON ---
+        logo_label = QLabel()
+        logo_label.setFixedSize(40, 40)  # Regresa a tamaño original
         logo_label.setAlignment(Qt.AlignCenter)
         logo_label.setObjectName("logoLabel")
-
+        logo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'utils', 'img', 'logo_pi.png'))
+        if os.path.exists(logo_path):
+            pixmap = QPixmap(logo_path)
+            if not pixmap.isNull():
+                pixmap = pixmap.scaled(36, 36, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                logo_label.setPixmap(pixmap)
+            else:
+                logo_label.setText("")
+        else:
+            logo_label.setText("")
+        
         title = QLabel("Sistema Hidropónico")
         title.setObjectName("titleLabel")
         title.setFont(QFont("Segoe UI", 16, QFont.Bold))
-
+        
         title_layout.addWidget(logo_label)
         title_layout.addWidget(title)
+        title_layout.setAlignment(title, Qt.AlignVCenter)  # Centra el título verticalmente
+        title_layout.setSpacing(12)  # Espacio razonable entre logo y texto
 
         self.home_btn = SidebarButton("Estado", "menu_black.svg", "Ver estado general del sistema")
         self.alerts_btn = SidebarButton("Alertas", "notifications_black.svg", "Ver alertas del sistema")

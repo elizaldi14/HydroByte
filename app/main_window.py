@@ -348,7 +348,7 @@ class HydroponicMonitor(QMainWindow):
         ver_mas_label.setTextInteractionFlags(Qt.TextBrowserInteraction)
         ver_mas_label.setStyleSheet("font-size: 16px; margin-top: 12px;")
         layout.addWidget(ver_mas_label)
-        ver_mas_label.hide()
+        ver_mas_label.hide()    
 
         # Cargar preguntas desde JSON
         try:
@@ -643,7 +643,35 @@ class HydroponicMonitor(QMainWindow):
                         pregunta_lbl = widget.layout().itemAt(0).widget()
                         if pregunta_lbl:
                             pregunta_lbl.setStyleSheet(f"color: {colors.get('text', '#1E293B')};")
-    
+        # --- NUEVO: Aplicar tema a páginas de submenú (gráficas) ---
+        for idx in range(self.stacked_widget.count()):
+            page = self.stacked_widget.widget(idx)
+            # Solo aplica a páginas de submenú (pH, EC, Temp, Agua)
+            # Se asume que las páginas de submenú están en los índices 2,3,4,5
+            if idx in [2, 3, 4, 5]:
+                self.apply_theme_to_subpage(page, idx)
+
+    def apply_theme_to_subpage(self, page, idx):
+        colors = self.theme_manager.get_colors()
+        # Aplica fondo y color de texto general
+        page.setStyleSheet(f"background-color: {colors['background']};")
+        layout = page.layout() if hasattr(page, 'layout') else None
+        if layout:
+            for i in range(layout.count()):
+                widget = layout.itemAt(i).widget()
+                if isinstance(widget, QLabel):
+                    # Quitar fondo, solo color de texto
+                    widget.setStyleSheet(f"color: {colors['text']}; background: transparent;")
+                # Si es top_row, contiene sensor_card y realtime_chart
+                if isinstance(widget, QWidget) and widget.layout():
+                    for j in range(widget.layout().count()):
+                        subwidget = widget.layout().itemAt(j).widget()
+                        if hasattr(subwidget, 'apply_theme'):
+                            subwidget.apply_theme()
+                # Si es bottom_chart
+                if hasattr(widget, 'apply_theme'):
+                    widget.apply_theme()
+
     def set_alerts_data(self, alerts):
         # Mostrar las 3 alertas más recientes como cards
         for i in reversed(range(self.alerts_cards_layout.count())):

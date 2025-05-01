@@ -67,10 +67,17 @@ class SensorCard(QFrame):
         self.range_label.setFont(QFont("Segoe UI", 10))
         self.range_label.setAlignment(Qt.AlignCenter)
         
+        # Estado Activo/Inactivo
+        self.status_label = QLabel()
+        self.status_label.setFont(QFont("Segoe UI", 11, QFont.Bold))
+        self.status_label.setAlignment(Qt.AlignCenter)
+        self.set_status(True)  # Por defecto Activo, puedes cambiarlo luego
+        
         # Añadir todo al layout principal
         layout.addLayout(header_layout)
         layout.addLayout(value_layout)
         layout.addWidget(self.range_label)
+        layout.addWidget(self.status_label)
 
     def add_shadow(self):
         shadow = QGraphicsDropShadowEffect(self)
@@ -86,20 +93,25 @@ class SensorCard(QFrame):
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
         self.setStyleSheet(f"""
-            #sensorCard {{
+            QFrame#sensorCard {{
                 background-color: {colors['card']};
                 border: 1px solid {colors['border']};
-                border-radius: 12px;
-            }}
-            #iconLabel {{
-                background-color: {self.color};
-                color: white;
                 border-radius: 16px;
                 font-weight: bold;
                 font-size: 16px;
             }}
         """)
-        self.title_label.setStyleSheet(f"color: {colors['text']}")
-        self.value_label.setStyleSheet(f"color: {self.color}")
-        self.unit_label.setStyleSheet(f"color: {colors['text_secondary']}")
-        self.range_label.setStyleSheet(f"color: {colors['text_secondary']}")
+        self.title_label.setStyleSheet(f"color: {colors['text']}; background-color: transparent;")
+        self.value_label.setStyleSheet(f"color: {self.color}; background-color: transparent;")
+        self.unit_label.setStyleSheet(f"color: {colors['text_secondary']}; background-color: transparent;")
+        self.range_label.setStyleSheet(f"color: {colors['text_secondary']}; background-color: transparent;")
+        # El status_label mantiene su color por estado, pero sí le quitamos fondo
+        self.status_label.setStyleSheet(self.status_label.styleSheet() + "background: transparent;")
+
+    def set_status(self, activo: bool):
+        if activo:
+            self.status_label.setText("Activo")
+            self.status_label.setStyleSheet("color: #22C55E; background: transparent;")  # Verde
+        else:
+            self.status_label.setText("Inactivo")
+            self.status_label.setStyleSheet("color: #EF4444; background: transparent;")  # Rojo

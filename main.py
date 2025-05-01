@@ -1,6 +1,8 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from app.main_window import HydroponicMonitor
+from PySide6.QtGui import QIcon
+import os
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -24,5 +26,12 @@ if __name__ == "__main__":
     """)
     
     window = HydroponicMonitor()
+    # Usa .ico para Windows taskbar si existe
+    ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
+    png_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.png'))
+    if os.path.exists(ico_path):
+        window.setWindowIcon(QIcon(ico_path))
+    elif os.path.exists(png_path):
+        window.setWindowIcon(QIcon(png_path))
     window.showMaximized()
     sys.exit(app.exec())
