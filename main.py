@@ -4,6 +4,13 @@ from app.main_window import HydroponicMonitor
 from PySide6.QtGui import QIcon
 import os
 
+# Iniciar hilo de lectura serial
+import threading
+from utils.serial_reader import read_serial_data
+
+serial_thread = threading.Thread(target=read_serial_data, daemon=True)
+serial_thread.start()
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
@@ -33,5 +40,6 @@ if __name__ == "__main__":
         window.setWindowIcon(QIcon(ico_path))
     elif os.path.exists(png_path):
         window.setWindowIcon(QIcon(png_path))
+
     window.showMaximized()
     sys.exit(app.exec())

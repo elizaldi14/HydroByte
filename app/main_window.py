@@ -97,7 +97,7 @@ class HydroponicMonitor(QMainWindow):
         self.ph_card = SensorCard("pH", 6.3, "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
         self.ec_card = SensorCard("Conductividad (EC)", 1.7, "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
         self.temp_card = SensorCard("Temperatura", 22, "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
-        self.water_card = SensorCard("Nivel del Agua", 85, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+        self.water_card = SensorCard("Nivel del Agua", 0, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
         
         sensors_layout.addWidget(self.ph_card)
         sensors_layout.addWidget(self.ec_card)
@@ -262,7 +262,7 @@ class HydroponicMonitor(QMainWindow):
             chart_title = "Gráfica de Temperatura"
             secondary_title = "Histórico de Temperatura"
         elif chart_type == "water":
-            sensor_card = SensorCard("Nivel del Agua", 85, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+            sensor_card = SensorCard("Nivel del Agua", 0, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
             self.water_submenu_card = sensor_card
             realtime_index = None
             chart_title = "Gráfica de Nivel de Agua"
@@ -279,9 +279,9 @@ class HydroponicMonitor(QMainWindow):
 
         # Gráfica de tiempo real (referencia para actualización)
         if chart_type == "water":
-            realtime_chart = ChartWidget(chart_title, [{"name": "Nivel de Agua (%)", "data": [80, 82, 85, 83, 81, 84, 85], "color": "#9333EA"}], self.theme_manager, self)
+            realtime_chart = ChartWidget(chart_title, [{"name": "Distancia (cm)", "data": [], "color": "#9333EA"}], self.theme_manager, self)
             self.water_realtime_chart = realtime_chart
-            historical_data = [{"name": "Nivel de Agua (%)", "data": [80, 82, 85, 83, 81, 84, 85], "color": "#9333EA"}]
+            historical_data = [{"name": "Distancia (cm)", "data": [], "color": "#9333EA"}]
         elif realtime_index is not None:
             realtime_chart = ChartWidget(chart_title, [self.realtime_data[realtime_index]], self.theme_manager, self)
             if chart_type == "ph":
@@ -519,12 +519,7 @@ class HydroponicMonitor(QMainWindow):
         self.ph_chart = ChartWidget("Gráfica de pH", [self.realtime_data[0]], self.theme_manager, self)
         self.ec_chart = ChartWidget("Gráfica de Conductividad", [self.realtime_data[1]], self.theme_manager, self)
         self.temp_chart = ChartWidget("Gráfica de Temperatura", [self.realtime_data[2]], self.theme_manager, self)
-        water_data = {
-            "name": "Nivel de Agua (%)",
-            "data": [80, 82, 85, 83, 81, 84, 85],
-            "color": "#9333EA"
-        }
-        self.water_chart = ChartWidget("Gráfica de Nivel de Agua", [water_data], self.theme_manager, self)
+        self.water_chart = ChartWidget("Gráfica de Nivel de Agua", [self.realtime_data[3]], self.theme_manager, self)
 
         # Las referencias a los ChartWidget se usan para actualización, pero ya no hay que reemplazar widgets en contenedores
 
@@ -555,20 +550,14 @@ class HydroponicMonitor(QMainWindow):
                 self.temp_chart.update_data([series])
                 if hasattr(self, "temp_realtime_chart"):
                     self.temp_realtime_chart.update_data([series])
+            elif series["name"] == "Distancia (cm)":
+                self.water_card.update_value(series["data"][-1])
+                if hasattr(self, "water_submenu_card"):
+                    self.water_submenu_card.update_value(series["data"][-1])
+                self.water_chart.update_data([series])
+                if hasattr(self, "water_realtime_chart"):
+                    self.water_realtime_chart.update_data([series])
 
-        # Actualizar nivel de agua (simulado)
-        water_level = round(self.water_card.value + random.uniform(-2, 2))
-        if water_level < 70:
-            water_level = 70
-        elif water_level > 95:
-            water_level = 95
-        self.water_card.update_value(water_level)
-        if hasattr(self, "water_submenu_card"):
-            self.water_submenu_card.update_value(water_level)
-        if hasattr(self, "water_realtime_chart"):
-            self.water_realtime_chart.update_data([
-                {"name": "Nivel de Agua (%)", "data": [water_level]*7, "color": "#9333EA"}
-            ])
 
         # Actualizar gráficos
         self.realtime_chart.update_data(new_data)
