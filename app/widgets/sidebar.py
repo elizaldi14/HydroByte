@@ -148,6 +148,7 @@ class Sidebar(QWidget):
         self.graphs_btn.setCheckable(True)
         self.graphs_btn.setChecked(False)
         self.graphs_btn.apply_theme(self.colors, is_submenu=False)
+        self.update_graphs_arrow()
 
         self.ph_btn = SidebarButton("pH", "ph_black.png", "Ver gráfico de pH", is_submenu=True)
         self.ec_btn = SidebarButton("Conductividad Eléctrica", "settings_black.svg", "Ver gráfico de conductividad", is_submenu=True)
@@ -194,6 +195,7 @@ class Sidebar(QWidget):
         show = self.graphs_btn.isChecked()
         for button in self.submenu_buttons:
             button.setVisible(show)
+        self.update_graphs_arrow()
         if show:
             self.graphs_btn.icon_label.setStyleSheet(f"""
                 background-color: #E0FFE;
@@ -266,3 +268,12 @@ class Sidebar(QWidget):
 
         for btn in self.submenu_buttons:
             btn.apply_theme(self.colors, is_submenu=True)
+
+    def update_graphs_arrow(self):
+        # Cambia la flecha unicode en el texto del botón, manteniendo el label
+        base = "Gráficas"
+        if self.graphs_btn.isChecked():
+            text = f"{base} ▲"
+        else:
+            text = f"{base} ▼"
+        self.graphs_btn.text_label.setText(text)
