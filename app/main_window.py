@@ -32,7 +32,7 @@ class HydroponicMonitor(QMainWindow):
         self.timer.start(1000)  # Actualizar cada 3 segundos
         
     def setup_ui(self):
-        self.setWindowTitle("Sistema Hidropónico - Dashboard")
+        self.setWindowTitle("HydroByte")
         self.resize(1200, 800)
         self.setObjectName("mainWindow")
         

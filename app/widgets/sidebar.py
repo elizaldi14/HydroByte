@@ -145,7 +145,7 @@ class Sidebar(QWidget):
         else:
             logo_label.setText("")
         
-        title = QLabel("Sistema Hidropónico")
+        title = QLabel("HydroByte")
         title.setObjectName("titleLabel")
         title.setFont(QFont("Segoe UI", 16, QFont.Bold))
         
