@@ -3,12 +3,14 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QFont, QColor
 from PySide6.QtCore import Qt
+from utils.data_generator import statusSensor
 
 class SensorCard(QFrame):
-    def __init__(self, title, value, unit, optimal_range, color, theme_manager, parent=None):
+    def __init__(self, title, name, unit, optimal_range, color, theme_manager, parent=None):
         super().__init__(parent)
         self.title = title
-        self.value = value
+        self.name = name
+        self.value = 0  # Valor fijo temporal
         self.unit = unit
         self.optimal_range = optimal_range
         self.color = color
@@ -71,7 +73,7 @@ class SensorCard(QFrame):
         self.status_label = QLabel()
         self.status_label.setFont(QFont("Segoe UI", 11, QFont.Bold))
         self.status_label.setAlignment(Qt.AlignCenter)
-        self.set_status(True)  # Por defecto Activo, puedes cambiarlo luego
+        self.set_status()  # Por defecto Activo, puedes cambiarlo luego
         
         # Añadir todo al layout principal
         layout.addLayout(header_layout)
@@ -108,8 +110,10 @@ class SensorCard(QFrame):
         # El status_label mantiene su color por estado, pero sí le quitamos fondo
         self.status_label.setStyleSheet(self.status_label.styleSheet() + "background: transparent;")
 
-    def set_status(self, activo: bool):
-        if activo:
+    def set_status(self):
+        is_active = statusSensor.get(self.name, False)
+        
+        if is_active:
             self.status_label.setText("Activo")
             self.status_label.setStyleSheet("color: #22C55E; background: transparent;")  # Verde
         else:

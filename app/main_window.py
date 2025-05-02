@@ -94,10 +94,10 @@ class HydroponicMonitor(QMainWindow):
         sensors_layout.setContentsMargins(0, 0, 0, 0)
         sensors_layout.setSpacing(20)
         
-        self.ph_card = SensorCard("pH", 6.3, "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
-        self.ec_card = SensorCard("Conductividad (EC)", 1.7, "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
-        self.temp_card = SensorCard("Temperatura", 22, "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
-        self.water_card = SensorCard("Nivel del Agua", 0, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+        self.ph_card = SensorCard("pH", "ph", "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
+        self.ec_card = SensorCard("Conductividad (EC)", "tds", "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
+        self.temp_card = SensorCard("Temperatura", "temp", "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
+        self.water_card = SensorCard("Nivel del Agua", "dist", "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
         
         sensors_layout.addWidget(self.ph_card)
         sensors_layout.addWidget(self.ec_card)
@@ -139,7 +139,9 @@ class HydroponicMonitor(QMainWindow):
         self.alerts_search.setPlaceholderText("Buscar alerta...")
         self.alerts_search.setFixedWidth(260)
         self.alerts_search.setStyleSheet("font-size: 15px; border-radius: 8px; border: 1px solid #CBD5E1; padding: 7px 12px;")
-        self.alerts_search.textChanged.connect(self.on_alerts_search)
+        self.alerts_search.setMaximumWidth(260)
+        self.alerts_search.setMinimumHeight(36)
+        self.alerts_search.setContentsMargins(0, 0, 0, 0)
         search_row_layout.addWidget(self.alerts_search)
         alerts_layout.addWidget(search_row)
 
@@ -244,25 +246,25 @@ class HydroponicMonitor(QMainWindow):
 
         # Card de sensor y gráficas
         if chart_type == "ph":
-            sensor_card = SensorCard("pH", 6.3, "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
+            sensor_card = SensorCard("pH", "ph", "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
             self.ph_submenu_card = sensor_card
             realtime_index = 0
             chart_title = "Gráfica de pH"
             secondary_title = "Histórico de pH"
         elif chart_type == "ec":
-            sensor_card = SensorCard("Conductividad (EC)", 1.7, "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
+            sensor_card = SensorCard("Conductividad (EC)", "tds", "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
             self.ec_submenu_card = sensor_card
             realtime_index = 1
             chart_title = "Gráfica de Conductividad"
             secondary_title = "Histórico de Conductividad"
         elif chart_type == "temp":
-            sensor_card = SensorCard("Temperatura", 22, "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
+            sensor_card = SensorCard("Temperatura", "temp", "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
             self.temp_submenu_card = sensor_card
             realtime_index = 2
             chart_title = "Gráfica de Temperatura"
             secondary_title = "Histórico de Temperatura"
         elif chart_type == "water":
-            sensor_card = SensorCard("Nivel del Agua", 0, "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+            sensor_card = SensorCard("Nivel del Agua", "dist", "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
             self.water_submenu_card = sensor_card
             realtime_index = None
             chart_title = "Gráfica de Nivel de Agua"
@@ -526,34 +528,42 @@ class HydroponicMonitor(QMainWindow):
     def update_data(self):
         # Obtener nuevos datos
         new_data = self.data_generator.update_realtime_data()
-
+        
         # Actualizar tarjetas de sensores y gráficas en tiempo real
         for series in new_data:
             if series["name"] == "pH":
                 self.ph_card.update_value(series["data"][-1])
+                self.ph_card.set_status()
                 if hasattr(self, "ph_submenu_card"):
                     self.ph_submenu_card.update_value(series["data"][-1])
+                    self.ph_submenu_card.set_status()
                 self.ph_chart.update_data([series])
                 if hasattr(self, "ph_realtime_chart"):
                     self.ph_realtime_chart.update_data([series])
             elif series["name"] == "EC (mS/cm)":
                 self.ec_card.update_value(series["data"][-1])
+                self.ec_card.set_status()
                 if hasattr(self, "ec_submenu_card"):
                     self.ec_submenu_card.update_value(series["data"][-1])
+                    self.ec_submenu_card.set_status()
                 self.ec_chart.update_data([series])
                 if hasattr(self, "ec_realtime_chart"):
                     self.ec_realtime_chart.update_data([series])
             elif series["name"] == "Temperatura (°C)":
                 self.temp_card.update_value(series["data"][-1])
+                self.temp_card.set_status()
                 if hasattr(self, "temp_submenu_card"):
                     self.temp_submenu_card.update_value(series["data"][-1])
+                    self.temp_submenu_card.set_status()
                 self.temp_chart.update_data([series])
                 if hasattr(self, "temp_realtime_chart"):
                     self.temp_realtime_chart.update_data([series])
             elif series["name"] == "Distancia (cm)":
                 self.water_card.update_value(series["data"][-1])
+                self.water_card.set_status()
                 if hasattr(self, "water_submenu_card"):
                     self.water_submenu_card.update_value(series["data"][-1])
+                    self.water_submenu_card.set_status()
                 self.water_chart.update_data([series])
                 if hasattr(self, "water_realtime_chart"):
                     self.water_realtime_chart.update_data([series])
