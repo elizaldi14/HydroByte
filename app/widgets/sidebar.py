@@ -167,6 +167,7 @@ class Sidebar(QWidget):
         self.ec_btn = SidebarButton("Conductividad Eléctrica", "settings_black.svg", "Ver gráfico de conductividad", is_submenu=True)
         self.temp_btn = SidebarButton("Temperatura", "temperatura_black.png", "Ver gráfico de temperatura", is_submenu=True)
         self.water_btn = SidebarButton("Nivel del Agua", "nivelAgua_black.png", "Ver gráfico de nivel de agua", is_submenu=True)
+        self.pumps_btn = SidebarButton("Bombas", "pump_black.png", "Control de bombas")
 
         for btn in [self.ph_btn, self.ec_btn, self.temp_btn, self.water_btn]:
             btn.setVisible(False)
@@ -183,6 +184,7 @@ class Sidebar(QWidget):
         menu_layout.addWidget(self.ec_btn)
         menu_layout.addWidget(self.temp_btn)
         menu_layout.addWidget(self.water_btn)
+        menu_layout.addWidget(self.pumps_btn)
         menu_layout.addWidget(self.help_btn)
         menu_layout.addWidget(self.settings_btn)
         menu_layout.addStretch()
@@ -195,7 +197,7 @@ class Sidebar(QWidget):
         self.logo_label = logo_label
         self.menu_buttons = [
             self.home_btn, self.alerts_btn, self.graphs_btn,
-            self.help_btn, self.settings_btn, self.theme_btn
+            self.pumps_btn, self.help_btn, self.settings_btn, self.theme_btn
         ]
         self.submenu_buttons = [
             self.ph_btn, self.ec_btn, self.temp_btn, self.water_btn

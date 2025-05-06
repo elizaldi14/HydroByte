@@ -63,8 +63,9 @@ class HydroponicMonitor(QMainWindow):
         self.sidebar.ec_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(3))
         self.sidebar.temp_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(4))
         self.sidebar.water_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(5))
-        self.sidebar.help_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(6))
-        self.sidebar.settings_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(7))
+        self.sidebar.pumps_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(6))
+        self.sidebar.help_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(7))
+        self.sidebar.settings_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(8))
         
         # Contenido principal
         content = QWidget()
@@ -191,6 +192,9 @@ class HydroponicMonitor(QMainWindow):
         temp_page = self.create_chart_page("Monitoreo de Temperatura", "temp")
         water_page = self.create_chart_page("Monitoreo de Nivel de Agua", "water")
         
+        # Página de bombas
+        pumps_page = self.create_pumps_page()
+        
         # Página de ayuda
         help_page = self.create_help_page()
         
@@ -217,6 +221,7 @@ class HydroponicMonitor(QMainWindow):
         self.stacked_widget.addWidget(ec_page)
         self.stacked_widget.addWidget(temp_page)
         self.stacked_widget.addWidget(water_page)
+        self.stacked_widget.addWidget(pumps_page)
         self.stacked_widget.addWidget(help_page)
         self.stacked_widget.addWidget(settings_page)
         
@@ -312,6 +317,130 @@ class HydroponicMonitor(QMainWindow):
 
         return page
     
+    def create_pumps_page(self):
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setAlignment(Qt.AlignTop)
+        layout.setContentsMargins(40, 30, 40, 30)
+        layout.setSpacing(20)
+
+        # Título
+        title = QLabel("Control de Bombas")
+        title.setFont(QFont("Segoe UI", 24, QFont.Bold))
+        title.setObjectName("pageTitle")
+        layout.addWidget(title)
+
+        # Descripción
+        description = QLabel("Aquí puedes controlar el estado de las bombas del sistema hidropónico.")
+        description.setFont(QFont("Segoe UI", 14))
+        description.setWordWrap(True)
+        layout.addWidget(description)
+
+        # Contenedor para las tarjetas de bombas
+        pumps_container = QWidget()
+        pumps_layout = QHBoxLayout(pumps_container)
+        pumps_layout.setSpacing(20)
+        pumps_layout.setContentsMargins(0, 20, 0, 0)
+
+        # Función para crear tarjetas de bomba
+        def create_pump_card(pump_name, initial_state=False):
+            card = QFrame()
+            card.setFrameShape(QFrame.StyledPanel)
+            card.setStyleSheet("""
+                QFrame {
+                    background: #FFFFFF;
+                    border-radius: 12px;
+                    border: 1px solid #E2E8F0;
+                    padding: 20px;
+                }
+            """)
+            card.setFixedSize(320, 200)
+            
+            layout = QVBoxLayout(card)
+            layout.setSpacing(15)
+            
+            # Título de la bomba
+            title = QLabel(pump_name)
+            title.setFont(QFont("Segoe UI", 16, QFont.Bold))
+            title.setStyleSheet("color: #1E293B;")
+            layout.addWidget(title)
+            
+            # Estado actual
+            status_label = QLabel("Estado: Detenida")
+            status_label.setFont(QFont("Segoe UI", 14))
+            status_label.setStyleSheet("color: #64748B;")
+            layout.addWidget(status_label)
+            
+            # Botón de control
+            toggle_btn = QPushButton("Iniciar")
+            toggle_btn.setFont(QFont("Segoe UI", 12, QFont.Bold))
+            toggle_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #22C55E;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 10px;
+                    margin-top: 10px;
+                }
+                QPushButton:hover {
+                    background-color: #16A34A;
+                }
+            """)
+            
+            def toggle_pump():
+                if toggle_btn.text() == "Iniciar":
+                    toggle_btn.setText("Detener")
+                    toggle_btn.setStyleSheet("""
+                        QPushButton {
+                            background-color: #EF4444;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 10px;
+                            margin-top: 10px;
+                        }
+                        QPushButton:hover {
+                            background-color: #DC2626;
+                        }
+                    """)
+                    status_label.setText("Estado: En funcionamiento")
+                else:
+                    toggle_btn.setText("Iniciar")
+                    toggle_btn.setStyleSheet("""
+                        QPushButton {
+                            background-color: #22C55E;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 10px;
+                            margin-top: 10px;
+                        }
+                        QPushButton:hover {
+                            background-color: #16A34A;
+                        }
+                    """)
+                    status_label.setText("Estado: Detenida")
+            
+            toggle_btn.clicked.connect(toggle_pump)
+            layout.addWidget(toggle_btn)
+            
+            return card
+        
+        # Crear tarjetas para cada bomba
+        pump1 = create_pump_card("Bomba de Nutrientes")
+        pump2 = create_pump_card("Bomba de Agua")
+        pump3 = create_pump_card("Bomba de Aire")
+        
+        pumps_layout.addWidget(pump1)
+        pumps_layout.addWidget(pump2)
+        pumps_layout.addWidget(pump3)
+        
+        layout.addWidget(pumps_container)
+        layout.addStretch()
+        
+        return page
+
     def create_help_page(self):
         page = QWidget()
         layout = QVBoxLayout(page)
@@ -659,10 +788,31 @@ class HydroponicMonitor(QMainWindow):
             for i in range(layout.count()):
                 widget = layout.itemAt(i).widget()
                 if isinstance(widget, QLabel):
-                    # Quitar fondo, solo color de texto
-                    widget.setStyleSheet(f"color: {colors['text']}; background: transparent;")
+                    # Aplicar estilo a las etiquetas
+                    if widget.objectName() == "pageTitle":
+                        widget.setStyleSheet(f"color: {colors['text']}; background: transparent; font-size: 24px; font-weight: bold;")
+                    else:
+                        widget.setStyleSheet(f"color: {colors['text']}; background: transparent;")
+                # Si es el contenedor de bombas
+                elif isinstance(widget, QWidget) and widget.layout() and widget.layout().count() > 0 and isinstance(widget.layout().itemAt(0).widget(), QFrame):
+                    # Aplicar tema a las tarjetas de bombas
+                    for j in range(widget.layout().count()):
+                        card = widget.layout().itemAt(j).widget()
+                        if isinstance(card, QFrame):
+                            card.setStyleSheet(f"""
+                                QFrame {{
+                                    background: {colors['card']};
+                                    border-radius: 12px;
+                                    border: 1px solid {colors['border']};
+                                    padding: 20px;
+                                }}
+                                QLabel {{
+                                    color: {colors['text']};
+                                    background: transparent;
+                                }}
+                            """)
                 # Si es top_row, contiene sensor_card y realtime_chart
-                if isinstance(widget, QWidget) and widget.layout():
+                elif isinstance(widget, QWidget) and widget.layout():
                     for j in range(widget.layout().count()):
                         subwidget = widget.layout().itemAt(j).widget()
                         if hasattr(subwidget, 'apply_theme'):
