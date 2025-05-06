@@ -3,3 +3,4 @@ __pycache__
 btn_create.ui
 ui_events.py
 venv/
+gource.log

@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QSizePolicy
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QSizePolicy, QGraphicsDropShadowEffect
+from PySide6.QtGui import QFont, QColor, QPalette
 from PySide6.QtCore import Qt
 
 class AlertCard(QFrame):
@@ -32,14 +32,24 @@ class AlertCard(QFrame):
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
         estado_color = '#ef4444' if self.alert[3].lower() == 'activo' else '#22c55e' if self.alert[3].lower() == 'solucionado' else colors.get('text', '#1E293B')
+        
+        # Apply styles without box-shadow
         self.setStyleSheet(f"""
             QFrame#alertCard {{
                 background: {colors.get('card', '#FFFFFF')};
                 border-radius: 14px;
                 border: 2px solid {colors.get('border', '#E2E8F0')};
-                box-shadow: 0 4px 18px rgba(0,0,0,0.10);
             }}
         """)
+        
+        # Create and apply drop shadow effect
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(15)
+        shadow.setXOffset(0)
+        shadow.setYOffset(4)
+        shadow.setColor(QColor(0, 0, 0, 25))  # Semi-transparent black
+        self.setGraphicsEffect(shadow)
+        
         self.pregunta.setStyleSheet(f"color: {colors.get('text', '#1E293B')};")
         self.sensor.setStyleSheet(f"color: {colors.get('text_secondary', '#64748B')};")
         self.estado.setStyleSheet(f"color: {estado_color};")

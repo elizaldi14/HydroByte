@@ -94,7 +94,7 @@ class Sidebar(QWidget):
         self.colors = {
             'primary': "#FFFFFF",
             'text': "#1E293B",
-            'hover': "#E0FFE",
+            'hover': "#E0FFEE",
             'hover_text': "#0F172A",
             'border': "#E2E8F0",
             'secondary': "#F0F2F5"
@@ -213,7 +213,7 @@ class Sidebar(QWidget):
         self.update_graphs_arrow()
         if show:
             self.graphs_btn.icon_label.setStyleSheet(f"""
-                background-color: #E0FFE;
+                background-color: #E0FFEE;
                 color: {self.colors['text']};
                 font-weight: bold;
                 font-size: 16px;
