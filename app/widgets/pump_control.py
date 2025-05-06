@@ -1,12 +1,48 @@
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton, QFrame)
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton, QFrame, QMessageBox)
+from PySide6.QtCore import Qt, QObject, Signal
 from PySide6.QtGui import QFont
 import serial
 import time
 import threading
 
-# Puerto serial global
-ser = serial.Serial('COM4', 9600, timeout=1)
+class PumpSerial(QObject):
+    # Señal para notificar cambios de estado
+    status_changed = Signal(str)
+    
+    def __init__(self, port='COM4', baudrate=9600, timeout=1):
+        super().__init__()
+        self.port = port
+        self.baudrate = baudrate
+        self.timeout = timeout
+        self.serial_conn = None
+        self.connect()
+    
+    def connect(self):
+        try:
+            self.serial_conn = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+            self.status_changed.emit(f"Conectado a {self.port}")
+            return True
+        except (serial.SerialException, OSError) as e:
+            self.serial_conn = None
+            self.status_changed.emit(f"Error: No se pudo conectar a {self.port}")
+            return False
+    
+    def write(self, data):
+        if self.serial_conn and self.serial_conn.is_open:
+            try:
+                self.serial_conn.write(data)
+                return True
+            except (serial.SerialException, OSError):
+                self.serial_conn = None
+                return False
+        return False
+    
+    def close(self):
+        if self.serial_conn and self.serial_conn.is_open:
+            self.serial_conn.close()
+
+# Instancia global del controlador serial
+pump_serial = PumpSerial()
 
 class PumpCard(QFrame):
     def __init__(self, pump_name, theme_manager, parent=None):
@@ -15,6 +51,7 @@ class PumpCard(QFrame):
         self.pump_name = pump_name
         self.thread = None
         self.stop_event = threading.Event()
+        self.automation_enabled = False
         self.setup_ui()
         self.apply_theme()
 
@@ -82,18 +119,16 @@ class PumpCard(QFrame):
             self.update_button_style(True)
 
     def run_pump(self):
-        try:
-            while not self.stop_event.is_set():
-                # Send '2' if in automatic mode, '1' if in manual mode
-                command = 2 if self.automation_enabled else 1
-                ser.write(str(command).encode())
-                print(command)
-                print(f"Pump running in {'auto' if self.automation_enabled else 'manual'} mode...")
-                time.sleep(1)
-            ser.write(str(0).encode())  # Apagar bomba al salir
-            print("Pump stopped.")
-        except Exception as e:
-            print(f"Error en hilo de bomba: {e}")
+        while not self.stop_event.is_set():
+            command = 2 if self.automation_enabled else 1
+            if not pump_serial.write(str(command).encode()):
+                print("Error: No se pudo enviar el comando, intentando reconectar...")
+                pump_serial.connect()
+            print(command)
+            print(f"Pump running in {'auto' if self.automation_enabled else 'manual'} mode...")
+            time.sleep(1)
+        pump_serial.write(str(0).encode())  # Apagar bomba al salir
+        print("Pump stopped.")
 
     def toggle_automation(self):
         self.automation_enabled = not self.automation_enabled
