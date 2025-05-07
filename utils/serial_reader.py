@@ -15,7 +15,7 @@ def read_serial_data():
     global latest_data
 
     try:
-        ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+        ser = serial.Serial('COM4', 9600, timeout=1)
         time.sleep(2)
 
         while True:

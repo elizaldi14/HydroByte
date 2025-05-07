@@ -73,24 +73,16 @@ class DataGenerator:
 
     def update_realtime_data(self):
         global latest_data
-        # Si latest_data está vacío o todos sus valores son None, todos los sensores están inactivos
-        # if not latest_data or all(v is None for v in latest_data.values()):
-        #     for k in statusSensor:
-        #         statusSensor[k] = False
-        #     for series in self.realtime_data:
-        #         series["data"].append(0)
-        #         if len(series["data"]) > 7:
-        #             series["data"].pop(0)
-        #     return self.realtime_data
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                l = self.generate_random_ph()
-                if l is None:
+                v = latest_data.get("ph")
+                if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["ph"] = False
                 else:
-                    series["data"].append(l)
+                    series["data"].append(v)
+                    statusSensor["tds"] = True
                     statusSensor["ph"] = True  
             elif series["name"] == "EC (mS/cm)":
                 v = latest_data.get("tds")
