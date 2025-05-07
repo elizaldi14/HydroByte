@@ -9,7 +9,7 @@ class PumpSerial(QObject):
     # Señal para notificar cambios de estado
     status_changed = Signal(str)
     
-    def __init__(self, port='COM4', baudrate=9600, timeout=1):
+    def __init__(self, port='COM3', baudrate=9600, timeout=1):
         super().__init__()
         self.port = port
         self.baudrate = baudrate
@@ -54,6 +54,9 @@ class PumpCard(QFrame):
         self.automation_enabled = False
         self.setup_ui()
         self.apply_theme()
+        
+        # Enviar comando 2 al iniciar
+        pump_serial.write(str(2).encode())
 
     def setup_ui(self):
         self.setObjectName("pumpCard")
@@ -103,10 +106,12 @@ class PumpCard(QFrame):
         self.automation_enabled = False
         self.update_button_style(False)
 
-    def toggle_pump(self):
+    def toggle_pump(self, send_stop_command=True):
         if self.thread and self.thread.is_alive():
             self.stop_event.set()
             self.thread.join()
+            if send_stop_command:
+                pump_serial.write(str(0).encode())  # Enviar comando 0 al detener
             self.status_label.setText("Estado: Detenida")
             self.toggle_btn.setText("Iniciar")
             self.update_button_style(False)
@@ -147,9 +152,9 @@ class PumpCard(QFrame):
                     background-color: #7C3AED;
                 }
             """)
-            # Add your automation logic here
+            # Iniciar la bomba si no está en marcha
             if not (self.thread and self.thread.is_alive()):
-                self.toggle_pump()
+                self.toggle_pump(send_stop_command=False)
         else:
             self.auto_btn.setText("Modo Manual")
             self.auto_btn.setStyleSheet("""
@@ -165,9 +170,13 @@ class PumpCard(QFrame):
                     background-color: #2563EB;
                 }
             """)
-            # Stop pump when switching to manual mode
-            if self.thread and self.thread.is_alive():
-                self.toggle_pump()
+            # No detenemos la bomba al cambiar a modo manual
+            # Solo actualizamos el estado del botón si es necesario
+            self.update_button_style(self.thread and self.thread.is_alive())
+            
+            # Si la bomba está detenida, la iniciamos en modo manual
+            if not (self.thread and self.thread.is_alive()):
+                self.toggle_pump(send_stop_command=False)
 
     def update_button_style(self, is_running):
         if not self.automation_enabled:
