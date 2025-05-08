@@ -1,6 +1,10 @@
 from utils.constants import LIGHT_COLORS
 from utils.serial_reader import latest_data  # Datos reales sin modificar
 import random
+import sqlite3
+from datetime import datetime
+
+DB_PATH = "hydrobyte.sqlite"
 
 statusSensor = {
     "ph": True,  # Comentado para prueba
@@ -16,6 +20,7 @@ class DataGenerator:
             return None
         print(round(random.uniform(5.5, 8.5), 2))
         return round(random.uniform(5.5, 8.5), 2)
+    
 
     def __init__(self):
         # self.generate_random_ph()
@@ -42,28 +47,8 @@ class DataGenerator:
             }
         ]
 
-        self.historical_data = [
-            {
-                "name": "pH Promedio",
-                "data": [],
-                "color": LIGHT_COLORS["ph_color"]
-            },
-            {
-                "name": "EC Promedio (mS/cm)",
-                "data": [],
-                "color": LIGHT_COLORS["ec_color"]
-            },
-            {
-                "name": "Temperatura Promedio (°C)",
-                "data": [],
-                "color": LIGHT_COLORS["temp_color"]
-            },
-            {
-                "name": "Distancia (cm)",
-                "data": [],
-                "color": LIGHT_COLORS["dist_color"]
-            }
-        ]
+        self.historical_data = []
+        self.load_historical_data_from_db()
 
     def get_realtime_data(self):
         return self.realtime_data
@@ -115,20 +100,48 @@ class DataGenerator:
 
         return self.realtime_data
 
-    def update_historical_data(self):
-        # Solo si quieres mantener un histórico básico para gráficas históricas
-        for series in self.historical_data:
-            if series["name"] == "pH Promedio":
-                series["data"].append(self.generate_random_ph())
-            elif series["name"] == "EC Promedio (mS/cm)":
-                series["data"].append(latest_data.get("tds"))
-            elif series["name"] == "Temperatura Promedio (°C)":
-                series["data"].append(latest_data.get("temp"))
-            elif series["name"] == "Distancia (cm)":
-                series["data"].append(latest_data.get("dist"))
+    def load_historical_data_from_db(self):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
 
-            # Limitar la lista a 7 entradas
-            if len(series["data"]) > 7:
-                series["data"].pop(0)
+        sensor_names = {
+            1: "pH Promedio",
+            2: "EC Promedio (mS/cm)",
+            3: "Temperatura Promedio (°C)",
+            4: "Distancia (cm)"
+        }
 
-        return self.historical_data
+        sensor_data = {name: [] for name in sensor_names.values()}
+        fechas = []
+
+        for sensor_id, name in sensor_names.items():
+            cursor.execute("""
+                SELECT DATE(timestamp) as day, MAX(value)
+                FROM sensor_readings
+                WHERE sensor_id = ?
+                AND timestamp >= DATE('now', '-30 day')
+                AND value > 0
+                GROUP BY day
+                ORDER BY day ASC
+            """, (sensor_id,))
+            
+            rows = cursor.fetchall()
+            valores = [round(row[1], 2) for row in rows]
+            fechas = [row[0] for row in rows]
+            sensor_data[name] = valores
+
+        conn.close()
+
+        self.historical_labels = fechas  # Últimas 30 fechas como etiquetas
+
+        self.historical_data = [
+            {
+                "name": name,
+                "data": sensor_data[name],
+                "color": LIGHT_COLORS[key]
+            }
+            for key, name in zip(
+                ["ph_color", "ec_color", "temp_color", "dist_color"],
+                ["pH Promedio", "EC Promedio (mS/cm)", "Temperatura Promedio (°C)", "Distancia (cm)"]
+            )
+        ]

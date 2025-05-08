@@ -9,6 +9,7 @@ from app.theme_manager import ThemeManager
 from app.widgets.sidebar import Sidebar
 from app.widgets.sensor_card import SensorCard
 from app.widgets.chart_widget import ChartWidget
+from app.widgets.chart_historial import ChartWidgetHistory
 from app.widgets.alerts_table import AlertsTable
 from app.widgets.alert_card import AlertCard
 from utils.data_generator import DataGenerator
@@ -288,7 +289,7 @@ class HydroponicMonitor(QMainWindow):
         if chart_type == "water":
             realtime_chart = ChartWidget(chart_title, [{"name": "Distancia (cm)", "data": [], "color": "#9333EA"}], self.theme_manager, self)
             self.water_realtime_chart = realtime_chart
-            historical_data = [{"name": "Distancia (cm)", "data": [], "color": "#9333EA"}]
+            historical_data = [self.historical_data[3]]
         elif realtime_index is not None:
             realtime_chart = ChartWidget(chart_title, [self.realtime_data[realtime_index]], self.theme_manager, self)
             if chart_type == "ph":
@@ -308,7 +309,7 @@ class HydroponicMonitor(QMainWindow):
         top_row_layout.addWidget(realtime_chart, 1)
 
         # Gráfica de historial (más grande, abajo)
-        bottom_chart = ChartWidget(secondary_title, historical_data, self.theme_manager, self)
+        bottom_chart = ChartWidgetHistory(secondary_title, historical_data, self.theme_manager, self)
         bottom_chart.setMinimumHeight(260)
 
         layout.addWidget(page_title)
