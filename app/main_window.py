@@ -343,9 +343,9 @@ class HydroponicMonitor(QMainWindow):
         pumps_layout.setContentsMargins(0, 20, 0, 0)
         
         # Crear tarjetas para cada bomba usando el nuevo widget PumpCard
-        pump1 = PumpCard("Bomba de Nutrientes", self.theme_manager)
-        pump2 = PumpCard("Bomba de Agua", self.theme_manager)
-        pump3 = PumpCard("Bomba de Aire", self.theme_manager)
+        pump1 = PumpCard("Bomba de Circulación", self.theme_manager, "pump_circulacion.png")
+        pump2 = PumpCard("Bomba de Alcalinización", self.theme_manager, "pump_peristaltica.png")
+        pump3 = PumpCard("Bomba de Acidez", self.theme_manager, "pump_peristaltica.png")
         
         pumps_layout.addWidget(pump1)
         pumps_layout.addWidget(pump2)

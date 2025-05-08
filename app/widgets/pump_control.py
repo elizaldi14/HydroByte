@@ -1,9 +1,10 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton, QFrame, QMessageBox)
 from PySide6.QtCore import Qt, QObject, Signal
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QPixmap
 import serial
 import time
 import threading
+import os
 
 class PumpSerial(QObject):
     # Señal para notificar cambios de estado
@@ -45,10 +46,11 @@ class PumpSerial(QObject):
 pump_serial = PumpSerial()
 
 class PumpCard(QFrame):
-    def __init__(self, pump_name, theme_manager, parent=None):
+    def __init__(self, pump_name, theme_manager,img, parent=None):
         super().__init__(parent)
         self.theme_manager = theme_manager
         self.pump_name = pump_name
+        self.img = img
         self.thread = None
         self.stop_event = threading.Event()
         self.automation_enabled = False
@@ -68,6 +70,25 @@ class PumpCard(QFrame):
         self.title = QLabel(self.pump_name)
         self.title.setFont(QFont("Segoe UI", 16, QFont.Bold))
         self.layout.addWidget(self.title)
+
+         # Icono de la bomba
+        iconLabel = QLabel()
+        iconLabel.setFixedSize(30, 30)
+        iconLabel.setScaledContents(True)
+        iconLabel.setAlignment(Qt.AlignCenter)
+        iconLabel.setObjectName("iconLabel")
+        self.iconLabel = iconLabel
+
+        iconPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'utils', 'img', self.img)
+        )
+        if os.path.exists(iconPath):
+            iconPixmap = QPixmap(iconPath)
+            iconPixmap = iconPixmap.scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            iconLabel.setPixmap(iconPixmap)
+        else:
+            iconLabel.setText(iconPath[0].upper())
+        
+        self.layout.addWidget(iconLabel)
 
         self.status_label = QLabel("Estado: Detenida")
         self.status_label.setFont(QFont("Segoe UI", 14))
@@ -99,6 +120,7 @@ class PumpCard(QFrame):
                 background-color: #2563EB;
             }
         """)
+
         self.button_layout.addWidget(self.auto_btn)
         
         self.layout.addLayout(self.button_layout)
