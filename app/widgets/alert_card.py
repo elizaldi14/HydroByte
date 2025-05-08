@@ -19,19 +19,14 @@ class AlertCard(QFrame):
         self.pregunta.setWordWrap(True)
         self.sensor = QLabel(f"Sensor: {alert[1]}")
         self.sensor.setFont(QFont("Segoe UI", 11))
-        self.estado = QLabel(f"Estado: {alert[3]}")
-        self.estado.setFont(QFont("Segoe UI", 11, QFont.Bold))
-        self.fecha = QLabel(f"{alert[4]}")
+        self.fecha = QLabel(f"{alert[3]}")
         self.fecha.setFont(QFont("Segoe UI", 10))
         self.layout.addWidget(self.pregunta)
         self.layout.addWidget(self.sensor)
-        self.layout.addWidget(self.estado)
         self.layout.addWidget(self.fecha)
-        self.apply_theme()
 
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
-        estado_color = '#ef4444' if self.alert[3].lower() == 'activo' else '#22c55e' if self.alert[3].lower() == 'solucionado' else colors.get('text', '#1E293B')
         
         # Apply styles without box-shadow
         self.setStyleSheet(f"""
@@ -52,5 +47,4 @@ class AlertCard(QFrame):
         
         self.pregunta.setStyleSheet(f"color: {colors.get('text', '#1E293B')};")
         self.sensor.setStyleSheet(f"color: {colors.get('text_secondary', '#64748B')};")
-        self.estado.setStyleSheet(f"color: {estado_color};")
         self.fecha.setStyleSheet(f"color: {colors.get('text_secondary', '#64748B')};")

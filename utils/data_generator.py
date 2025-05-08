@@ -2,7 +2,7 @@ from utils.constants import LIGHT_COLORS
 from utils.serial_reader import latest_data  # Datos reales sin modificar
 import random
 import sqlite3
-from datetime import datetime
+from utils.alerts import *
 
 DB_PATH = "hydrobyte.sqlite"
 
@@ -15,15 +15,17 @@ statusSensor = {
 
 class DataGenerator:
     def generate_random_ph(self):
-        if random.random() < 0.1:  # 10% de probabilidad de fallo
-            print("Fallo en pH")
-            return None
-        print(round(random.uniform(5.5, 8.5), 2))
-        return round(random.uniform(5.5, 8.5), 2)
+        return round(random.uniform(5, 9), 2)
+    def generate_random_tds(self):
+        return round(random.uniform(1, 1000), 2)
+    def generate_random_temp(self):
+        return round(random.uniform(15, 30), 2)
+    def generate_random_dist(self):
+        return round(random.uniform(0,60))
     
 
     def __init__(self):
-        # self.generate_random_ph()
+        self.generate_random_ph()
         self.realtime_data = [
             {
                 "name": "pH",
@@ -61,38 +63,51 @@ class DataGenerator:
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                v = latest_data.get("ph")
+                v = self.generate_random_ph()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["ph"] = False
                 else:
                     series["data"].append(v)
-                    statusSensor["tds"] = True
                     statusSensor["ph"] = True  
+                    if v < 6 or v > 8:
+                        enviarAlertaPH(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "EC (mS/cm)":
-                v = latest_data.get("tds")
+                v = self.generate_random_tds()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["tds"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["tds"] = True
+                    if v < 300:
+                        enviarAlertaBajoTDS(v) # Enviar alerta si el pH está fuera de rango
+                    elif v > 800:
+                        enviarAlertaAltoTDS(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "Temperatura (°C)":
-                v = latest_data.get("temp")
+                v = self.generate_random_temp()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["temp"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["temp"] = True
+                    if v < 24:
+                        enviarAlertaBajaTemp(v)
+                    elif v > 28:
+                        enviarAlertaAltaTemp(v)
             elif series["name"] == "Distancia (cm)":
-                v = latest_data.get("dist")
+                v = self.generate_random_dist()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["dist"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["dist"] = True
+                    if v < 10:
+                        enviarAlertaBajaDist(v)
+                    elif v > 50:
+                        enviarAlertaAltaDist(v)
 
             # Limitar la lista a los últimos 7 datos
             if len(series["data"]) > 7:
