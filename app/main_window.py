@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
 from PySide6.QtCore import Qt, QTimer, Slot, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QIcon, QColor
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
-
+from app.widgets.pump_control import PumpCard
 from app.theme_manager import ThemeManager
 from app.widgets.sidebar import Sidebar
 from app.widgets.sensor_card import SensorCard
@@ -63,8 +63,9 @@ class HydroponicMonitor(QMainWindow):
         self.sidebar.ec_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(3))
         self.sidebar.temp_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(4))
         self.sidebar.water_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(5))
-        self.sidebar.help_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(6))
-        self.sidebar.settings_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(7))
+        self.sidebar.pumps_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(6))
+        self.sidebar.help_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(7))
+        self.sidebar.settings_btn.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(8))
         
         # Contenido principal
         content = QWidget()
@@ -191,6 +192,9 @@ class HydroponicMonitor(QMainWindow):
         temp_page = self.create_chart_page("Monitoreo de Temperatura", "temp")
         water_page = self.create_chart_page("Monitoreo de Nivel de Agua", "water")
         
+        # Página de bombas
+        pumps_page = self.create_pumps_page()
+        
         # Página de ayuda
         help_page = self.create_help_page()
         
@@ -217,6 +221,7 @@ class HydroponicMonitor(QMainWindow):
         self.stacked_widget.addWidget(ec_page)
         self.stacked_widget.addWidget(temp_page)
         self.stacked_widget.addWidget(water_page)
+        self.stacked_widget.addWidget(pumps_page)
         self.stacked_widget.addWidget(help_page)
         self.stacked_widget.addWidget(settings_page)
         
@@ -312,6 +317,45 @@ class HydroponicMonitor(QMainWindow):
 
         return page
     
+    def create_pumps_page(self):
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setAlignment(Qt.AlignTop)
+        layout.setContentsMargins(40, 30, 40, 30)
+        layout.setSpacing(20)
+
+        # Título
+        title = QLabel("Control de Bombas")
+        title.setFont(QFont("Segoe UI", 24, QFont.Bold))
+        title.setObjectName("pageTitle")
+        layout.addWidget(title)
+
+        # Descripción
+        description = QLabel("Aquí puedes controlar el estado de las bombas del sistema hidropónico.")
+        description.setFont(QFont("Segoe UI", 14))
+        description.setWordWrap(True)
+        layout.addWidget(description)
+
+        # Contenedor para las tarjetas de bombas
+        pumps_container = QWidget()
+        pumps_layout = QHBoxLayout(pumps_container)
+        pumps_layout.setSpacing(20)
+        pumps_layout.setContentsMargins(0, 20, 0, 0)
+        
+        # Crear tarjetas para cada bomba usando el nuevo widget PumpCard
+        pump1 = PumpCard("Bomba de Circulación", self.theme_manager, "pump_circulacion.png")
+        pump2 = PumpCard("Bomba de Alcalinización", self.theme_manager, "pump_peristaltica.png")
+        pump3 = PumpCard("Bomba de Acidez", self.theme_manager, "pump_peristaltica.png")
+        
+        pumps_layout.addWidget(pump1)
+        pumps_layout.addWidget(pump2)
+        pumps_layout.addWidget(pump3)
+        
+        layout.addWidget(pumps_container)
+        layout.addStretch()
+        
+        return page
+
     def create_help_page(self):
         page = QWidget()
         layout = QVBoxLayout(page)
@@ -659,10 +703,10 @@ class HydroponicMonitor(QMainWindow):
             for i in range(layout.count()):
                 widget = layout.itemAt(i).widget()
                 if isinstance(widget, QLabel):
-                    # Quitar fondo, solo color de texto
+                    # Aplicar estilo a las etiquetas
                     widget.setStyleSheet(f"color: {colors['text']}; background: transparent;")
                 # Si es top_row, contiene sensor_card y realtime_chart
-                if isinstance(widget, QWidget) and widget.layout():
+                elif isinstance(widget, QWidget) and widget.layout():
                     for j in range(widget.layout().count()):
                         subwidget = widget.layout().itemAt(j).widget()
                         if hasattr(subwidget, 'apply_theme'):

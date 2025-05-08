@@ -27,6 +27,13 @@ class ChartWidget(QWidget):
 
         chart_frame = QFrame()
         chart_frame.setObjectName("chartFrame")
+        chart_frame.setFrameShape(QFrame.StyledPanel)
+        chart_frame.setStyleSheet("""
+            QFrame#chartFrame {
+                background: transparent;
+                border-radius: 14px;
+            }
+        """)
         chart_layout = QVBoxLayout(chart_frame)
         chart_layout.setContentsMargins(15, 15, 15, 15)
 
@@ -50,6 +57,7 @@ class ChartWidget(QWidget):
         plot_widget = pg.PlotWidget(axisItems={'bottom': TimeAxisItem(orientation='bottom')})
         plot_widget.setBackground(None)
         plot_widget.showGrid(x=True, y=True, alpha=0.3)
+        plot_widget.setMinimumHeight(200)  # Set minimum height for better visibility
 
         view_box = plot_widget.getViewBox()
         view_box.setMouseEnabled(x=False, y=False)
@@ -101,32 +109,49 @@ class ChartWidget(QWidget):
 
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
-
-        self.setStyleSheet(f"""
-            #chartFrame {{
-                background-color: {colors['card']};
-                border: 1px solid {colors['border']};
-                border-radius: 12px;
+        
+        # Update frame style
+        self.findChild(QFrame, "chartFrame").setStyleSheet(f"""
+            QFrame#chartFrame {{
+                background: {colors.get('card', '#FFFFFF')};
+                border: 1px solid {colors.get('border', '#E2E8F0')};
+                border-radius: 14px;
             }}
         """)
+        
+        # Update title style
+        self.title_label.setStyleSheet(f"""
+            QLabel {{
+                color: {colors.get('text', '#1E293B')};
+                background-color: transparent;
+                padding: 5px;
+            }}
+        """)
+        
+        # Update chart colors
+        for plot in self.plot_widgets:
+            plot.setBackground(None)
+            
+            # Set axis colors
+            for axis in ['left', 'bottom']:
+                ax = plot.getAxis(axis)
+                if ax:
+                    ax.setPen(colors.get('text', '#1E293B'))
+                    ax.setTextPen(colors.get('text', '#1E293B'))
+            
+            # Update grid
+            plot.showGrid(x=True, y=True, alpha=0.3)
+            
+            # Update legend
+            if hasattr(self, 'legend'):
+                self.legend.setBrush(colors.get('card', '#FFFFFF'))
+                self.legend.setPen(colors.get('border', '#E2E8F0'))
+                self.legend.setLabelTextColor(colors.get('text', '#1E293B'))
+                self.legend.setOffset((10, 10))
 
-        self.title_label.setStyleSheet(f"color: {colors['text']};")
+            plot.showGrid(x=True, y=True)
+            plot.getPlotItem().getViewBox().setBackgroundColor(colors['card'])
 
-        for plot_widget in self.plot_widgets:
-            plot_widget.setBackground(colors['card'])
-
-            axis_pen = pg.mkPen(color=colors['text'], width=1.5)
-            grid_pen = pg.mkPen(color=colors['border'], width=1, style=Qt.DotLine)
-
-            for orientation in ['bottom', 'left']:
-                axis = plot_widget.getAxis(orientation)
-                axis.setPen(axis_pen)
-                axis.setTextPen(colors['text'])
-                axis.setStyle(tickTextOffset=10)
-
-            plot_widget.showGrid(x=True, y=True)
-            plot_widget.getPlotItem().getViewBox().setBackgroundColor(colors['card'])
-
-            if hasattr(plot_widget, 'legend') and plot_widget.legend is not None:
-                for sample, label in plot_widget.legend.items:
+            if hasattr(plot, 'legend') and plot.legend is not None:
+                for sample, label in plot.legend.items:
                     label.setAttr('color', colors['text'])
