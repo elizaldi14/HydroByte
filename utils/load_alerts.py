@@ -6,7 +6,16 @@ def load_alerts():
     # Ejemplo de datos de prueba
     alerts = []
     # Ejecutamos la consulta
-    cursor.execute("SELECT id, sensor_id, message, timestamp FROM alerts ORDER BY timestamp DESC")
+    cursor.execute("""
+    SELECT 
+        alerts.id, 
+        sensors.name AS sensor_name, 
+        alerts.message, 
+        alerts.timestamp
+    FROM alerts
+    JOIN sensors ON alerts.sensor_id = sensors.id
+    ORDER BY alerts.timestamp DESC
+    """)
 
     # Obtenemos los resultados en la forma que necesitas
     alerts = cursor.fetchall()
