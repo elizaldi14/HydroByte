@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
 from PySide6.QtCore import Qt, QTimer, Slot, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QIcon, QColor
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
-from app.widgets.pump_control import PumpCard
+from app.widgets.pump_control import WaterPump, PhUpPump, PhDownPump
 from app.theme_manager import ThemeManager
 from app.widgets.sidebar import Sidebar
 from app.widgets.sensor_card import SensorCard
@@ -16,6 +16,7 @@ from utils.data_generator import DataGenerator
 from utils.constants import LIGHT_COLORS
 import json
 import random
+from app.widgets.new_notification import Notification
 
 class HydroponicMonitor(QMainWindow):
     def __init__(self):
@@ -26,22 +27,27 @@ class HydroponicMonitor(QMainWindow):
         self.setup_ui()
         self.setup_data()
         self.apply_theme()
+        self.mostrar_notificacion()
         
         # Configurar temporizador para actualizar datos
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
         self.timer.start(1000)  # Actualizar cada 3 segundos
-        
+    
+    def mostrar_notificacion(self):
+        Notification(self, "Operación exitosa", "success")
+       
+            
     def setup_ui(self):
         self.setWindowTitle("HydroByte")
         self.resize(1200, 800)
         self.setObjectName("mainWindow")
         
-        # Inicializar los datos antes de crear las páginas
+        # # Inicializar los datos antes de crear las páginas
         self.realtime_data = self.data_generator.get_realtime_data()
         self.historical_data = self.data_generator.get_historical_data()
         
-        # Crear la gráfica general ANTES de armar el layout
+        # # Crear la gráfica general ANTES de armar el layout
         self.realtime_chart = ChartWidget("Variables del Sistema en Tiempo Real", self.realtime_data, self.theme_manager, self)
         
         # Widget central
@@ -343,14 +349,14 @@ class HydroponicMonitor(QMainWindow):
         pumps_layout.setSpacing(20)
         pumps_layout.setContentsMargins(0, 20, 0, 0)
         
-        # Crear tarjetas para cada bomba usando el nuevo widget PumpCard
-        pump1 = PumpCard("Bomba de Circulación", self.theme_manager, "pump_circulacion.png")
-        pump2 = PumpCard("Bomba de Alcalinización", self.theme_manager, "pump_peristaltica.png")
-        pump3 = PumpCard("Bomba de Acidez", self.theme_manager, "pump_peristaltica.png")
+        # Crear tarjetas para cada bomba usando las clases específicas
+        self.water_pump = WaterPump(self.theme_manager, self)
+        self.ph_up_pump = PhUpPump(self.theme_manager, self)
+        self.ph_down_pump = PhDownPump(self.theme_manager, self)
         
-        pumps_layout.addWidget(pump1)
-        pumps_layout.addWidget(pump2)
-        pumps_layout.addWidget(pump3)
+        pumps_layout.addWidget(self.water_pump)
+        pumps_layout.addWidget(self.ph_up_pump)
+        pumps_layout.addWidget(self.ph_down_pump)
         
         layout.addWidget(pumps_container)
         layout.addStretch()
