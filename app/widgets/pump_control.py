@@ -1,58 +1,22 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton, QFrame, QMessageBox)
 from PySide6.QtCore import Qt, QObject, Signal
 from PySide6.QtGui import QFont, QPixmap
-import serial
-import time
-import threading
 import os
+import threading
+import time
+from utils.serial_reader import PumpSerial
 
-class PumpSerial(QObject):
-    # Señal para notificar cambios de estado
-    status_changed = Signal(str)
-    
-    def __init__(self, port='COM4', baudrate=9600, timeout=1):
-        super().__init__()
-        self.port = port
-        self.baudrate = baudrate
-        self.timeout = timeout
-        self.serial_conn = None
-        self.connect()
-    
-    def connect(self):
-        try:
-            self.serial_conn = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-            self.status_changed.emit(f"Conectado a {self.port}")
-            return True
-        except (serial.SerialException, OSError) as e:
-            self.serial_conn = None
-            self.status_changed.emit(f"Error: No se pudo conectar a {self.port}")
-            return False
-    
-    def write(self, data):
-        if self.serial_conn and self.serial_conn.is_open:
-            try:
-                self.serial_conn.write(data)
-                return True
-            except (serial.SerialException, OSError):
-                self.serial_conn = None
-                return False
-        return False
-    
-    def close(self):
-        if self.serial_conn and self.serial_conn.is_open:
-            self.serial_conn.close()
-
-# Instancia global del controlador serial
-pump_serial = PumpSerial()
+# Removed global pump_serial instance - it should be created in main.py and passed to pumps
 
 class PumpCard(QFrame):
     """Clase base abstracta para todas las bombas"""
-    def __init__(self, pump_name, theme_manager, img, description, parent=None):
+    def __init__(self, pump_name, theme_manager, img, description, serial_conn, parent=None):
         super().__init__(parent)
         self.theme_manager = theme_manager
         self.pump_name = pump_name
         self.img = img
         self.description = description
+        self.serial = serial_conn
         self.thread = None
         self.stop_event = threading.Event()
         self.automation_enabled = False
@@ -159,7 +123,7 @@ class PumpCard(QFrame):
 
     def send_command(self, command):
         """Método común para enviar comandos"""
-        if pump_serial.write(str(command).encode()):
+        if self.serial.write(str(command).encode()):
             print(f"Comando {command} enviado a {self.pump_name}")
             return True
         return False
@@ -280,13 +244,14 @@ class PumpCard(QFrame):
 
 class WaterPump(PumpCard):
     """Bomba principal de circulación de agua"""
-    def __init__(self, theme_manager, parent=None):
+    def __init__(self, theme_manager, serial_conn, parent=None):
         self.is_water_pump = True  # Marcar como bomba de agua
         super().__init__(
             pump_name="Bomba de Circulación",
             theme_manager=theme_manager,
             img="pump_circulacion.png",
             description="Circula el agua en el sistema",
+            serial_conn=serial_conn,
             parent=parent
         )
     
@@ -304,13 +269,14 @@ class WaterPump(PumpCard):
 
 class PhUpPump(PumpCard):
     """Bomba peristáltica para aumentar pH"""
-    def __init__(self, theme_manager, parent=None):
+    def __init__(self, theme_manager, serial_conn, parent=None):
         self.is_ph_pump = True  # Marcar como bomba de pH
         super().__init__(
             pump_name="Bomba pH+",
             theme_manager=theme_manager,
             img="pump_peristaltica.png",
             description="Aumenta el pH del agua",
+            serial_conn=serial_conn,
             parent=parent
         )
     
@@ -322,13 +288,14 @@ class PhUpPump(PumpCard):
 
 class PhDownPump(PumpCard):
     """Bomba peristáltica para disminuir pH"""
-    def __init__(self, theme_manager, parent=None):
+    def __init__(self, theme_manager, serial_conn, parent=None):
         self.is_ph_pump = True  # Marcar como bomba de pH
         super().__init__(
             pump_name="Bomba pH-",
             theme_manager=theme_manager,
             img="pump_peristaltica.png",
             description="Disminuye el pH del agua",
+            serial_conn=serial_conn,
             parent=parent
         )
     

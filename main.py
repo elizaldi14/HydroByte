@@ -3,13 +3,13 @@ from PySide6.QtWidgets import QApplication
 from app.main_window import HydroponicMonitor
 from PySide6.QtGui import QIcon
 import os
+import serial
+import time
 
-# Iniciar hilo de lectura serial
-import threading
+# Initialize pumps with the serial connection
+from utils.serial_reader import PumpSerial
 from utils.serial_reader import read_serial_data
-
-serial_thread = threading.Thread(target=read_serial_data, daemon=True)
-serial_thread.start()
+import threading
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -32,7 +32,24 @@ if __name__ == "__main__":
         }
     """)
     
-    window = HydroponicMonitor()
+    # Create serial connection
+    try:
+        serial_conn = serial.Serial('COM4', 9600, timeout=1)
+        time.sleep(2)  # Wait for connection to stabilize
+        print(f"Connected to {serial_conn.port}")
+    except serial.SerialException as e:
+        print(f"Error opening serial port: {e}")
+        sys.exit(1)
+    
+    # Create PumpSerial instance
+    pump_serial = PumpSerial(serial_conn)
+    
+    # Start serial reader thread
+    serial_thread = threading.Thread(target=read_serial_data, args=(serial_conn,), daemon=True)
+    serial_thread.start()
+    
+    # Create and show main window with serial connection
+    window = HydroponicMonitor(pump_serial)
     # Usa .ico para Windows taskbar si existe
     ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
     png_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.png'))
