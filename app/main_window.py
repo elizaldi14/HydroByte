@@ -17,6 +17,7 @@ from utils.constants import LIGHT_COLORS
 import json
 import random
 from app.widgets.new_notification import Notification
+from utils.load_alerts import load_alerts
 
 class HydroponicMonitor(QMainWindow):
     def __init__(self, serial_conn, parent=None):
@@ -177,22 +178,9 @@ class HydroponicMonitor(QMainWindow):
         pagination_layout.addWidget(self.alerts_next_btn)
         alerts_layout.addWidget(pagination_row)
 
-        # Ejemplo de datos de prueba
-        example_alerts = [
-            [1, "pH", "Valor fuera de rango", "Activo", "2025-04-30 22:45"],
-            [2, "EC", "Conductividad baja", "Solucionado", "2025-04-30 21:12"],
-            [3, "Temperatura", "Sensor desconectado", "Activo", "2025-04-29 10:03"],
-            [4, "Nivel Agua", "Nivel crítico", "Activo", "2025-04-28 08:27"],
-            [5, "pH", "pH estable", "Solucionado", "2025-04-27 15:00"],
-            [6, "EC", "Conductividad estable", "Solucionado", "2025-04-27 14:45"],
-            [7, "Temperatura", "Temperatura alta", "Activo", "2025-04-27 10:33"],
-            [8, "Nivel Agua", "Nivel bajo", "Activo", "2025-04-26 09:50"],
-            [9, "pH", "Sensor sin calibrar", "Activo", "2025-04-25 08:21"],
-            [10, "EC", "Conductividad fuera de rango", "Activo", "2025-04-25 07:10"],
-            [11, "Temperatura", "Temperatura normal", "Solucionado", "2025-04-24 19:40"],
-            [12, "Nivel Agua", "Nivel óptimo", "Solucionado", "2025-04-24 18:00"]
-        ]
-        self.set_alerts_data(example_alerts)
+        # Primera carga de datos (opcional)
+        self.set_alerts_data(load_alerts())
+
 
         # Páginas para cada tipo de gráfico
         ph_page = self.create_chart_page("Monitoreo de pH", "ph")

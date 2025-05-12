@@ -4,9 +4,9 @@ from PySide6.QtGui import QColor, QFont
 
 class AlertsTable(QTableWidget):
     def __init__(self, theme_manager, parent=None):
-        super().__init__(0, 5, parent)
+        super().__init__(0, 4, parent)
         self.theme_manager = theme_manager
-        self.setHorizontalHeaderLabels(["ID", "Sensor", "Mensaje", "Estado", "Fecha"])
+        self.setHorizontalHeaderLabels(["ID", "Sensor", "Mensaje", "Fecha"])
         self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.verticalHeader().setVisible(False)
         self.setAlternatingRowColors(True)
@@ -79,13 +79,6 @@ class AlertsTable(QTableWidget):
         for row, alert in enumerate(alerts_to_show):
             for col, value in enumerate(alert):
                 item = QTableWidgetItem(str(value))
-                if col == 3:
-                    if value.lower() == 'activo':
-                        item.setForeground(QColor('#ef4444'))
-                        item.setFont(QFont("Segoe UI", 12, QFont.Bold))
-                    elif value.lower() == 'solucionado':
-                        item.setForeground(QColor('#22c55e'))
-                        item.setFont(QFont("Segoe UI", 12, QFont.Bold))
                 self.setItem(row, col, item)
         self.resizeRowsToContents()
 
