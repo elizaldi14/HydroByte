@@ -19,8 +19,9 @@ import random
 from app.widgets.new_notification import Notification
 
 class HydroponicMonitor(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, serial_conn, parent=None):
+        super().__init__(parent)
+        self.serial_conn = serial_conn
         self.theme_manager = ThemeManager()
         self.data_generator = DataGenerator()
         
@@ -350,9 +351,9 @@ class HydroponicMonitor(QMainWindow):
         pumps_layout.setContentsMargins(0, 20, 0, 0)
         
         # Crear tarjetas para cada bomba usando las clases específicas
-        self.water_pump = WaterPump(self.theme_manager, self)
-        self.ph_up_pump = PhUpPump(self.theme_manager, self)
-        self.ph_down_pump = PhDownPump(self.theme_manager, self)
+        self.water_pump = WaterPump(self.theme_manager, self.serial_conn)
+        self.ph_up_pump = PhUpPump(self.theme_manager, self.serial_conn)
+        self.ph_down_pump = PhDownPump(self.theme_manager, self.serial_conn)
         
         pumps_layout.addWidget(self.water_pump)
         pumps_layout.addWidget(self.ph_up_pump)
