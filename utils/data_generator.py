@@ -63,7 +63,7 @@ class DataGenerator:
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                v = self.generate_random_ph()
+                v = latest_data.get("ph")
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["ph"] = False
@@ -73,7 +73,7 @@ class DataGenerator:
                     if v < 6 or v > 8:
                         enviarAlertaPH(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "EC (mS/cm)":
-                v = self.generate_random_tds()
+                v = latest_data.get("tds")
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["tds"] = False
@@ -85,7 +85,7 @@ class DataGenerator:
                     elif v > 800:
                         enviarAlertaAltoTDS(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "Temperatura (°C)":
-                v = self.generate_random_temp()
+                v = latest_data.get("temp")
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["temp"] = False
@@ -97,7 +97,7 @@ class DataGenerator:
                     elif v > 28:
                         enviarAlertaAltaTemp(v)
             elif series["name"] == "Distancia (cm)":
-                v = self.generate_random_dist()
+                v = latest_data.get("dist")
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["dist"] = False

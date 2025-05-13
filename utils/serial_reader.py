@@ -77,10 +77,10 @@ def read_serial_data(shared_serial):
 
             if len(data_lines) == 4:
                 try:
-                    latest_data["ph"] = float(data_lines[0])
-                    latest_data["tds"] = float(data_lines[1])
-                    latest_data["temp"] = float(data_lines[2])
-                    latest_data["dist"] = float(data_lines[3])
+                    latest_data["ph"] = float(data_lines[3])
+                    latest_data["tds"] = float(data_lines[0])
+                    latest_data["temp"] = float(data_lines[1])
+                    latest_data["dist"] = float(data_lines[2])
                 except ValueError:
                     print("Error al convertir los datos.")
 
