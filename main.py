@@ -5,13 +5,34 @@ from PySide6.QtGui import QIcon
 import os
 import serial
 import time
+import platform
+
 
 # Initialize pumps with the serial connection
 from utils.serial_reader import PumpSerial
 from utils.serial_reader import read_serial_data
 import threading
 
+from utils.mock_serial import MockSerial
+import serial.tools.list_ports
+
+def find_serial_port():
+    system_platform = platform.system()
+
+    ports = serial.tools.list_ports.comports()
+    for port in ports:
+        if system_platform == "Windows":
+            if "COM" in port.device:
+                return port.device
+        elif system_platform == "Linux":
+            if "/dev/ttyUSB" in port.device or "/dev/ttyACM" in port.device:
+                return port.device
+
+    return None
+
+
 if __name__ == "__main__":
+
     app = QApplication(sys.argv)
     
     # Aplicar estilo global para sombras y efectos
@@ -34,11 +55,16 @@ if __name__ == "__main__":
     
     # Create serial connection
     try:
-        serial_conn = serial.Serial('COM4', 9600, timeout=1)
-        time.sleep(2)  # Wait for connection to stabilize
-        print(f"Connected to {serial_conn.port}")
-    except serial.SerialException as e:
-        print(f"Error opening serial port: {e}")
+        port = find_serial_port()
+        if port:
+            serial_conn = serial.Serial(port, 9600, timeout=1)
+            print(f"[INFO] Conectado al puerto serial real: {port}")
+        else:
+            print("[ADVERTENCIA] No se detectó Arduino. Usando conexión serial simulada.")
+            serial_conn = MockSerial()
+        time.sleep(2)  # Esperar estabilización de la conexión
+    except Exception as e:
+        print(f"Error al abrir el puerto serial: {e}")
         sys.exit(1)
     
     # Create PumpSerial instance
