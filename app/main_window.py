@@ -555,13 +555,13 @@ class HydroponicMonitor(QMainWindow):
         return page
     
     def setup_data(self):
-        # Obtener datos iniciales
-        # self.realtime_data y self.historical_data ya se inicializan en setup_ui
-        # Solo se crean los ChartWidgets que faltan
-        self.ph_chart = ChartWidget("Gráfica de pH", [self.realtime_data[0]], self.theme_manager, self)
-        self.ec_chart = ChartWidget("Gráfica de Conductividad", [self.realtime_data[1]], self.theme_manager, self)
-        self.temp_chart = ChartWidget("Gráfica de Temperatura", [self.realtime_data[2]], self.theme_manager, self)
-        self.water_chart = ChartWidget("Gráfica de Nivel de Agua", [self.realtime_data[3]], self.theme_manager, self)
+        self.placeholder_parent = QWidget()  # SE GUARDA COMO ATRIBUTO
+
+        self.ph_chart = ChartWidget("Gráfica de pH", [self.realtime_data[0]], self.theme_manager, self.placeholder_parent)
+        self.ec_chart = ChartWidget("Gráfica de Conductividad", [self.realtime_data[1]], self.theme_manager, self.placeholder_parent)
+        self.temp_chart = ChartWidget("Gráfica de Temperatura", [self.realtime_data[2]], self.theme_manager, self.placeholder_parent)
+        self.water_chart = ChartWidget("Gráfica de Nivel de Agua", [self.realtime_data[3]], self.theme_manager, self.placeholder_parent)
+
 
         # Las referencias a los ChartWidget se usan para actualización, pero ya no hay que reemplazar widgets en contenedores
 
