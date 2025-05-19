@@ -29,6 +29,8 @@ class PumpCard(QFrame):
 
         self.layout = QVBoxLayout(self)
         self.layout.setSpacing(15)
+        self.layout.setContentsMargins(20, 0, 0, 0)  # izquierda, arriba, derecha, abajo
+
 
         self.title = QLabel(self.pump_name)
         self.title.setFont(QFont("Segoe UI", 16, QFont.Bold))
@@ -274,7 +276,7 @@ class PhUpPump(PumpCard):
         super().__init__(
             pump_name="Bomba pH+",
             theme_manager=theme_manager,
-            img="pump_peristaltica.png",
+            img="pump.png",
             description="Aumenta el pH del agua",
             serial_conn=serial_conn,
             parent=parent
@@ -293,8 +295,27 @@ class PhDownPump(PumpCard):
         super().__init__(
             pump_name="Bomba pH-",
             theme_manager=theme_manager,
-            img="pump_peristaltica.png",
+            img="pump.png",
             description="Disminuye el pH del agua",
+            serial_conn=serial_conn,
+            parent=parent
+        )
+    
+    def start_pump(self):
+        return self.send_command(5)
+        
+    def stop_pump(self):
+        return self.send_command(6)
+
+class NutrientPump(PumpCard):
+    """Bomba peristáltica para disminuir pH"""
+    def __init__(self, theme_manager, serial_conn, parent=None):
+        self.is_ph_pump = True  # Marcar como bomba de pH
+        super().__init__(
+            pump_name="Bomba Nutrientes",
+            theme_manager=theme_manager,
+            img="pump.png",
+            description="Añade nutrientes al agua",
             serial_conn=serial_conn,
             parent=parent
         )

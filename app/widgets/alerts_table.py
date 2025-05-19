@@ -18,7 +18,7 @@ class AlertsTable(QTableWidget):
         self.setMinimumHeight(300)
         self.setFont(QFont("Segoe UI", 12))
         self.page = 0
-        self.rows_per_page = 10
+        self.rows_per_page = 15
         self.full_alerts = []
         self.filtered_alerts = []
         self.search_text = ''
@@ -30,37 +30,40 @@ class AlertsTable(QTableWidget):
 
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
-        hover = colors.get('hover', '#F0F9FF')
+        hover = colors.get('hover', '#F1F5F9')
         hover_text = colors.get('hover_text', '#0F172A')
-        background = colors.get('background', '#F8FAFC')
+        background = colors.get('background', '#FFFFFF')
         card = colors.get('card', '#FFFFFF')
-        border = colors.get('border', '#E2E8F0')
+        border = colors.get('border', '#E5E7EB')
         text = colors.get('text', '#1E293B')
-        primary = colors.get('primary', '#FFFFFF')
+        primary = colors.get('primary', '#F8FAFC')
+
         self.setStyleSheet(f"""
             QTableWidget#alertsTable {{
-                background: {card};
-                border-radius: 14px;
-                border: 1.5px solid {border};
+                background-color: {card};
+                border: 1px solid {border};
+                border-radius: 10px;
                 color: {text};
-                gridline-color: {border};
+                font-size: 13px;
+                font-family: "Segoe UI", sans-serif;
             }}
             QHeaderView::section {{
-                background: {primary};
+                background-color: {primary};
                 color: {text};
-                font-weight: bold;
-                font-size: 15px;
+                font-weight: 500;
+                font-size: 13px;
                 border: none;
-                border-bottom: 2px solid {border};
-                padding: 7px 0;
+                border-bottom: 1px solid {border};
+                padding: 6px 4px;
             }}
             QTableWidget::item {{
-                background: transparent;
-                color: {text};
+                background-color: transparent;
+                padding: 4px;
+                border: none;
                 border-bottom: 1px solid {border};
             }}
             QTableWidget::item:selected {{
-                background: {hover};
+                background-color: {hover};
                 color: {hover_text};
             }}
             QTableWidget {{
@@ -69,6 +72,7 @@ class AlertsTable(QTableWidget):
                 alternate-background-color: {background};
             }}
         """)
+
 
     def set_alerts(self, alerts):
         self.full_alerts = alerts
