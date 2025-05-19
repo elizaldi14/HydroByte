@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView, QLineEdit, QHBoxLayout, QPushButton, QLabel, QWidget)
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor, QFont
+import sqlite3
 
 class AlertsTable(QTableWidget):
     def __init__(self, theme_manager, parent=None):
@@ -22,6 +23,10 @@ class AlertsTable(QTableWidget):
         self.filtered_alerts = []
         self.search_text = ''
         self.apply_theme()
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.load_alerts_from_db)
+        self.timer.start(1000)  # Cada 5 segundos
+
 
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
@@ -70,6 +75,35 @@ class AlertsTable(QTableWidget):
         self.filtered_alerts = alerts
         self.page = 0
         self.update_table()
+    
+    def load_alerts_from_db(self, db_path='hydrobyte.sqlite'):
+        """Consulta las alertas desde la base de datos SQLite y actualiza los datos internos."""
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+
+            cursor.execute("""
+            SELECT 
+                alerts.id, 
+                sensors.name AS sensor_name, 
+                alerts.message, 
+                alerts.timestamp
+            FROM alerts
+            JOIN sensors ON alerts.sensor_id = sensors.id
+            ORDER BY alerts.timestamp DESC
+            """)
+
+            alerts = cursor.fetchall()
+            conn.close()
+
+            self.full_alerts = alerts
+            self.filtered_alerts = alerts
+            self.page = 0  # Reinicia a la primera página
+            self.update_table()  # Usa tu función existente para reflejarlo visualmente
+
+        except sqlite3.Error as e:
+            print(f"Error al consultar la base de datos: {e}")
+
 
     def update_table(self):
         start = self.page * self.rows_per_page
