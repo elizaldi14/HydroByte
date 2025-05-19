@@ -63,6 +63,12 @@ def read_serial_data(shared_serial):
     try:
         time.sleep(2)
         last_insert_time = time.time()
+        def es_float(valor):
+            try:
+                float(valor)
+                return True
+            except ValueError:
+                return False
 
         while True:
             data_lines = []
@@ -75,22 +81,22 @@ def read_serial_data(shared_serial):
                     print("Error de decodificación.")
                     continue
 
-            if len(data_lines) == 4:
-                try:
-                    latest_data["ph"] = float(data_lines[0])
-                    latest_data["tds"] = float(data_lines[1])
-                    latest_data["temp"] = float(data_lines[2])
-                    latest_data["dist"] = float(data_lines[3])
-                except ValueError:
-                    print("Error al convertir los datos.")
+            print("Líneas recibidas:", data_lines)
 
-            print(latest_data)
+            if len(data_lines) == 4 and all(es_float(linea) for linea in data_lines):
+                latest_data["ph"] = float(data_lines[0])
+                latest_data["tds"] = float(data_lines[1])
+                latest_data["temp"] = float(data_lines[2])
+                latest_data["dist"] = float(data_lines[3])
+                print(latest_data)
+            else:
+                print("Datos inválidos, se descartaron:", data_lines)
+
 
             if time.time() - last_insert_time >= 60:
                 save_to_db()
                 last_insert_time = time.time()
 
-            time.sleep(5)
 
     except serial.SerialException as e:
         print(f"Error en lectura serial: {e}")
