@@ -86,7 +86,7 @@ def read_serial_data(shared_serial):
 
             print(latest_data)
 
-            if time.time() - last_insert_time >= 20:
+            if time.time() - last_insert_time >= 60:
                 save_to_db()
                 last_insert_time = time.time()
 

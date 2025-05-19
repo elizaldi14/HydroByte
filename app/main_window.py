@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
 from PySide6.QtCore import Qt, QTimer, Slot, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QIcon, QColor
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
-from app.widgets.pump_control import WaterPump, PhUpPump, PhDownPump
+from app.widgets.pump_control import WaterPump, PhUpPump, PhDownPump, NutrientPump
 from app.theme_manager import ThemeManager
 from app.widgets.sidebar import Sidebar
 from app.widgets.sensor_card import SensorCard
@@ -152,6 +152,10 @@ class HydroponicMonitor(QMainWindow):
         self.alerts_search.setMaximumWidth(260)
         self.alerts_search.setMinimumHeight(36)
         self.alerts_search.setContentsMargins(0, 0, 0, 0)
+        self.alerts_search.textChanged.connect(self.on_alerts_search)
+        self.alerts_search.returnPressed.connect(self.on_alerts_search)
+        self.alerts_search.setClearButtonEnabled(True)
+        self.alerts_search.setAlignment(Qt.AlignCenter)
         search_row_layout.addWidget(self.alerts_search)
         alerts_layout.addWidget(search_row)
 
@@ -342,10 +346,13 @@ class HydroponicMonitor(QMainWindow):
         self.water_pump = WaterPump(self.theme_manager, self.serial_conn)
         self.ph_up_pump = PhUpPump(self.theme_manager, self.serial_conn)
         self.ph_down_pump = PhDownPump(self.theme_manager, self.serial_conn)
+        self.nutrient_pump = NutrientPump(self.theme_manager, self.serial_conn) 
         
+        pumps_layout.setSpacing(20)  # Establece el espaciado entre las cards
         pumps_layout.addWidget(self.water_pump)
         pumps_layout.addWidget(self.ph_up_pump)
-        pumps_layout.addWidget(self.ph_down_pump)
+        pumps_layout.addStretch()  # Agregar un espaciador para mover la cuarta card hacia abajo
+        pumps_layout.addWidget(self.nutrient_pump)
         
         layout.addWidget(pumps_container)
         layout.addStretch()
@@ -713,13 +720,13 @@ class HydroponicMonitor(QMainWindow):
 
     def set_alerts_data(self, alerts):
         # Mostrar las 3 alertas más recientes como cards
-        for i in reversed(range(self.alerts_cards_layout.count())):
-            widget = self.alerts_cards_layout.itemAt(i).widget()
-            if widget:
-                widget.setParent(None)
-        for alert in alerts[-3:][::-1]:
-            card = AlertCard(alert, self.theme_manager)
-            self.alerts_cards_layout.addWidget(card)
+        # for i in reversed(range(self.alerts_cards_layout.count())):
+        #     widget = self.alerts_cards_layout.itemAt(i).widget()
+        #     if widget:
+        #         widget.setParent(None)
+        # for alert in alerts[-3:][::-1]:
+        #     card = AlertCard(alert, self.theme_manager)
+        #     self.alerts_cards_layout.addWidget(card)
         self.alerts_table.set_alerts(alerts)
         self.update_alerts_pagination()
 

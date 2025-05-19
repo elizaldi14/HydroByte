@@ -15,14 +15,25 @@ statusSensor = {
 
 class DataGenerator:
     def generate_random_ph(self):
-        return round(random.uniform(5, 9), 2)
-    def generate_random_tds(self):
-        return round(random.uniform(1, 1000), 2)
+        min_ph = 5.5 * 0.8
+        max_ph = 6.2 * 1.2
+        return round(random.uniform(min_ph, max_ph), 1)
+
+    def generate_random_ce(self):
+        # CE en mS/cm
+        min_ce = 1.2 * 0.8   # 0.96
+        max_ce = 1.6 * 1.2   # 1.92
+        return round(random.uniform(min_ce, max_ce), 1)
+
     def generate_random_temp(self):
-        return round(random.uniform(15, 30), 2)
+        min_temp = 18 * 0.8
+        max_temp = 22 * 1.2
+        return round(random.uniform(min_temp, max_temp), 1)
+
     def generate_random_dist(self):
-        return round(random.uniform(0,60))
-    
+        min_dist = 40 * 0.8
+        max_dist = 40 * 1.2
+        return round(random.uniform(min_dist, max_dist), 1)    
 
     def __init__(self):
         self.generate_random_ph()
@@ -70,19 +81,19 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["ph"] = True  
-                    if v < 6 or v > 8:
+                    if v < 5.5 or v > 6.2:
                         enviarAlertaPH(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "EC (mS/cm)":
-                v = self.generate_random_tds()
+                v = self.generate_random_ce()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["tds"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["tds"] = True
-                    if v < 300:
+                    if v < 1.2:
                         enviarAlertaBajoTDS(v) # Enviar alerta si el pH está fuera de rango
-                    elif v > 800:
+                    elif v > 1.6:
                         enviarAlertaAltoTDS(v) # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "Temperatura (°C)":
                 v = self.generate_random_temp()
@@ -92,9 +103,9 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["temp"] = True
-                    if v < 24:
+                    if v < 18:
                         enviarAlertaBajaTemp(v)
-                    elif v > 28:
+                    elif v > 22:
                         enviarAlertaAltaTemp(v)
             elif series["name"] == "Distancia (cm)":
                 v = self.generate_random_dist()
@@ -104,7 +115,7 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["dist"] = True
-                    if v < 10:
+                    if v < 35:
                         enviarAlertaBajaDist(v)
                     elif v > 50:
                         enviarAlertaAltaDist(v)
