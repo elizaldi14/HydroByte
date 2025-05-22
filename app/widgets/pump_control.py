@@ -307,21 +307,4 @@ class PhDownPump(PumpCard):
     def stop_pump(self):
         return self.send_command(6)
 
-class NutrientPump(PumpCard):
-    """Bomba peristáltica para disminuir pH"""
-    def __init__(self, theme_manager, serial_conn, parent=None):
-        self.is_ph_pump = True  # Marcar como bomba de pH
-        super().__init__(
-            pump_name="Bomba Nutrientes",
-            theme_manager=theme_manager,
-            img="pump.png",
-            description="Añade nutrientes al agua",
-            serial_conn=serial_conn,
-            parent=parent
-        )
-    
-    def start_pump(self):
-        return self.send_command(5)
-        
-    def stop_pump(self):
-        return self.send_command(6)
+

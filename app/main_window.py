@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
 from PySide6.QtCore import Qt, QTimer, Slot, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QIcon, QColor
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
-from app.widgets.pump_control import WaterPump, PhUpPump, PhDownPump, NutrientPump
+from app.widgets.pump_control import WaterPump, PhUpPump, PhDownPump
 from app.theme_manager import ThemeManager
 from app.widgets.sidebar import Sidebar
 from app.widgets.sensor_card import SensorCard
@@ -16,7 +16,7 @@ from utils.data_generator import DataGenerator
 from utils.constants import LIGHT_COLORS
 import json
 import random
-from app.widgets.new_notification import Notification
+from app.widgets.notification import Notification
 from utils.load_alerts import load_alerts
 
 class HydroponicMonitor(QMainWindow):
@@ -29,15 +29,54 @@ class HydroponicMonitor(QMainWindow):
         self.setup_ui()
         self.setup_data()
         self.apply_theme()
-        self.mostrar_notificacion()
+        
+        # Mostrar notificación de estado de conexión
+        self.mostrar_estado_conexion()
         
         # Configurar temporizador para actualizar datos
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
         self.timer.start(1000)  # Actualizar cada 3 segundos
+        
+    def mostrar_estado_conexion(self):
+        """Muestra una notificación con el estado de la conexión serial"""
+        is_mock = (
+            self.serial_conn is None or
+            (hasattr(self.serial_conn, '__class__') and 'Mock' in self.serial_conn.__class__.__name__) or
+            (hasattr(self.serial_conn, 'is_mock') and self.serial_conn.is_mock)
+        )
+        
+        if is_mock:
+            self.mostrar_notificacion(
+                title="Serial Desconectado",
+                message="No se pudo conectar al puerto serial. Usando modo simulado.",
+                status="error"
+            )
+        else:
+            self.mostrar_notificacion(
+                title="Serial Conectado",
+                message="Se ha conectado correctamente a los sensores.",
+                status="success"
+            )
     
-    def mostrar_notificacion(self):
-        Notification(self, "Operación exitosa", "success")
+    def mostrar_notificacion(self, message="Operación exitosa", status="info", title=None):
+        """
+        Muestra una notificación en la aplicación.
+        
+        Args:
+            message (str): Mensaje a mostrar
+            status (str): Estado de la notificación ('success', 'warning', 'error', 'info')
+            title (str, optional): Título personalizado. Si no se proporciona, se usará uno por defecto según el estado.
+        """
+        if title is None:
+            title = {
+                'success': '¡Éxito!',
+                'warning': 'Advertencia',
+                'error': 'Error',
+                'info': 'Información'
+            }.get(status, 'Notificación')
+        
+        Notification(self, title, message, status)
        
             
     def setup_ui(self):
@@ -346,13 +385,11 @@ class HydroponicMonitor(QMainWindow):
         self.water_pump = WaterPump(self.theme_manager, self.serial_conn)
         self.ph_up_pump = PhUpPump(self.theme_manager, self.serial_conn)
         self.ph_down_pump = PhDownPump(self.theme_manager, self.serial_conn)
-        self.nutrient_pump = NutrientPump(self.theme_manager, self.serial_conn) 
         
         pumps_layout.setSpacing(20)  # Establece el espaciado entre las cards
         pumps_layout.addWidget(self.water_pump)
         pumps_layout.addWidget(self.ph_up_pump)
-        pumps_layout.addStretch()  # Agregar un espaciador para mover la cuarta card hacia abajo
-        pumps_layout.addWidget(self.nutrient_pump)
+        pumps_layout.addWidget(self.ph_down_pump)
         
         layout.addWidget(pumps_container)
         layout.addStretch()
@@ -725,6 +762,30 @@ class HydroponicMonitor(QMainWindow):
         #     if widget:
         #         widget.setParent(None)
         # for alert in alerts[-3:][::-1]:
+        #     card = AlertCard(alert, self.theme_manager)
+        #     self.alerts_cards_layout.addWidget(card)
+        self.alerts_table.set_alerts(alerts)
+        self.update_alerts_pagination()
+
+    def update_alerts_pagination(self):
+        total_pages = self.alerts_table.get_total_pages()
+        current_page = self.alerts_table.get_current_page()
+        self.alerts_page_label.setText(f"Página {current_page} de {total_pages}")
+        self.alerts_prev_btn.setEnabled(current_page > 1)
+        self.alerts_next_btn.setEnabled(current_page < total_pages)
+
+    def on_alerts_search(self, text):
+        self.alerts_table.search(text)
+        self.update_alerts_pagination()
+
+    def on_alerts_prev_page(self):
+        self.alerts_table.prev_page()
+        self.update_alerts_pagination()
+
+    def on_alerts_next_page(self):
+        self.alerts_table.next_page()
+        self.update_alerts_pagination()
+
         #     card = AlertCard(alert, self.theme_manager)
         #     self.alerts_cards_layout.addWidget(card)
         self.alerts_table.set_alerts(alerts)
