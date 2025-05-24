@@ -86,6 +86,7 @@ class AlertsTable(QTableWidget):
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
 
+            # Obtener las últimas alertas
             cursor.execute("""
             SELECT 
                 alerts.id, 
@@ -95,10 +96,26 @@ class AlertsTable(QTableWidget):
             FROM alerts
             JOIN sensors ON alerts.sensor_id = sensors.id
             ORDER BY alerts.timestamp DESC
+            LIMIT 100
             """)
 
             alerts = cursor.fetchall()
             conn.close()
+
+            # Verificar si hay nuevas alertas
+            if alerts and (not self.full_alerts or alerts[0][0] != self.full_alerts[0][0]):
+                # Hay nuevas alertas, mostrar notificación
+                new_alert = alerts[0]  # La más reciente está primero
+                sensor_name = new_alert[1]
+                message = new_alert[2]
+                
+                # Obtener la ventana principal y mostrar notificación
+                main_window = self.window()
+                if hasattr(main_window, 'mostrar_alerta'):
+                    main_window.mostrar_alerta(sensor_name, message, "warning")
+
+            # Actualizar los datos internos
+            self.set_alerts(alerts)
 
             self.full_alerts = alerts
             self.filtered_alerts = alerts

@@ -74,7 +74,7 @@ class DataGenerator:
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                v = latest_data.get("ph")
+                v = self.generate_random_ph()
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["ph"] = False

@@ -170,39 +170,28 @@ class Notification(QWidget):
         self.setGraphicsEffect(shadow)
         
         # Posicionar y mostrar con animación
-        self._position_notification()
-        self.fade_in()
-        
         # Cerrar automáticamente después de 5 segundos
         QTimer.singleShot(5000, self.fade_out)
 
-    def _get_status_color(self, status: str) -> str:
-        """Devuelve el color del borde según el estado"""
+    def _get_status_color(self, status):
+        """Obtiene el color correspondiente al estado"""
         colors = {
-            "success": "#4CAF50",  # Verde
-            "warning": "#FFC107",  # Amarillo
-            "error": "#F44336",    # Rojo
-            "info": "#2196F3"      # Azul
+            'success': '#4CAF50',
+            'warning': '#FFC107',
+            'error': '#F44336',
+            'info': '#2196F3'
         }
-        return colors.get(status.lower(), "#9E9E9E")  # Gris por defecto
-
-    def _get_title_style(self, status: str) -> str:
-        """Devuelve el estilo CSS para el título según el estado"""
-        base_style = """
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 0;
-            padding: 0;
-        """
-        
+        return colors.get(status, '#2196F3')
+    
+    def _get_title_style(self, status):
+        """Obtiene el estilo para el título basado en el estado"""
         styles = {
-            "success": "color: #2E7D32;" + base_style,  # Verde oscuro
-            "warning": "color: #F57F17;" + base_style,   # Amarillo oscuro
-            "error": "color: #C62828;" + base_style,     # Rojo oscuro
-            "info": "color: #1565C0;" + base_style       # Azul oscuro
+            'success': 'color: #4CAF50;',
+            'warning': 'color: #FFC107;',
+            'error': 'color: #F44336;',
+            'info': 'color: #2196F3;'
         }
-        return styles.get(status.lower(), base_style)
+        return styles.get(status, 'color: #2196F3;')
     
     def _get_message_style(self) -> str:
         """Devuelve el estilo CSS para el mensaje"""
@@ -217,11 +206,32 @@ class Notification(QWidget):
 
     def _position_notification(self):
         """Posiciona la notificación en la esquina superior derecha de la pantalla"""
-        screen_geometry = QApplication.primaryScreen().availableGeometry()
+        # Obtener la geometría de la pantalla principal
+        screen = QApplication.primaryScreen()
+        screen_geometry = screen.availableGeometry()
+        
+        # Calcular la posición X (siempre en el borde derecho de la pantalla)
         x = screen_geometry.right() - self.width() - 20
+        
+        # Calcular la posición Y (20px desde el borde superior de la pantalla)
         y = screen_geometry.top() + 20
-        self.move(x, y)
-        self.show()
+        
+        # Asegurarse de que la notificación no se salga de la pantalla
+        if y < screen_geometry.top():
+            y = screen_geometry.top() + 20
+        if y > screen_geometry.bottom() - self.height():
+            y = screen_geometry.bottom() - self.height() - 20
+        
+        # Mover la notificación a la posición calculada
+        self.move(int(x), int(y))
+        
+        # Mostrar la notificación si no está visible
+        if not self.isVisible():
+            self.show()
+        
+        # Asegurarse de que la notificación esté en la parte superior
+        self.raise_()
+        self.activateWindow()
     
     def eventFilter(self, obj, event):
         """Maneja los eventos de la ventana principal"""

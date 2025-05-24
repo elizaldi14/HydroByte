@@ -76,6 +76,28 @@ if __name__ == "__main__":
     
     # Create and show main window with serial connection
     window = HydroponicMonitor(pump_serial)
+    
+    # Show connection status notification
+    if isinstance(serial_conn, MockSerial):
+        window.mostrar_notificacion(
+            title="Serial Desconectado",
+            message="No se pudo conectar al puerto serial. Usando modo simulado.",
+            status="error"
+        )
+    elif isinstance(serial_conn, serial.Serial):
+        if serial_conn.is_open:
+            window.mostrar_notificacion(
+                title="Serial Conectado",
+                message="Se ha conectado correctamente a los sensores.",
+                status="success"
+            )
+        else:
+            window.mostrar_notificacion(
+                title="Serial Desconectado",
+                message="No se pudo conectar al puerto serial. Usando modo simulado.",
+                status="error"
+            )
+    
     # Usa .ico para Windows taskbar si existe
     ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
     png_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.png'))

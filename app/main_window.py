@@ -30,9 +30,6 @@ class HydroponicMonitor(QMainWindow):
         self.setup_data()
         self.apply_theme()
         
-        # Mostrar notificación de estado de conexión
-        self.mostrar_estado_conexion()
-        
         # Configurar temporizador para actualizar datos
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
@@ -77,6 +74,14 @@ class HydroponicMonitor(QMainWindow):
             }.get(status, 'Notificación')
         
         Notification(self, title, message, status)
+    
+    def mostrar_alerta(self, sensor_name, message, status):
+        """Muestra una notificación de alerta"""
+        self.mostrar_notificacion(
+            title=f"Alerta - {sensor_name}",
+            message=message,
+            status="warning"
+        )
        
             
     def setup_ui(self):
