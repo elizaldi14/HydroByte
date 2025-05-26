@@ -1,9 +1,38 @@
 from PySide6.QtWidgets import QLabel, QWidget, QVBoxLayout, QApplication, QGraphicsDropShadowEffect
-from PySide6.QtCore import QTimer, Qt, QPoint, QPropertyAnimation, QEasingCurve, QEvent
+from PySide6.QtCore import QTimer, Qt, QPoint, QPropertyAnimation, QEasingCurve, QEvent, Signal
 from PySide6.QtGui import QColor
 
 
+class NotificationManager:
+    """Maneja una cola de notificaciones para mostrarlas en orden."""
+    def __init__(self):
+        self.queue = []
+        self.is_showing = False
+
+    def add_notification(self, notification):
+        """Añade una notificación a la cola."""
+        self.queue.append(notification)
+        if not self.is_showing:
+            self.show_next()
+
+    def show_next(self):
+        """Muestra la siguiente notificación en la cola."""
+        if self.queue:
+            self.is_showing = True
+            notification = self.queue.pop(0)
+            notification.finished.connect(self.on_notification_finished)
+            notification.show_notification()
+        else:
+            self.is_showing = False
+
+    def on_notification_finished(self):
+        """Llamado cuando una notificación termina de mostrarse."""
+        self.show_next()
+
+
 class Notification(QWidget):
+    finished = Signal()  # Señal para indicar que la notificación terminó
+
     def __init__(self, parent, title, message, status, theme_manager, *args, **kwargs):
         """
         Crea una notificación con título, mensaje y estado.
@@ -31,9 +60,6 @@ class Notification(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAttribute(Qt.WA_ShowWithoutActivating)
         self.setAttribute(Qt.WA_QuitOnClose, False)
-
-        parent.installEventFilter(self)
-        QApplication.instance().applicationStateChanged.connect(self.on_application_state_changed)
 
         # Crear widget contenedor y layout
         self.container = QWidget(self)
@@ -63,9 +89,6 @@ class Notification(QWidget):
         self.setMinimumHeight(80)
 
         self.apply_color()
-        self._position_notification()
-        self.fade_in()
-        QTimer.singleShot(5000, self.fade_out)
 
     def apply_color(self):
         """Aplica el tema actual (claro u oscuro) a la notificación."""
@@ -108,78 +131,72 @@ class Notification(QWidget):
         }
         return colors.get(status, '#2196F3')
 
+    def show_notification(self):
+        """Muestra la notificación con animación de entrada."""
+        self._position_notification()
+        self.fade_in()
+        QTimer.singleShot(5000, self.fade_out)
+
     def _position_notification(self):
         """Posiciona la notificación en la esquina superior derecha de la ventana principal."""
         if not self.parent_window:
             return
 
-        parent_rect = self.parent_window.frameGeometry()
+        # Obtener la geometría de la ventana principal
+        parent_rect = self.parent_window.geometry()  # Cambiado de frameGeometry() a geometry()
+        
+        # Calcular la posición en la esquina superior derecha
         x = parent_rect.right() - self.width() - 20
-        y = parent_rect.top() + 20
+        y = parent_rect.top() + 20  # Ajustar para que esté cerca del borde superior
+        
+        # Convertir las coordenadas a globales
         global_pos = self.parent_window.mapToGlobal(QPoint(x, y))
+        
+        # Mover la notificación a la posición calculada
         self.move(global_pos)
 
-        if not self.isVisible():
-            self.show()
-
-        self.raise_()
-        self.activateWindow()
-
-    def eventFilter(self, obj, event):
-        """Maneja eventos de movimiento, redimensionamiento y estado de la ventana principal."""
-        if obj == self.parent_window:
-            if event.type() in [QEvent.Move, QEvent.Resize, QEvent.WindowStateChange]:
-                self._position_notification()
-
-                if event.type() == QEvent.WindowStateChange:
-                    if self.parent_window.isMinimized():
-                        self.hide()
-                    elif self.is_application_active:
-                        self.show()
-        return super().eventFilter(obj, event)
-
-    def on_application_state_changed(self, state):
-        """Maneja cambios de estado de la aplicación (activa/inactiva)."""
-        is_active = state == Qt.ApplicationActive
-        if is_active != self.is_application_active:
-            self.is_application_active = is_active
-            if is_active and not self.parent_window.isMinimized():
-                self.show()
-                self._position_notification()
-            else:
-                self.hide()
-
     def fade_in(self):
-        """Animación de entrada con desvanecimiento y desplazamiento."""
-        if not self.is_application_active or (self.parent_window and self.parent_window.isMinimized()):
-            return
+        """Animación de entrada con desvanecimiento y deslizamiento."""
+        self.show()  # Asegúrate de que el widget sea visible antes de animar
 
-        self._position_notification()
-        self.show()
-        self.raise_()
+        # Configurar animación de opacidad
+        self.opacity_animation = QPropertyAnimation(self, b"windowOpacity")
+        self.opacity_animation.setDuration(400)
+        self.opacity_animation.setStartValue(0)
+        self.opacity_animation.setEndValue(1)
 
-        self.animation = QPropertyAnimation(self, b"windowOpacity")
-        self.animation.setDuration(300)
-        self.animation.setStartValue(0)
-        self.animation.setEndValue(1)
+        # Configurar animación de posición (deslizamiento desde la derecha)
+        self.position_animation = QPropertyAnimation(self, b"pos")
+        self.position_animation.setDuration(400)
+        self.position_animation.setEasingCurve(QEasingCurve.OutBack)
 
-        self.pos_animation = QPropertyAnimation(self, b"pos")
-        self.pos_animation.setDuration(400)
-        self.pos_animation.setEasingCurve(QEasingCurve.OutBack)
-        self.pos_animation.setStartValue(QPoint(self.x() + 50, self.y()))
-        self.pos_animation.setEndValue(QPoint(self.x(), self.y()))
+        # Posición inicial fuera de la pantalla (a la derecha)
+        parent_rect = self.parent_window.frameGeometry()
+        start_x = parent_rect.right() + 20
+        start_y = parent_rect.top() + 20
+        end_x = parent_rect.right() - self.width() - 20
+        end_y = parent_rect.top() + 20
 
-        self.animation.start()
-        self.pos_animation.start()
+        self.position_animation.setStartValue(QPoint(start_x, start_y))
+        self.position_animation.setEndValue(QPoint(end_x, end_y))
+
+        # Iniciar ambas animaciones
+        self.opacity_animation.start()
+        self.position_animation.start()
 
     def fade_out(self):
         """Animación de salida con desvanecimiento y cierre al terminar."""
-        self.fade_out_animation = QPropertyAnimation(self, b"windowOpacity")
-        self.fade_out_animation.setDuration(300)
-        self.fade_out_animation.setStartValue(1)
-        self.fade_out_animation.setEndValue(0)
-        self.fade_out_animation.finished.connect(self.close)
-        self.fade_out_animation.start()
+        self.animation = QPropertyAnimation(self, b"windowOpacity")
+        self.animation.setDuration(300)
+        self.animation.setStartValue(1)
+        self.animation.setEndValue(0)
+        self.animation.finished.connect(self.close_notification)
+        self.animation.start()
+
+    def close_notification(self):
+        """Cierra la notificación y emite la señal de finalización."""
+        self.close()
+        self.finished.emit()
 
 
 # Ejemplo de uso
@@ -189,6 +206,7 @@ if __name__ == "__main__":
     
     def show_notification():
         notification = Notification("¡Operación completada con éxito!", "success")
+        notification_manager.add_notification(notification)
     
     app = QApplication(sys.argv)
     
@@ -202,5 +220,8 @@ if __name__ == "__main__":
     layout.addWidget(btn)
     window.setLayout(layout)
     window.show()
+    
+    # Crear y mostrar el administrador de notificaciones
+    notification_manager = NotificationManager()
     
     sys.exit(app.exec())

@@ -138,7 +138,7 @@ class SensorCard(QFrame):
 
     def get_icon_for_sensor(self):
         """Devuelve el ícono correspondiente al sensor."""
-        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/icons"))
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/img"))
         icon_map = {
             1: os.path.join(base_path, "ph_black.png"),  # Ícono para pH
             2: os.path.join(base_path, "settings_black.svg"),  # Ícono para EC

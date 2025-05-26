@@ -14,11 +14,11 @@ from app.widgets.alerts_table import AlertsTable
 from app.widgets.alert_card import AlertCard
 from utils.data_generator import DataGenerator
 from utils.constants import LIGHT_COLORS
+from utils.load_alerts import load_alerts  # Asegúrate de que esta línea esté presente
+from app.widgets.range_editor import RangeEditor  # Asegúrate de que esta línea esté presente
 import json
 import random
-from app.widgets.notification import Notification
-from utils.load_alerts import load_alerts
-from app.widgets.range_editor import RangeEditor  # Importa el nuevo widget para editar rangos
+from app.widgets.notification import Notification, NotificationManager
 
 class HydroponicMonitor(QMainWindow):
     def __init__(self, serial_conn, parent=None):
@@ -26,6 +26,7 @@ class HydroponicMonitor(QMainWindow):
         self.serial_conn = serial_conn
         self.theme_manager = ThemeManager()
         self.data_generator = DataGenerator()
+        self.notification_manager = NotificationManager()  # Instancia del manejador de notificaciones
         
         self.setup_ui()
         self.setup_data()
@@ -40,7 +41,7 @@ class HydroponicMonitor(QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
         self.timer.start(1000)  # Actualizar cada 3 segundos
-        
+
     def mostrar_estado_conexion(self):
         """Muestra una notificación con el estado de la conexión serial"""
         is_mock = (
@@ -61,7 +62,7 @@ class HydroponicMonitor(QMainWindow):
                 message="Se ha conectado correctamente a los sensores.",
                 status="success"
             )
-    
+
     def mostrar_notificacion(self, message="Operación exitosa", status="info", title=None):
         """
         Muestra una notificación en la aplicación.
@@ -79,7 +80,8 @@ class HydroponicMonitor(QMainWindow):
                 'info': 'Información'
             }.get(status, 'Notificación')
         
-        Notification(self, title, message, status, self.theme_manager)
+        notification = Notification(self, title, message, status, self.theme_manager)
+        self.notification_manager.add_notification(notification)
     
     def mostrar_alerta(self, sensor_name, message, status):
         """Muestra una notificación de alerta"""
