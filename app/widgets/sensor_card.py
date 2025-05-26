@@ -1,9 +1,10 @@
 from PySide6.QtWidgets import (
     QFrame, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QGraphicsDropShadowEffect
 )
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont, QColor, QPixmap
 from PySide6.QtCore import Qt
 import sqlite3
+import os
 
 class SensorCard(QFrame):
     def __init__(self, title, sensor_id, unit, color, theme_manager, db_path, parent=None):
@@ -36,7 +37,7 @@ class SensorCard(QFrame):
         icon_label = QLabel()
         icon_label.setFixedSize(32, 32)
         icon_label.setAlignment(Qt.AlignCenter)
-        icon_label.setText(self.title[0] if self.title else "S")
+        icon_label.setPixmap(self.get_icon_for_sensor())
         icon_label.setObjectName("iconLabel")
         self.icon_label = icon_label
 
@@ -134,3 +135,26 @@ class SensorCard(QFrame):
         # Aquí puedes implementar la lógica para determinar si el sensor está activo o inactivo
         self.status_label.setText("Activo")
         self.status_label.setStyleSheet("color: #22C55E; background: transparent;")  # Verde
+
+    def get_icon_for_sensor(self):
+        """Devuelve el ícono correspondiente al sensor."""
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/icons"))
+        icon_map = {
+            1: os.path.join(base_path, "ph_black.png"),  # Ícono para pH
+            2: os.path.join(base_path, "settings_black.svg"),  # Ícono para EC
+            3: os.path.join(base_path, "temperatura_black.png"),  # Ícono para Temperatura
+            4: os.path.join(base_path, "nivelAgua_black.png")  # Ícono para Nivel de Agua
+        }
+        icon_path = icon_map.get(self.sensor_id, "")
+        
+        # Depuración: Imprimir la ruta del ícono
+        print(f"Intentando cargar ícono para sensor {self.sensor_id}: {icon_path}")
+        
+        if os.path.exists(icon_path):
+            pixmap = QPixmap(icon_path)
+            if pixmap.isNull():
+                print(f"Error: No se pudo cargar el ícono desde {icon_path}")
+            return pixmap
+        else:
+            print(f"Advertencia: No se encontró el ícono en la ruta {icon_path}")
+            return QPixmap()  # Devuelve un QPixmap vacío si no se encuentra el ícono

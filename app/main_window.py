@@ -79,7 +79,7 @@ class HydroponicMonitor(QMainWindow):
                 'info': 'Información'
             }.get(status, 'Notificación')
         
-        Notification(self, title, message, status)
+        Notification(self, title, message, status, self.theme_manager)
     
     def mostrar_alerta(self, sensor_name, message, status):
         """Muestra una notificación de alerta"""
@@ -268,8 +268,8 @@ class HydroponicMonitor(QMainWindow):
 
         # Editor de rangos óptimos
         db_path = "hydrobyte.sqlite"  # Ruta de la base de datos
-        range_editor = RangeEditor(self.theme_manager, db_path)  # Pasa la ruta correcta
-        settings_layout.addWidget(range_editor)
+        self.range_editor = RangeEditor(self.theme_manager, db_path)  # Guarda la instancia como un atributo
+        settings_layout.addWidget(self.range_editor)
 
         settings_layout.addStretch()
         

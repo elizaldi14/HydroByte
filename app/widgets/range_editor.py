@@ -151,6 +151,8 @@ class RangeEditor(QWidget):
     def apply_theme(self):
         """Aplica el tema actual (claro u oscuro) a los elementos del editor."""
         colors = self.theme_manager.get_colors()
+        
+        # Estilo para la tarjeta principal
         self.card.setStyleSheet(f"""
             QFrame#rangeEditorCard {{
                 background-color: {colors['card']};
@@ -158,39 +160,62 @@ class RangeEditor(QWidget):
                 border: 1px solid {colors['border']};
             }}
         """)
-        self.setStyleSheet(f"""
-            QLabel {{
-                color: {colors['text']};
-            }}
-            QLineEdit#minInput, QLineEdit#maxInput {{
-                background-color: {colors['background']};
-                color: {colors['text']};
-                border: 1px solid {colors['border']};
-                border-radius: 6px;
-                padding: 6px;
-            }}
-            QLineEdit[readOnly="true"] {{
-                background-color: {colors['card']};
-                color: {colors['text_secondary']};
-            }}
-            QPushButton#updateButton {{
+
+        # Estilo para los campos de entrada
+        for sensor_name, (min_input, max_input) in self.editors.items():
+            min_input.setStyleSheet(f"""
+                QLineEdit {{
+                    background-color: {colors['background']};
+                    color: {colors['text']};
+                    border: 1px solid {colors['border']};
+                    border-radius: 6px;
+                    padding: 6px;
+                }}
+            """)
+            max_input.setStyleSheet(f"""
+                QLineEdit {{
+                    background-color: {colors['background']};
+                    color: {colors['text']};
+                    border: 1px solid {colors['border']};
+                    border-radius: 6px;
+                    padding: 6px;
+                }}
+            """)
+
+        # Estilo para los botones
+        self.update_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: {colors['primary']};
                 color: white;
                 border: none;
                 border-radius: 6px;
                 padding: 6px;
             }}
-            QPushButton#updateButton:hover {{
+            QPushButton:hover {{
                 background-color: {colors['primary_light']};
             }}
-            QPushButton#saveButton, QPushButton#cancelButton {{
+        """)
+        self.save_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: {colors['primary']};
                 color: white;
                 border: none;
                 border-radius: 6px;
                 padding: 6px;
             }}
-            QPushButton#saveButton:hover, QPushButton#cancelButton:hover {{
+            QPushButton:hover {{
+                background-color: {colors['primary_light']};
+            }}
+        """)
+        self.cancel_button.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {colors['primary']};
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 6px;
+            }}
+            QPushButton:hover {{
                 background-color: {colors['primary_light']};
             }}
         """)
