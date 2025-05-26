@@ -15,10 +15,11 @@ class Notification(QWidget):
         """
         super().__init__(parent, *args, **kwargs)
         self.parent_window = parent
+        self.is_application_active = True  # Track application active state
         
         # Configuración básica de la ventana
         self.setWindowFlags(
-            Qt.Window |  # Volver a usar Qt.Window para que sea independiente
+            Qt.Window |
             Qt.FramelessWindowHint |
             Qt.Tool |
             Qt.WindowStaysOnTopHint |
@@ -30,6 +31,9 @@ class Notification(QWidget):
         
         # Conectar señales de la ventana principal
         parent.installEventFilter(self)
+        
+        # Monitorear cambios de estado de la aplicación
+        QApplication.instance().applicationStateChanged.connect(self.on_application_state_changed)
         
         # Configurar el estilo base
         status_color = self._get_status_color(status)
@@ -205,25 +209,24 @@ class Notification(QWidget):
         """
 
     def _position_notification(self):
-        """Posiciona la notificación en la esquina superior derecha de la pantalla"""
-        # Obtener la geometría de la pantalla principal
-        screen = QApplication.primaryScreen()
-        screen_geometry = screen.availableGeometry()
+        """Posiciona la notificación en la esquina superior derecha de la ventana principal"""
+        if not self.parent_window:
+            return
+            
+        # Obtener la geometría de la ventana principal
+        parent_rect = self.parent_window.frameGeometry()
         
-        # Calcular la posición X (siempre en el borde derecho de la pantalla)
-        x = screen_geometry.right() - self.width() - 20
+        # Calcular la posición X (20px desde el borde derecho de la ventana principal)
+        x = parent_rect.right() - self.width() - 20
         
-        # Calcular la posición Y (20px desde el borde superior de la pantalla)
-        y = screen_geometry.top() + 20
+        # Calcular la posición Y (20px desde el borde superior de la ventana principal)
+        y = parent_rect.top() + 20
         
-        # Asegurarse de que la notificación no se salga de la pantalla
-        if y < screen_geometry.top():
-            y = screen_geometry.top() + 20
-        if y > screen_geometry.bottom() - self.height():
-            y = screen_geometry.bottom() - self.height() - 20
+        # Convertir las coordenadas a coordenadas globales
+        global_pos = self.parent_window.mapToGlobal(QPoint(x, y))
         
         # Mover la notificación a la posición calculada
-        self.move(int(x), int(y))
+        self.move(global_pos)
         
         # Mostrar la notificación si no está visible
         if not self.isVisible():
@@ -238,23 +241,43 @@ class Notification(QWidget):
         if obj == self.parent_window:
             if event.type() in [QEvent.Move, QEvent.Resize, QEvent.WindowStateChange]:
                 self._position_notification()
+                
+                # Ocultar notificaciones si la ventana se minimiza
+                if event.type() == QEvent.WindowStateChange:
+                    if self.parent_window.isMinimized():
+                        self.hide()
+                    elif self.is_application_active:
+                        self.show()
+                        
         return super().eventFilter(obj, event)
+        
+    def on_application_state_changed(self, state):
+        """Maneja los cambios de estado de la aplicación"""
+        # Verificar si la aplicación está activa (en primer plano)
+        is_active = state == Qt.ApplicationActive
+        
+        if is_active != self.is_application_active:
+            self.is_application_active = is_active
+            
+            if is_active:
+                # Si la aplicación vuelve a estar activa, mostrar la notificación
+                if not self.parent_window.isMinimized():
+                    self.show()
+                    self._position_notification()
+            else:
+                # Si la aplicación pierde el foco, ocultar la notificación
+                self.hide()
 
     def fade_in(self):
         """Animación de entrada con desvanecimiento"""
-        self._position_notification()
-        if self.isVisible():
-            self.raise_()
-            super().show()
+        if not self.is_application_active or (self.parent_window and self.parent_window.isMinimized()):
+            return
             
-            # Configurar la animación de entrada
-            self.animation = QPropertyAnimation(self, b"windowOpacity")
-            self.animation.setDuration(300)
-            self.animation.setStartValue(0)
-            self.animation.setEndValue(1)
-            self.animation.start()
+        self._position_notification()
+        self.show()
+        self.raise_()
         
-        # Animación de opacidad
+        # Configurar la animación de opacidad
         self.animation = QPropertyAnimation(self, b"windowOpacity")
         self.animation.setDuration(300)
         self.animation.setStartValue(0)

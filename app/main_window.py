@@ -18,6 +18,7 @@ import json
 import random
 from app.widgets.notification import Notification
 from utils.load_alerts import load_alerts
+from app.widgets.range_editor import RangeEditor  # Importa el nuevo widget para editar rangos
 
 class HydroponicMonitor(QMainWindow):
     def __init__(self, serial_conn, parent=None):
@@ -29,6 +30,11 @@ class HydroponicMonitor(QMainWindow):
         self.setup_ui()
         self.setup_data()
         self.apply_theme()
+
+        # Configurar temporizador para actualizar rangos óptimos en las tarjetas
+        self.range_update_timer = QTimer(self)
+        self.range_update_timer.timeout.connect(self.update_card_ranges)
+        self.range_update_timer.start(5000)  # Actualizar cada 5 segundos
         
         # Configurar temporizador para actualizar datos
         self.timer = QTimer(self)
@@ -142,16 +148,19 @@ class HydroponicMonitor(QMainWindow):
         page_title.setObjectName("pageTitle")
         home_layout.addWidget(page_title)
         
+        # Ruta de la base de datos
+        db_path = "hydrobyte.sqlite"
+
         # Tarjetas de sensores
         sensors_widget = QWidget()
         sensors_layout = QHBoxLayout(sensors_widget)
         sensors_layout.setContentsMargins(0, 0, 0, 0)
         sensors_layout.setSpacing(20)
         
-        self.ph_card = SensorCard("pH", "ph", "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
-        self.ec_card = SensorCard("Conductividad (EC)", "tds", "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
-        self.temp_card = SensorCard("Temperatura", "temp", "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
-        self.water_card = SensorCard("Nivel del Agua", "dist", "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+        self.ph_card = SensorCard("pH", 1, "", LIGHT_COLORS["ph_color"], self.theme_manager, db_path)
+        self.ec_card = SensorCard("Conductividad (EC)", 2, "mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, db_path)
+        self.temp_card = SensorCard("Temperatura", 3, "°C", LIGHT_COLORS["temp_color"], self.theme_manager, db_path)
+        self.water_card = SensorCard("Nivel del Agua", 4, "%", LIGHT_COLORS["dist_color"], self.theme_manager, db_path)
         
         sensors_layout.addWidget(self.ph_card)
         sensors_layout.addWidget(self.ec_card)
@@ -242,7 +251,7 @@ class HydroponicMonitor(QMainWindow):
         # Página de ayuda
         help_page = self.create_help_page()
         
-        # Páginas de ayuda y configuración
+        # Página de configuraciones
         settings_page = QWidget()
         settings_layout = QVBoxLayout(settings_page)
         
@@ -256,7 +265,16 @@ class HydroponicMonitor(QMainWindow):
         
         settings_layout.addWidget(settings_title)
         settings_layout.addWidget(settings_content)
+
+        # Editor de rangos óptimos
+        db_path = "hydrobyte.sqlite"  # Ruta de la base de datos
+        range_editor = RangeEditor(self.theme_manager, db_path)  # Pasa la ruta correcta
+        settings_layout.addWidget(range_editor)
+
         settings_layout.addStretch()
+        
+        # Añadir la página de configuraciones al stacked widget
+        self.stacked_widget.addWidget(settings_page)
         
         # Añadir páginas al stacked widget
         self.stacked_widget.addWidget(home_page)
@@ -293,27 +311,30 @@ class HydroponicMonitor(QMainWindow):
         top_row_layout.setContentsMargins(0, 0, 0, 0)
         top_row_layout.setSpacing(20)
 
+        # Ruta de la base de datos
+        db_path = "hydrobyte.sqlite"
+
         # Card de sensor y gráficas
         if chart_type == "ph":
-            sensor_card = SensorCard("pH", "ph", "", "5.5 - 6.5", LIGHT_COLORS["ph_color"], self.theme_manager, self)
+            sensor_card = SensorCard("pH", 1, "", LIGHT_COLORS["ph_color"], self.theme_manager, db_path)
             self.ph_submenu_card = sensor_card
             realtime_index = 0
             chart_title = "Gráfica de pH"
             secondary_title = "Histórico de pH"
         elif chart_type == "ec":
-            sensor_card = SensorCard("Conductividad (EC)", "tds", "mS/cm", "1.5 - 2.2 mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, self)
+            sensor_card = SensorCard("Conductividad (EC)", 2, "mS/cm", LIGHT_COLORS["ec_color"], self.theme_manager, db_path)
             self.ec_submenu_card = sensor_card
             realtime_index = 1
             chart_title = "Gráfica de Conductividad"
             secondary_title = "Histórico de Conductividad"
         elif chart_type == "temp":
-            sensor_card = SensorCard("Temperatura", "temp", "°C", "18 - 24 °C", LIGHT_COLORS["temp_color"], self.theme_manager, self)
+            sensor_card = SensorCard("Temperatura", 3, "°C", LIGHT_COLORS["temp_color"], self.theme_manager, db_path)
             self.temp_submenu_card = sensor_card
             realtime_index = 2
             chart_title = "Gráfica de Temperatura"
             secondary_title = "Histórico de Temperatura"
         elif chart_type == "water":
-            sensor_card = SensorCard("Nivel del Agua", "dist", "%", "70 - 90 %", "#9333EA", self.theme_manager, self)
+            sensor_card = SensorCard("Nivel del Agua", 4, "%", LIGHT_COLORS["dist_color"], self.theme_manager, db_path)
             self.water_submenu_card = sensor_card
             realtime_index = None
             chart_title = "Gráfica de Nivel de Agua"
@@ -696,7 +717,7 @@ class HydroponicMonitor(QMainWindow):
                 color: {colors['primary']};
             }}
         """)
-        
+
         # Aplicar tema a los componentes
         self.sidebar.apply_theme()
         
@@ -705,6 +726,15 @@ class HydroponicMonitor(QMainWindow):
         self.ec_card.apply_theme()
         self.temp_card.apply_theme()
         self.water_card.apply_theme()
+
+        # Aplicar tema al editor de rangos
+        if hasattr(self, 'range_editor'):
+            self.range_editor.apply_theme()
+
+        # Aplicar tema a las tarjetas de las bombas
+        self.water_pump.apply_theme()
+        self.ph_up_pump.apply_theme()
+        self.ph_down_pump.apply_theme()
         
         # Aplicar tema a los gráficos
         if hasattr(self, 'realtime_chart'):
@@ -721,7 +751,7 @@ class HydroponicMonitor(QMainWindow):
                 if hasattr(widget, 'apply_theme'):
                     widget.apply_theme()
         if hasattr(self, 'cards_layout'):
-            for i in range(self.cards_layout.count()):
+            for i in range(self.cards_layout.count()):  # Corrige el bucle para iterar correctamente
                 item = self.cards_layout.itemAt(i)
                 widget = item.widget()
                 if widget:
@@ -814,3 +844,25 @@ class HydroponicMonitor(QMainWindow):
     def on_alerts_next_page(self):
         self.alerts_table.next_page()
         self.update_alerts_pagination()
+
+    def update_card_ranges(self):
+        """Actualiza los rangos óptimos en las tarjetas."""
+        # Actualizar tarjetas de estado
+        if hasattr(self, 'ph_card'):
+            self.ph_card.reload_optimal_range()
+        if hasattr(self, 'ec_card'):
+            self.ec_card.reload_optimal_range()
+        if hasattr(self, 'temp_card'):
+            self.temp_card.reload_optimal_range()
+        if hasattr(self, 'water_card'):
+            self.water_card.reload_optimal_range()
+
+        # Actualizar tarjetas de gráficas
+        if hasattr(self, 'ph_submenu_card'):
+            self.ph_submenu_card.reload_optimal_range()
+        if hasattr(self, 'ec_submenu_card'):
+            self.ec_submenu_card.reload_optimal_range()
+        if hasattr(self, 'temp_submenu_card'):
+            self.temp_submenu_card.reload_optimal_range()
+        if hasattr(self, 'water_submenu_card'):
+            self.water_submenu_card.reload_optimal_range()

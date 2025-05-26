@@ -72,52 +72,63 @@ class DataGenerator:
     def update_realtime_data(self):
         global latest_data
 
+        # Cargar rangos óptimos desde la base de datos
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, optimal_min, optimal_max FROM sensors")
+        ranges = {row[0]: (row[1], row[2]) for row in cursor.fetchall()}
+        conn.close()
+
         for series in self.realtime_data:
             if series["name"] == "pH":
                 v = self.generate_random_ph()
+                min_ph, max_ph = ranges.get(1, (5.5, 6.5))  # ID 1 para pH
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["ph"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["ph"] = True  
-                    if v < 5.5 or v > 6.2:
-                        enviarAlertaPH(v) # Enviar alerta si el pH está fuera de rango
+                    if v < min_ph or v > max_ph:
+                        enviarAlertaPH(v)  # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "EC (mS/cm)":
                 v = latest_data.get("tds")
+                min_ce, max_ce = ranges.get(2, (1.2, 1.6))  # ID 2 para EC
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["tds"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["tds"] = True
-                    if v < 1.2:
-                        enviarAlertaBajoTDS(v) # Enviar alerta si el pH está fuera de rango
-                    elif v > 1.6:
-                        enviarAlertaAltoTDS(v) # Enviar alerta si el pH está fuera de rango
+                    if v < min_ce:
+                        enviarAlertaBajoTDS(v)  # Enviar alerta si el EC está fuera de rango
+                    elif v > max_ce:
+                        enviarAlertaAltoTDS(v)
             elif series["name"] == "Temperatura (°C)":
                 v = latest_data.get("temp")
+                min_temp, max_temp = ranges.get(3, (18, 22))  # ID 3 para Temperatura
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["temp"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["temp"] = True
-                    if v < 18:
+                    if v < min_temp:
                         enviarAlertaBajaTemp(v)
-                    elif v > 22:
+                    elif v > max_temp:
                         enviarAlertaAltaTemp(v)
             elif series["name"] == "Distancia (cm)":
                 v = latest_data.get("dist")
+                min_dist, max_dist = ranges.get(4, (35, 50))  # ID 4 para Distancia
                 if v is None or v == 0:
                     series["data"].append(0)
                     statusSensor["dist"] = False
                 else:
                     series["data"].append(v)
                     statusSensor["dist"] = True
-                    if v < 35:
+                    if v < min_dist:
                         enviarAlertaBajaDist(v)
-                    elif v > 50:
+                    elif v > max_dist:
                         enviarAlertaAltaDist(v)
 
             # Limitar la lista a los últimos 7 datos
