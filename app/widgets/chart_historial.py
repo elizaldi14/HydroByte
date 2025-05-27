@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from time import time, strftime, localtime
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class TimeAxisItem(pg.AxisItem):
     def tickStrings(self, values, scale, spacing):
@@ -16,7 +16,7 @@ class ChartWidgetHistory(QWidget):
         self.title = title
         self.series_data = series_data
         self.theme_manager = theme_manager
-        self.max_points = 10
+        self.max_points = 30
 
         self.setup_ui()
         self.apply_theme()
@@ -48,9 +48,12 @@ class ChartWidgetHistory(QWidget):
         self.x_data = []
         self.y_data = []
 
-        current_time = time()
+        current_time = datetime.now()
         for series in self.series_data:
-            x_series = [current_time - (self.max_points - i) for i in range(len(series["data"]))]
+            x_series = [
+                (current_time - timedelta(days=self.max_points - i)).timestamp()
+                for i in range(len(series["data"]))
+            ]
             self.x_data.append(x_series)
             self.y_data.append(series["data"].copy())
 
@@ -92,6 +95,11 @@ class ChartWidgetHistory(QWidget):
         chart_layout.addWidget(title_label)
         chart_layout.addWidget(plot_widget)
         layout.addWidget(chart_frame)
+
+        axis = self.plot_widget.getAxis('bottom')
+        custom_ticks = [(ts, datetime.fromtimestamp(ts).strftime('%d-%m')) for ts in self.x_data[0]]
+        axis.setTicks([custom_ticks])
+
 
     def update_data(self, new_data):
         current_time = time()
