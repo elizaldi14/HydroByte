@@ -1,11 +1,11 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton, QFrame, QMessageBox)
-from PySide6.QtCore import Qt, QObject, Signal
-from PySide6.QtGui import QFont, QPixmap
+from PySide6.QtCore import Qt, QObject, Signal, QPropertyAnimation, QEasingCurve
+from PySide6.QtGui import QFont, QPixmap, QPainter, QColor
 import os
 import threading
 import time
 from utils.serial_reader import PumpSerial
-
+from utils.constants import LIGHT_COLORS
 # Removed global pump_serial instance - it should be created in main.py and passed to pumps
 
 class PumpCard(QFrame):
@@ -25,103 +25,158 @@ class PumpCard(QFrame):
     
     def setup_ui(self):
         self.setObjectName("pumpCard")
-        self.setFixedSize(350, 400)
+        self.setFixedSize(350, 450)  # Aumentado ligeramente para mejor espaciado
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
 
+        # Layout principal con márgenes y espaciado mejorados
         self.layout = QVBoxLayout(self)
-        self.layout.setSpacing(15)
-        self.layout.setContentsMargins(20, 0, 0, 0)  # izquierda, arriba, derecha, abajo
+        self.layout.setSpacing(12)
+        self.layout.setContentsMargins(20, 20, 20, 20)  # Márgenes iguales en todos los lados
 
-
+        # Título
         self.title = QLabel(self.pump_name)
-        self.title.setFont(QFont("Segoe UI", 16, QFont.Bold))
-        self.title.setAlignment(Qt.AlignCenter) 
+        self.title.setFont(QFont("Segoe UI", 18, QFont.Bold))
+        self.title.setAlignment(Qt.AlignCenter)
+        self.title.setObjectName("titleLabel")
         self.layout.addWidget(self.title)
         
+        # Descripción
         self.description_label = QLabel(self.description)
-        self.description_label.setFont(QFont("Segoe UI", 12))
-        self.description_label.setAlignment(Qt.AlignCenter) 
+        self.description_label.setFont(QFont("Segoe UI", 11))
+        self.description_label.setAlignment(Qt.AlignCenter)
+        self.description_label.setWordWrap(True)
+        self.description_label.setObjectName("descriptionLabel")
         self.layout.addWidget(self.description_label)
+        
+        # Espaciador
+        self.layout.addSpacing(5)
 
-         # Icono de la bomba
+        # Icono de la bomba
         iconLabel = QLabel()
-        iconLabel.setFixedSize(150, 150)
+        iconLabel.setFixedSize(140, 140)  # Tamaño ligeramente reducido
         iconLabel.setScaledContents(True)
         iconLabel.setAlignment(Qt.AlignCenter)
         iconLabel.setObjectName("iconLabel")
         self.iconLabel = iconLabel
 
+        # Cargar y configurar el ícono
         iconPath = os.path.abspath(
             os.path.join(os.path.dirname(__file__), '..', '..', 'utils', 'img', self.img)
         )
-        print(iconPath)
         if os.path.exists(iconPath):
             iconPixmap = QPixmap(iconPath)
-            iconPixmap = iconPixmap.scaled(150, 150, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            # Aplicar filtro de color según el tema
+            if hasattr(self, 'theme_manager') and self.theme_manager.is_dark_mode:
+                # Crear una imagen con filtro blanco para modo oscuro
+                white_pixmap = iconPixmap
+                painter = QPainter(white_pixmap)
+                painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
+                painter.fillRect(white_pixmap.rect(), QColor(255, 255, 255))
+                painter.end()
+                iconPixmap = white_pixmap
+            
+            iconPixmap = iconPixmap.scaled(140, 140, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             iconLabel.setPixmap(iconPixmap)
         else:
             iconLabel.setText(iconPath[0].upper())
         
         self.layout.addWidget(iconLabel, alignment=Qt.AlignCenter)
+        self.layout.addSpacing(5)
 
+        # Estado
         self.status_label = QLabel("Estado: Detenida")
-        self.status_label.setFont(QFont("Segoe UI", 14))
+        self.status_label.setFont(QFont("Segoe UI", 12))
+        self.status_label.setAlignment(Qt.AlignCenter)
+        self.status_label.setObjectName("statusLabel")
         self.layout.addWidget(self.status_label)
 
-        # Create button layout
+        # Espaciador para empujar los botones hacia abajo
+        self.layout.addStretch()
+
+        # Layout de botones con espaciado mejorado
         self.button_layout = QVBoxLayout()
+        self.button_layout.setSpacing(8)
+        self.button_layout.setContentsMargins(10, 10, 10, 10)
         
-        # Toggle button
+        # Botón de alternar
         self.toggle_btn = QPushButton("Iniciar")
         self.toggle_btn.setFont(QFont("Segoe UI", 12, QFont.Bold))
+        self.toggle_btn.setMinimumHeight(40)  # Altura fija para consistencia
         self.toggle_btn.clicked.connect(self.toggle_pump)
+        self.toggle_btn.setObjectName("toggleButton")
         self.button_layout.addWidget(self.toggle_btn)
         
-        # Solo agregar botón de automático si no es una bomba de pH
+        # Botón de modo automático (solo para bombas no de pH)
         if not hasattr(self, 'is_ph_pump'):
             self.auto_btn = QPushButton("Modo Manual")
-            self.auto_btn.setFont(QFont("Segoe UI", 10))
+            self.auto_btn.setFont(QFont("Segoe UI", 11))
+            self.auto_btn.setMinimumHeight(36)  # Altura ligeramente menor que el botón principal
             self.auto_btn.clicked.connect(self.toggle_automation)
-            self.auto_btn.setStyleSheet("""
-                QPushButton {
-                    background-color: #3B82F6;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 8px;
-                    margin-top: 5px;
-                }
-                QPushButton:hover {
-                    background-color: #2563EB;
-                }
-            """)
+            self.auto_btn.setObjectName("autoButton")
             self.button_layout.addWidget(self.auto_btn)
         
         self.layout.addLayout(self.button_layout)
         
+        # Inicializar estados
         self.automation_enabled = False
         self.update_button_style(False)
+        
+        # Aplicar el tema inicial
+        self.apply_theme()
 
     def apply_theme(self):
-        if self.theme_manager.is_dark_mode:
-            self.setStyleSheet("""
-                QFrame#pumpCard {
-                    background: #2D3748;
-                    border: 1px solid #4A5568;
-                }
-                QLabel {
-                    color: #E2E8F0;
-                }
-            """)
-        else:
-            self.setStyleSheet("""
-                QFrame#pumpCard {
-                    background: #FFFFFF;
-                    border: 1px solid #E2E8F0;
-                }
-                QLabel {
-                    color: #1E293B;
-                }
-            """)
+        colors = self.theme_manager.get_colors()
+        self.setStyleSheet(f"""
+            QFrame#pumpCard {{
+                background: {colors['card']};
+                border: 1px solid {colors['border']};
+                border-radius: 12px;
+            }}
+            #titleLabel {{
+                color: {colors['text']};
+                margin-bottom: 5px;
+            }}
+            #descriptionLabel {{
+                color: {colors['text_secondary']};
+                margin-bottom: 10px;
+            }}
+            #statusLabel {{
+                color: {colors['text_secondary']};
+                margin: 5px 0;
+            }}
+            #toggleButton {{
+                background-color: {colors['primary']};
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 8px;
+                font-weight: bold;
+            }}
+            #toggleButton:hover {{
+                background-color: {colors['primary_light']};
+            }}
+            #toggleButton:pressed {{
+                background-color: {colors['primary']};
+            }}
+            #autoButton {{
+                background-color: {colors['card']};
+                color: {colors['text_secondary']};
+                border: 1px solid {colors['border']};
+                border-radius: 8px;
+                padding: 6px;
+            }}
+            #autoButton:hover {{
+                background-color: {colors['background']};
+                border-color: {colors['border']};
+            }}
+            #autoButton:pressed {{
+                background-color: {colors['background']};
+            }}
+            #iconLabel {{
+                margin: 10px 0;
+            }}
+        """)
 
     def send_command(self, command):
         """Método común para enviar comandos"""
@@ -168,39 +223,77 @@ class PumpCard(QFrame):
 
     def toggle_automation(self):
         self.automation_enabled = not self.automation_enabled
-        if self.automation_enabled:
-            self.auto_btn.setText("Modo Automático")
-            self.auto_btn.setStyleSheet("""
-                QPushButton {
-                    background-color: #8B5CF6;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 8px;
-                    margin-top: 5px;
-                }
-                QPushButton:hover {
-                    background-color: #7C3AED;
-                }
-            """)
-            # Iniciar la bomba si no está en marcha
-            if not (self.thread and self.thread.is_alive()):
-                self.toggle_pump(send_stop_command=False)
+        
+        # Aplicar estilos a través de la hoja de estilo principal usando selectores de estado
+        if self.theme_manager.is_dark_mode:
+            if self.automation_enabled:
+                self.auto_btn.setStyleSheet("""
+                    #autoButton {
+                        background-color: #9F7AEA;
+                        color: white;
+                        border: 1px solid #9F7AEA;
+                    }
+                    #autoButton:hover {
+                        background-color: #805AD5;
+                        border-color: #805AD5;
+                    }
+                    #autoButton:pressed {
+                        background-color: #6B46C1;
+                    }
+                """)
+            else:
+                self.auto_btn.setStyleSheet("""
+                    #autoButton {
+                        background-color: #4A5568;
+                        color: #E2E8F0;
+                        border: 1px solid #4A5568;
+                    }
+                    #autoButton:hover {
+                        background-color: #2D3748;
+                        border-color: #4A5568;
+                    }
+                    #autoButton:pressed {
+                        background-color: #2D3748;
+                    }
+                """)
         else:
-            self.auto_btn.setText("Modo Manual")
-            self.auto_btn.setStyleSheet("""
-                QPushButton {
-                    background-color: #3B82F6;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 8px;
-                    margin-top: 5px;
-                }
-                QPushButton:hover {
-                    background-color: #2563EB;
-                }
-            """)
+            if self.automation_enabled:
+                self.auto_btn.setStyleSheet("""
+                    #autoButton {
+                        background-color: #9F7AEA;
+                        color: white;
+                        border: 1px solid #9F7AEA;
+                    }
+                    #autoButton:hover {
+                        background-color: #805AD5;
+                        border-color: #805AD5;
+                    }
+                    #autoButton:pressed {
+                        background-color: #6B46C1;
+                    }
+                """)
+            else:
+                self.auto_btn.setStyleSheet("""
+                    #autoButton {
+                        background-color: #EDF2F7;
+                        color: #2D3748;
+                        border: 1px solid #E2E8F0;
+                    }
+                    #autoButton:hover {
+                        background-color: #E2E8F0;
+                        border-color: #CBD5E0;
+                    }
+                    #autoButton:pressed {
+                        background-color: #CBD5E0;
+                    }
+                """)
+        
+        # Actualizar el texto del botón
+        self.auto_btn.setText("Modo Automático" if self.automation_enabled else "Modo Manual")
+        
+        # Iniciar la bomba si no está en marcha y se activa el modo automático
+        if self.automation_enabled and not (self.thread and self.thread.is_alive()):
+            self.toggle_pump(send_stop_command=False)
             # No detenemos la bomba al cambiar a modo manual
             # Solo actualizamos el estado del botón si es necesario
             self.update_button_style(self.thread and self.thread.is_alive())
@@ -307,21 +400,4 @@ class PhDownPump(PumpCard):
     def stop_pump(self):
         return self.send_command(6)
 
-class NutrientPump(PumpCard):
-    """Bomba peristáltica para disminuir pH"""
-    def __init__(self, theme_manager, serial_conn, parent=None):
-        self.is_ph_pump = True  # Marcar como bomba de pH
-        super().__init__(
-            pump_name="Bomba Nutrientes",
-            theme_manager=theme_manager,
-            img="pump.png",
-            description="Añade nutrientes al agua",
-            serial_conn=serial_conn,
-            parent=parent
-        )
-    
-    def start_pump(self):
-        return self.send_command(5)
-        
-    def stop_pump(self):
-        return self.send_command(6)
+

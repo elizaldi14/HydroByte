@@ -10,7 +10,8 @@ LIGHT_COLORS = {
     "ec_color": "#3B82F6",    # Azul
     "temp_color": "#F97316",  # Naranja
     "dist_color": "#9333EA",  # Amarillo
-    "border": "#E2E8F0"       # Gris claro para bordes
+    "border": "#E2E8F0",       # Gris claro para bordes
+    "notification": "#FFFFFF" # Gris muy claro para notificaciones
 }
 
 # Colores para modo oscuro
@@ -24,5 +25,6 @@ DARK_COLORS = {
     "ph_color": "#10B981",    # Verde
     "ec_color": "#3B82F6",    # Azul
     "temp_color": "#F97316",  # Naranja
-    "border": "#334155"       # Azul grisáceo para bordes
+    "border": "#334155",       # Azul grisáceo para bordes
+    "notification": "#334155" # Azul oscuro para notificaciones
 }

@@ -53,29 +53,49 @@ if __name__ == "__main__":
         }
     """)
     
-    # Create serial connection
+    # Crear conexión serial
     try:
         port = find_serial_port()
         if port:
             serial_conn = serial.Serial(port, 9600, timeout=1)
             print(f"[INFO] Conectado al puerto serial real: {port}")
         else:
-            print("[ADVERTENCIA] No se detectó Arduino. Usando conexión serial simulada.")
-            serial_conn = MockSerial()
-        time.sleep(2)  # Esperar estabilización de la conexión
+            raise Exception("No se detectó un puerto serial.")
     except Exception as e:
-        print(f"Error al abrir el puerto serial: {e}")
-        sys.exit(1)
+        print(f"[ADVERTENCIA] {e} Usando conexión serial simulada.")
+        serial_conn = MockSerial()
     
-    # Create PumpSerial instance
+    # Crear instancia de PumpSerial
     pump_serial = PumpSerial(serial_conn)
     
-    # Start serial reader thread
+    # Iniciar hilo para leer datos del serial
     serial_thread = threading.Thread(target=read_serial_data, args=(serial_conn,), daemon=True)
     serial_thread.start()
     
-    # Create and show main window with serial connection
+    # Crear y mostrar la ventana principal con la conexión serial
     window = HydroponicMonitor(pump_serial)
+    
+    # Mostrar notificación del estado de la conexión
+    if isinstance(serial_conn, MockSerial):
+        window.mostrar_notificacion(
+            title="Serial Desconectado",
+            message="No se pudo conectar al puerto serial. Usando modo simulado.",
+            status="error"
+        )
+    elif isinstance(serial_conn, serial.Serial):
+        if serial_conn.is_open:
+            window.mostrar_notificacion(
+                title="Serial Conectado",
+                message="Se ha conectado correctamente a los sensores.",
+                status="success"
+            )
+        else:
+            window.mostrar_notificacion(
+                title="Serial Desconectado",
+                message="No se pudo conectar al puerto serial. Usando modo simulado.",
+                status="error"
+            )
+    
     # Usa .ico para Windows taskbar si existe
     ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
     png_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.png'))

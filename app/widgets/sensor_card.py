@@ -1,20 +1,21 @@
 from PySide6.QtWidgets import (
     QFrame, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QGraphicsDropShadowEffect
 )
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont, QColor, QPixmap
 from PySide6.QtCore import Qt
-from utils.data_generator import statusSensor
+import sqlite3
+import os
 
 class SensorCard(QFrame):
-    def __init__(self, title, name, unit, optimal_range, color, theme_manager, parent=None):
+    def __init__(self, title, sensor_id, unit, color, theme_manager, db_path, parent=None):
         super().__init__(parent)
         self.title = title
-        self.name = name
-        self.value = 0  # Valor fijo temporal
+        self.sensor_id = sensor_id  # Cambiado de name a sensor_id
         self.unit = unit
-        self.optimal_range = optimal_range
         self.color = color
         self.theme_manager = theme_manager
+        self.db_path = db_path  # Ruta de la base de datos
+        self.optimal_range = self.get_optimal_range()  # Obtiene el rango óptimo desde la base de datos
         
         self.setup_ui()
         self.apply_theme()
@@ -36,7 +37,7 @@ class SensorCard(QFrame):
         icon_label = QLabel()
         icon_label.setFixedSize(32, 32)
         icon_label.setAlignment(Qt.AlignCenter)
-        icon_label.setText(self.title[0] if self.title else "S")
+        icon_label.setPixmap(self.get_icon_for_sensor())
         icon_label.setObjectName("iconLabel")
         self.icon_label = icon_label
 
@@ -51,11 +52,11 @@ class SensorCard(QFrame):
         value_layout = QHBoxLayout()
         value_layout.setAlignment(Qt.AlignCenter)
         
-        self.value_label = QLabel(f"{self.value}")
+        self.value_label = QLabel("0")  # Valor inicial
         self.value_label.setFont(QFont("Segoe UI", 32, QFont.Bold))
         self.value_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         
-        self.unit_label = QLabel(f"{self.unit}")
+        self.unit_label = QLabel(self.unit)
         self.unit_label.setFont(QFont("Segoe UI", 18))
         self.unit_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         
@@ -81,6 +82,27 @@ class SensorCard(QFrame):
         layout.addWidget(self.range_label)
         layout.addWidget(self.status_label)
 
+    def reload_optimal_range(self):
+        """Recarga el rango óptimo desde la base de datos y actualiza la etiqueta."""
+        self.optimal_range = self.get_optimal_range()
+        self.range_label.setText(f"Rango óptimo: {self.optimal_range}")
+
+    def get_optimal_range(self):
+        """Obtiene el rango óptimo desde la base de datos."""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT optimal_min, optimal_max FROM sensors WHERE id = ?", (self.sensor_id,))
+            result = cursor.fetchone()
+            conn.close()
+            if result:
+                return f"{result[0]} - {result[1]}"
+            else:
+                return "No definido"
+        except sqlite3.Error as e:
+            print(f"Error al obtener el rango óptimo para el sensor con ID {self.sensor_id}: {e}")
+            return "Error"
+
     def add_shadow(self):
         shadow = QGraphicsDropShadowEffect(self)
         shadow.setBlurRadius(15)
@@ -89,8 +111,7 @@ class SensorCard(QFrame):
         self.setGraphicsEffect(shadow)
 
     def update_value(self, new_value):
-        self.value = new_value
-        self.value_label.setText(f"{self.value}")
+        self.value_label.setText(f"{new_value}")
 
     def apply_theme(self):
         colors = self.theme_manager.get_colors()
@@ -111,11 +132,29 @@ class SensorCard(QFrame):
         self.status_label.setStyleSheet(self.status_label.styleSheet() + "background: transparent;")
 
     def set_status(self):
-        is_active = statusSensor.get(self.name, False)
+        # Aquí puedes implementar la lógica para determinar si el sensor está activo o inactivo
+        self.status_label.setText("Activo")
+        self.status_label.setStyleSheet("color: #22C55E; background: transparent;")  # Verde
+
+    def get_icon_for_sensor(self):
+        """Devuelve el ícono correspondiente al sensor."""
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/img"))
+        icon_map = {
+            1: os.path.join(base_path, "ph_black.png"),  # Ícono para pH
+            2: os.path.join(base_path, "settings_black.svg"),  # Ícono para EC
+            3: os.path.join(base_path, "temperatura_black.png"),  # Ícono para Temperatura
+            4: os.path.join(base_path, "nivelAgua_black.png")  # Ícono para Nivel de Agua
+        }
+        icon_path = icon_map.get(self.sensor_id, "")
         
-        if is_active:
-            self.status_label.setText("Activo")
-            self.status_label.setStyleSheet("color: #22C55E; background: transparent;")  # Verde
+        # Depuración: Imprimir la ruta del ícono
+        print(f"Intentando cargar ícono para sensor {self.sensor_id}: {icon_path}")
+        
+        if os.path.exists(icon_path):
+            pixmap = QPixmap(icon_path)
+            if pixmap.isNull():
+                print(f"Error: No se pudo cargar el ícono desde {icon_path}")
+            return pixmap
         else:
-            self.status_label.setText("Inactivo")
-            self.status_label.setStyleSheet("color: #EF4444; background: transparent;")  # Rojo
+            print(f"Advertencia: No se encontró el ícono en la ruta {icon_path}")
+            return QPixmap()  # Devuelve un QPixmap vacío si no se encuentra el ícono

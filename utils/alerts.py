@@ -1,5 +1,5 @@
 import sqlite3
-
+from app.widgets.notification import Notification
 DB_PATH = "hydrobyte.sqlite"
 
 
@@ -11,10 +11,10 @@ def enviarAlertaPH(v):
     cursor.execute('''
         INSERT INTO alerts (sensor_id, message) VALUES (?, ?)
     ''', (1, "El pH está fuera de rango: " + str(v)))
-
     # Guardar los cambios y cerrar la conexión
     conn.commit()
     conn.close()
+    # Notification(None, "Alerta", "El pH está fuera de rango: " + str(v), "warning")
     
 
 def enviarAlertaBajoTDS(v):
