@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication
 from app.main_window import HydroponicMonitor
 from PySide6.QtGui import QIcon
+from PySide6.QtCore import QTimer
 import os
 import serial
 import time
@@ -32,7 +33,6 @@ def find_serial_port():
 
 
 if __name__ == "__main__":
-
     app = QApplication(sys.argv)
     
     # Aplicar estilo global para sombras y efectos
@@ -75,26 +75,8 @@ if __name__ == "__main__":
     # Crear y mostrar la ventana principal con la conexión serial
     window = HydroponicMonitor(pump_serial)
     
-    # Mostrar notificación del estado de la conexión
-    if isinstance(serial_conn, MockSerial):
-        window.mostrar_notificacion(
-            title="Serial Desconectado",
-            message="No se pudo conectar al puerto serial. Usando modo simulado.",
-            status="error"
-        )
-    elif isinstance(serial_conn, serial.Serial):
-        if serial_conn.is_open:
-            window.mostrar_notificacion(
-                title="Serial Conectado",
-                message="Se ha conectado correctamente a los sensores.",
-                status="success"
-            )
-        else:
-            window.mostrar_notificacion(
-                title="Serial Desconectado",
-                message="No se pudo conectar al puerto serial. Usando modo simulado.",
-                status="error"
-            )
+    # Mostrar la ventana maximizada antes de mostrar la notificación
+    window.showMaximized()
     
     # Usa .ico para Windows taskbar si existe
     ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
@@ -104,5 +86,13 @@ if __name__ == "__main__":
     elif os.path.exists(png_path):
         window.setWindowIcon(QIcon(png_path))
 
-    window.showMaximized()
+    # Programar la notificación para mostrar después de que la ventana esté visible
+    QTimer.singleShot(100, lambda: window.mostrar_notificacion(
+        title="Serial Desconectado" if isinstance(serial_conn, MockSerial) else "Serial Conectado",
+        message="No se pudo conectar al puerto serial. Usando modo simulado." if isinstance(serial_conn, MockSerial) else 
+               ("Se ha conectado correctamente a los sensores." if serial_conn.is_open else 
+                "No se pudo conectar al puerto serial. Usando modo simulado."),
+        status="error" if isinstance(serial_conn, MockSerial) or not serial_conn.is_open else "success"
+    ))
+
     sys.exit(app.exec())

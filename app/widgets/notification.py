@@ -36,13 +36,6 @@ class Notification(QWidget):
     def __init__(self, parent, title, message, status, theme_manager, *args, **kwargs):
         """
         Crea una notificación con título, mensaje y estado.
-
-        Args:
-            parent (QWidget): Widget padre (ventana principal)
-            title (str): Título de la notificación
-            message (str): El mensaje a mostrar en la notificación
-            status (str): Estado de la notificación ('success', 'warning', 'error', 'info')
-            theme_manager (ThemeManager): Administrador de temas para aplicar colores
         """
         super().__init__(parent, *args, **kwargs)
         self.parent_window = parent
@@ -50,16 +43,23 @@ class Notification(QWidget):
         self.status = status
         self.is_application_active = True
 
+        # Configurar flags y atributos
         self.setWindowFlags(
-            Qt.Window |
             Qt.FramelessWindowHint |
-            Qt.Tool |
             Qt.WindowStaysOnTopHint |
+            Qt.WindowTransparentForInput |
             Qt.WindowDoesNotAcceptFocus
         )
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAttribute(Qt.WA_ShowWithoutActivating)
         self.setAttribute(Qt.WA_QuitOnClose, False)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setAttribute(Qt.WA_TransparentForMouseEvents)
+
+        # Asegurar que el widget esté en la parte superior
+        self.setWindowModality(Qt.NonModal)
+        self.setParent(parent)
+        parent.installEventFilter(self)
 
         # Crear widget contenedor y layout
         self.container = QWidget(self)
@@ -84,9 +84,16 @@ class Notification(QWidget):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.addWidget(self.container)
 
-        self.adjustSize()
+        # Configurar tamaño
         self.setFixedWidth(320)
         self.setMinimumHeight(80)
+        self.setMaximumHeight(120)
+
+        # Asegurar que el widget tenga el tamaño correcto
+        self.ensurePolished()
+        self.adjustSize()
+        # self.raise_()  # Asegurar que esté en la parte superior
+        # self.show()  # Mostrar explícitamente
 
         self.apply_color()
 
@@ -133,9 +140,16 @@ class Notification(QWidget):
 
     def show_notification(self):
         """Muestra la notificación con animación de entrada."""
+        # Asegurarse de que el widget esté completamente inicializado
+        self.ensurePolished()
+        
+        # Posicionar la notificación
         self._position_notification()
+        
+        # Animar siempre que se muestra
         self.fade_in()
         QTimer.singleShot(5000, self.fade_out)
+
 
     def _position_notification(self):
         """Posiciona la notificación en la esquina superior derecha de la ventana principal."""
@@ -143,46 +157,56 @@ class Notification(QWidget):
             return
 
         # Obtener la geometría de la ventana principal
-        parent_rect = self.parent_window.geometry()  # Cambiado de frameGeometry() a geometry()
+        parent_rect = self.parent_window.geometry()
         
         # Calcular la posición en la esquina superior derecha
-        x = parent_rect.right() - self.width() - 20
-        y = parent_rect.top() + 20  # Ajustar para que esté cerca del borde superior
+        x = parent_rect.x() + parent_rect.width() - self.width() - 20
+        y = parent_rect.y() + 20
         
-        # Convertir las coordenadas a globales
-        global_pos = self.parent_window.mapToGlobal(QPoint(x, y))
+        # Asegurarse de que el widget esté completamente inicializado
+        self.ensurePolished()
         
         # Mover la notificación a la posición calculada
-        self.move(global_pos)
+        self.move(x, y)
+        self.raise_()  # Asegurar que esté en la parte superior
+        self.activateWindow()  # Activar la ventana
+        self.show()  # Mostrar explícitamente# Mostrar explícitamente
 
     def fade_in(self):
         """Animación de entrada con desvanecimiento y deslizamiento."""
-        self.show()  # Asegúrate de que el widget sea visible antes de animar
+        # Asegurarse de que el widget esté completamente inicializado
+        self.ensurePolished()
+        
+        # Crear animación de posición (deslizamiento desde la derecha)
+        self.position_animation = QPropertyAnimation(self, b"pos")
+        self.position_animation.setDuration(400)
+        self.position_animation.setEasingCurve(QEasingCurve.OutBack)
 
+        # Obtener la geometría de la ventana principal
+        parent_rect = self.parent_window.geometry()
+        
+        # Calcular posiciones
+        start_x = parent_rect.right() + 20  # Posición inicial fuera de la pantalla
+        start_y = parent_rect.top() + 20
+        end_x = parent_rect.right() - self.width() - 20  # Posición final
+        end_y = parent_rect.top() + 20
+
+        # Configurar la animación de posición
+        self.position_animation.setStartValue(QPoint(start_x, start_y))
+        self.position_animation.setEndValue(QPoint(end_x, end_y))
+        
         # Configurar animación de opacidad
         self.opacity_animation = QPropertyAnimation(self, b"windowOpacity")
         self.opacity_animation.setDuration(400)
         self.opacity_animation.setStartValue(0)
         self.opacity_animation.setEndValue(1)
 
-        # Configurar animación de posición (deslizamiento desde la derecha)
-        self.position_animation = QPropertyAnimation(self, b"pos")
-        self.position_animation.setDuration(400)
-        self.position_animation.setEasingCurve(QEasingCurve.OutBack)
-
-        # Posición inicial fuera de la pantalla (a la derecha)
-        parent_rect = self.parent_window.frameGeometry()
-        start_x = parent_rect.right() + 20
-        start_y = parent_rect.top() + 20
-        end_x = parent_rect.right() - self.width() - 20
-        end_y = parent_rect.top() + 20
-
-        self.position_animation.setStartValue(QPoint(start_x, start_y))
-        self.position_animation.setEndValue(QPoint(end_x, end_y))
-
+        # Mostrar el widget antes de iniciar las animaciones
+        self.show()
+        
         # Iniciar ambas animaciones
-        self.opacity_animation.start()
         self.position_animation.start()
+        self.opacity_animation.start()
 
     def fade_out(self):
         """Animación de salida con desvanecimiento y cierre al terminar."""
@@ -197,6 +221,11 @@ class Notification(QWidget):
         """Cierra la notificación y emite la señal de finalización."""
         self.close()
         self.finished.emit()
+        
+        # Limpiar la referencia en el padre si existe
+        if self.parent_window:
+            if hasattr(self.parent_window, '_current_notification'):
+                self.parent_window._current_notification = None
 
 
 # Ejemplo de uso
