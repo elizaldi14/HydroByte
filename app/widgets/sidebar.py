@@ -54,8 +54,8 @@ class SidebarButton(QPushButton):
                 border: none;
                 text-align: left;
                 padding: 0px;
-                border-radius: 8px;
-                margin: 4px 8px;
+                border-radius: 10px;
+                margin: 4px 20px;
             }}
             QPushButton:hover {{
                 background-color: {colors['hover']};
