@@ -73,18 +73,18 @@ if __name__ == "__main__":
     # Crear y mostrar ventana
     window = HydroponicMonitor(pump_serial)
 
-    if isinstance(serial_conn, MockSerial):
-        window.mostrar_notificacion(
-            title="Serial Desconectado",
-            message="No se pudo conectar al puerto serial. Usando modo simulado.",
-            status="error"
-        )
-    elif isinstance(serial_conn, serial.Serial) and serial_conn.is_open:
-        window.mostrar_notificacion(
-            title="Serial Conectado",
-            message="Se ha conectado correctamente a los sensores.",
-            status="success"
-        )
+    # if isinstance(serial_conn, MockSerial):
+    #     window.mostrar_notificacion(
+    #         title="Serial Desconectado",
+    #         message="No se pudo conectar al puerto serial. Usando modo simulado.",
+    #         status="error"
+    #     )
+    # elif isinstance(serial_conn, serial.Serial) and serial_conn.is_open:
+    #     window.mostrar_notificacion(
+    #         title="Serial Conectado",
+    #         message="Se ha conectado correctamente a los sensores.",
+    #         status="success"
+    #     )
 
     # Icono de ventana
     
@@ -109,5 +109,5 @@ if __name__ == "__main__":
         status="error" if isinstance(serial_conn, MockSerial) or not serial_conn.is_open else "success"
     ))
 
-    window.showMaximized()
+    # window.showMaximized()
     sys.exit(app.exec())
