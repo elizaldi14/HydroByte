@@ -199,7 +199,7 @@ class HydroponicMonitor(QMainWindow):
         self.alerts_search = QLineEdit()
         self.alerts_search.setPlaceholderText("Buscar alerta...")
         self.alerts_search.setFixedWidth(260)
-        self.alerts_search.setStyleSheet("font-size: 15px; border-radius: 8px; border: 1px solid #CBD5E1; padding: 7px 12px;")
+        #self.alerts_search.setStyleSheet("font-size: 15px; border-radius: 8px; border: 1px solid #CBD5E1; padding: 7px 12px;")
         self.alerts_search.setMaximumWidth(260)
         self.alerts_search.setMinimumHeight(36)
         self.alerts_search.setContentsMargins(0, 0, 0, 0)
@@ -434,15 +434,17 @@ class HydroponicMonitor(QMainWindow):
         layout.addWidget(title)
 
         # Barra de búsqueda
-        search_bar = QLineEdit()
-        search_bar.setPlaceholderText("Buscar pregunta...")
-        search_bar.setFixedWidth(420)
-        search_bar.setAlignment(Qt.AlignCenter)
-        search_bar.setStyleSheet("font-size: 16px; padding: 8px; border-radius: 8px; border: 1px solid #CBD5E1;")
-        search_bar.setMaximumWidth(420)
-        search_bar.setMinimumHeight(36)
-        search_bar.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(search_bar, alignment=Qt.AlignHCenter)
+        # search_bar = QLineEdit()
+        # # search_bar.setPlaceholderText("Buscar pregunta...")
+        # search_bar.setFixedWidth(420)
+        # search_bar.setAlignment(Qt.AlignCenter)
+        # #search_bar.setStyleSheet("font-size: 16px; padding: 8px; border-radius: 8px; border: 1px solid #CBD5E1;")
+        # search_bar.setMaximumWidth(420)
+        # search_bar.setMinimumHeight(36)
+        # search_bar.setContentsMargins(0, 0, 0, 0)
+        # layout.addWidget(search_bar, alignment=Qt.AlignHCenter)
+        # self.help_search_bar = search_bar
+
 
         # Contenedor para las cards
         cards_container = QWidget()
@@ -451,14 +453,14 @@ class HydroponicMonitor(QMainWindow):
         cards_layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(cards_container)
 
-        # Botón/Label para ver más
-        ver_mas_label = QLabel('<a href="#" style="color:#2563EB;font-weight:bold;text-decoration:none;">Ver más</a>')
-        ver_mas_label.setAlignment(Qt.AlignHCenter)
-        ver_mas_label.setOpenExternalLinks(False)
-        ver_mas_label.setTextInteractionFlags(Qt.TextBrowserInteraction)
-        ver_mas_label.setStyleSheet("font-size: 16px; margin-top: 12px;")
-        layout.addWidget(ver_mas_label)
-        ver_mas_label.hide()    
+        # # Botón/Label para ver más
+        # ver_mas_label = QLabel('<a href="#" style="color:#2563EB;font-weight:bold;text-decoration:none;">Ver más</a>')
+        # ver_mas_label.setAlignment(Qt.AlignHCenter)
+        # ver_mas_label.setOpenExternalLinks(False)
+        # ver_mas_label.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        # ver_mas_label.setStyleSheet("font-size: 16px; margin-top: 12px;")
+        # layout.addWidget(ver_mas_label)
+        # ver_mas_label.hide()    
 
         # Cargar preguntas desde JSON
         try:
@@ -472,7 +474,7 @@ class HydroponicMonitor(QMainWindow):
         self.cards_layout = cards_layout
         self.faqs_filtered = faqs
         self.faqs_page = 0
-        self.faqs_per_page = 9
+        self.faqs_per_page = 12
 
         def show_faq_cards(page=0, filtered=None):
             # Limpia cards previas
@@ -511,24 +513,24 @@ class HydroponicMonitor(QMainWindow):
                 card_layout.addWidget(pregunta_lbl)
                 card.mousePressEvent = lambda e, pregunta=faq["pregunta"], respuesta=faq["respuesta"]: show_answer_modal(pregunta, respuesta)
                 cards_layout.addWidget(card, idx // 3, idx % 3)
-            # Mostrar/ocultar "Ver más"
-            if end < len(faqs_to_show):
-                ver_mas_label.show()
-            else:
-                ver_mas_label.hide()
+            # # Mostrar/ocultar "Ver más"
+            # if end < len(faqs_to_show):
+            #     ver_mas_label.show()
+            # else:
+            #     ver_mas_label.hide()
 
-        def on_search():
-            query = search_bar.text().strip().lower()
-            if not query:
-                self.faqs_filtered = faqs
-            else:
-                self.faqs_filtered = [faq for faq in faqs if query in faq["pregunta"].lower() or query in faq["respuesta"].lower()]
-            self.faqs_page = 0
-            show_faq_cards(self.faqs_page, self.faqs_filtered)
+        # def on_search():
+        #     query = search_bar.text().strip().lower()
+        #     if not query:
+        #         self.faqs_filtered = faqs
+        #     else:
+        #         self.faqs_filtered = [faq for faq in faqs if query in faq["pregunta"].lower() or query in faq["respuesta"].lower()]
+        #     self.faqs_page = 0
+        #     show_faq_cards(self.faqs_page, self.faqs_filtered)
 
-        def ver_mas_clicked(_):
-            self.faqs_page += 1
-            show_faq_cards(self.faqs_page, self.faqs_filtered)
+        # def ver_mas_clicked(_):
+        #     self.faqs_page += 1
+        #     show_faq_cards(self.faqs_page, self.faqs_filtered)
 
         def show_answer_modal(pregunta, respuesta):
             # Obtener colores del tema actual
@@ -617,8 +619,8 @@ class HydroponicMonitor(QMainWindow):
             dlg.exec()
 
         show_faq_cards(0)
-        search_bar.textChanged.connect(on_search)
-        ver_mas_label.linkActivated.connect(ver_mas_clicked)
+        # search_bar.textChanged.connect(on_search)
+        # ver_mas_label.linkActivated.connect(ver_mas_clicked)
 
         return page
     
@@ -741,31 +743,67 @@ class HydroponicMonitor(QMainWindow):
             self.ec_chart.apply_theme()
             self.temp_chart.apply_theme()
             self.water_chart.apply_theme()
+
         if hasattr(self, 'alerts_table'):
             self.alerts_table.apply_theme()
+
         if hasattr(self, 'alerts_cards_layout'):
             for i in range(self.alerts_cards_layout.count()):
                 widget = self.alerts_cards_layout.itemAt(i).widget()
                 if hasattr(widget, 'apply_theme'):
                     widget.apply_theme()
+
         if hasattr(self, 'cards_layout'):
-            for i in range(self.cards_layout.count()):  # Corrige el bucle para iterar correctamente
+            for i in range(self.cards_layout.count()):
                 item = self.cards_layout.itemAt(i)
                 widget = item.widget()
                 if widget:
                     widget.setStyleSheet(f"background: {colors['card']}; border-radius: 12px; border: 1px solid {colors['border']}; padding: 18px;")
-                    # Cambia el color del texto de la pregunta
                     if widget.layout() and widget.layout().count() > 0:
                         pregunta_lbl = widget.layout().itemAt(0).widget()
                         if pregunta_lbl:
                             pregunta_lbl.setStyleSheet(f"color: {colors.get('text', '#1E293B')};")
-        # --- NUEVO: Aplicar tema a páginas de submenú (gráficas) ---
+
+        # Aplicar tema a páginas de submenú (gráficas)
         for idx in range(self.stacked_widget.count()):
             page = self.stacked_widget.widget(idx)
-            # Solo aplica a páginas de submenú (pH, EC, Temp, Agua)
-            # Se asume que las páginas de submenú están en los índices 2,3,4,5
             if idx in [2, 3, 4, 5]:
                 self.apply_theme_to_subpage(page, idx)
+
+        if hasattr(self, 'alerts_search'):
+            self.apply_alerts_search_style()
+
+        # if hasattr(self, 'help_search_bar'):
+        #     self.apply_help_search_style()
+
+    # def apply_help_search_style(self):
+    #     if not hasattr(self, 'help_search_bar'):
+    #         return
+
+        colors = self.theme_manager.get_colors()
+        background = colors.get('primary', '#FFFFFF')
+        text = colors.get('text', '#0F172A')
+        border = colors.get('border', '#CBD5E1')
+        placeholder = colors.get('placeholder', '#94A3B8')
+
+        # self.help_search_bar.setStyleSheet(f"""
+        #     QLineEdit {{
+        #         background-color: {background};
+        #         color: {text};
+        #         font-size: 16px;
+        #         padding: 8px;
+        #         border-radius: 8px;
+        #         border: 1px solid {border};
+        #     }}
+        #     QLineEdit::placeholder {{
+        #         color: {placeholder};
+        #     }}
+        #     QLineEdit:focus {{
+        #         border: 1px solid {colors.get('hover_text', '#3B82F6')};
+        #     }}
+        # """)
+
+
 
     def apply_theme_to_subpage(self, page, idx):
         colors = self.theme_manager.get_colors()
@@ -787,6 +825,32 @@ class HydroponicMonitor(QMainWindow):
                 # Si es bottom_chart
                 if hasattr(widget, 'apply_theme'):
                     widget.apply_theme()
+                    
+
+    def apply_alerts_search_style(self):
+        colors = self.theme_manager.get_colors()
+        background = colors.get('primary', '#FFFFFF')
+        text = colors.get('text', '#0F172A')
+        border = colors.get('border', '#CBD5E1')
+        placeholder = '#94A3B8'  # Color neutro para placeholder
+
+        self.alerts_search.setStyleSheet(f"""
+            QLineEdit {{
+                background-color: {background};
+                color: {text};
+                font-size: 15px;
+                border-radius: 8px;
+                border: 1px solid {border};
+                padding: 7px 12px;
+            }}
+            QLineEdit::placeholder {{
+                color: {placeholder};
+            }}
+            QLineEdit:focus {{
+                border: 1px solid {colors.get('hover_text', '#3B82F6')};
+            }}
+        """)
+
 
     def set_alerts_data(self, alerts):
         # Mostrar las 3 alertas más recientes como cards
@@ -822,25 +886,6 @@ class HydroponicMonitor(QMainWindow):
         #     card = AlertCard(alert, self.theme_manager)
         #     self.alerts_cards_layout.addWidget(card)
         self.alerts_table.set_alerts(alerts)
-        self.update_alerts_pagination()
-
-    def update_alerts_pagination(self):
-        total_pages = self.alerts_table.get_total_pages()
-        current_page = self.alerts_table.get_current_page()
-        self.alerts_page_label.setText(f"Página {current_page} de {total_pages}")
-        self.alerts_prev_btn.setEnabled(current_page > 1)
-        self.alerts_next_btn.setEnabled(current_page < total_pages)
-
-    def on_alerts_search(self, text):
-        self.alerts_table.search(text)
-        self.update_alerts_pagination()
-
-    def on_alerts_prev_page(self):
-        self.alerts_table.prev_page()
-        self.update_alerts_pagination()
-
-    def on_alerts_next_page(self):
-        self.alerts_table.next_page()
         self.update_alerts_pagination()
 
     def update_card_ranges(self):
