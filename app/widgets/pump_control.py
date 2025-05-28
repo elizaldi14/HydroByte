@@ -10,7 +10,7 @@ from utils.constants import LIGHT_COLORS
 
 class PumpCard(QFrame):
     """Clase base abstracta para todas las bombas"""
-    def __init__(self, pump_name, theme_manager, img, description, serial_conn, parent=None):
+    def __init__(self, pump_name, theme_manager, img, description, serial_conn, parent=None, read_only=False):
         super().__init__(parent)
         self.theme_manager = theme_manager
         self.pump_name = pump_name
@@ -20,8 +20,10 @@ class PumpCard(QFrame):
         self.thread = None
         self.stop_event = threading.Event()
         self.automation_enabled = False
+        self.read_only = read_only
         self.setup_ui()
         self.apply_theme()
+
     
     def setup_ui(self):
         self.setObjectName("pumpCard")
@@ -84,39 +86,49 @@ class PumpCard(QFrame):
         self.layout.addWidget(iconLabel, alignment=Qt.AlignCenter)
         self.layout.addSpacing(5)
 
-        # Estado
+        # Estado principal
         self.status_label = QLabel("Estado: Detenida")
         self.status_label.setFont(QFont("Segoe UI", 12))
         self.status_label.setAlignment(Qt.AlignCenter)
         self.status_label.setObjectName("statusLabel")
         self.layout.addWidget(self.status_label)
 
+        # Solo si es read_only, añadir el segundo label
+        if self.read_only:
+            self.status_label2 = QLabel("Modo: AUTOMÁTICO")
+            self.status_label2.setFont(QFont("Segoe UI", 12))
+            self.status_label2.setAlignment(Qt.AlignCenter)
+            self.status_label2.setObjectName("statusLabel2")
+            self.status_label.setText("Estado: Lista")
+            self.layout.addWidget(self.status_label2)
+
+
         # Espaciador para empujar los botones hacia abajo
         self.layout.addStretch()
 
-        # Layout de botones con espaciado mejorado
-        self.button_layout = QVBoxLayout()
-        self.button_layout.setSpacing(8)
-        self.button_layout.setContentsMargins(10, 10, 10, 10)
-        
-        # Botón de alternar
-        self.toggle_btn = QPushButton("Iniciar")
-        self.toggle_btn.setFont(QFont("Segoe UI", 12, QFont.Bold))
-        self.toggle_btn.setMinimumHeight(40)  # Altura fija para consistencia
-        self.toggle_btn.clicked.connect(self.toggle_pump)
-        self.toggle_btn.setObjectName("toggleButton")
-        self.button_layout.addWidget(self.toggle_btn)
-        
-        # Botón de modo automático (solo para bombas no de pH)
-        if not hasattr(self, 'is_ph_pump'):
-            self.auto_btn = QPushButton("Modo Manual")
-            self.auto_btn.setFont(QFont("Segoe UI", 11))
-            self.auto_btn.setMinimumHeight(36)  # Altura ligeramente menor que el botón principal
-            self.auto_btn.clicked.connect(self.toggle_automation)
-            self.auto_btn.setObjectName("autoButton")
-            self.button_layout.addWidget(self.auto_btn)
-        
-        self.layout.addLayout(self.button_layout)
+        if not self.read_only:
+            self.update_button_style(False)
+            self.button_layout = QVBoxLayout()
+            self.button_layout.setSpacing(8)
+            self.button_layout.setContentsMargins(10, 10, 10, 10)
+
+            self.toggle_btn = QPushButton("Iniciar")
+            self.toggle_btn.setFont(QFont("Segoe UI", 12, QFont.Bold))
+            self.toggle_btn.setMinimumHeight(40)
+            self.toggle_btn.clicked.connect(self.toggle_pump)
+            self.toggle_btn.setObjectName("toggleButton")
+            self.button_layout.addWidget(self.toggle_btn)
+
+            if not hasattr(self, 'is_ph_pump'):
+                self.auto_btn = QPushButton("Modo Manual")
+                self.auto_btn.setFont(QFont("Segoe UI", 11))
+                self.auto_btn.setMinimumHeight(36)
+                self.auto_btn.clicked.connect(self.toggle_automation)
+                self.auto_btn.setObjectName("autoButton")
+                self.button_layout.addWidget(self.auto_btn)
+
+            self.layout.addLayout(self.button_layout)
+
         
         # Inicializar estados
         self.automation_enabled = False
@@ -307,6 +319,10 @@ class PumpCard(QFrame):
         self.update_button_style(self.thread and self.thread.is_alive())
 
     def update_button_style(self, is_running):
+        # Si el botón no existe (modo read_only), no intentar modificarlo
+        if not hasattr(self, "toggle_btn"):
+            return
+
         if not self.automation_enabled:
             color = "#EF4444" if is_running else "#22C55E"
             hover = "#DC2626" if is_running else "#16A34A"
@@ -363,17 +379,18 @@ class WaterPump(PumpCard):
         return self.send_command(0)
 
 class PhUpPump(PumpCard):
-    """Bomba peristáltica para aumentar pH"""
     def __init__(self, theme_manager, serial_conn, parent=None):
-        self.is_ph_pump = True  # Marcar como bomba de pH
+        self.is_ph_pump = True
         super().__init__(
             pump_name="Bomba pH+",
             theme_manager=theme_manager,
             img="pump.png",
             description="Aumenta el pH del agua",
             serial_conn=serial_conn,
-            parent=parent
+            parent=parent,
+            read_only=True  # ← Aquí
         )
+
     
     def start_pump(self):
         return self.send_command(3)
@@ -384,14 +401,15 @@ class PhUpPump(PumpCard):
 class PhDownPump(PumpCard):
     """Bomba peristáltica para disminuir pH"""
     def __init__(self, theme_manager, serial_conn, parent=None):
-        self.is_ph_pump = True  # Marcar como bomba de pH
+        self.is_ph_pump = True
         super().__init__(
             pump_name="Bomba pH-",
             theme_manager=theme_manager,
             img="pump.png",
             description="Disminuye el pH del agua",
             serial_conn=serial_conn,
-            parent=parent
+            parent=parent,
+            read_only=True  # ← Aquí
         )
     
     def start_pump(self):
