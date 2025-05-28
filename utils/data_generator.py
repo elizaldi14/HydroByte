@@ -2,6 +2,7 @@ from utils.constants import LIGHT_COLORS
 from utils.serial_reader import latest_data  # Datos reales sin modificar
 import random
 import sqlite3
+import time
 from utils.alerts import *
 
 DB_PATH = "hydrobyte.sqlite"
@@ -88,9 +89,20 @@ class DataGenerator:
             return False
 
     def generate_random_ph(self):
-        min_ph = 5.5 * 0.8
-        max_ph = 6.2 * 1.2
-        return round(random.uniform(min_ph, max_ph), 1)
+        # Obtener el tiempo actual en segundos
+        current_time = int(time.time())
+        # Calcular el ciclo actual (cada 35 segundos)
+        cycle = current_time % 35
+        
+        # 15 segundos con pH 4
+        if cycle < 15:
+            return 4.0
+        # 5 segundos con pH 7 (neutro)
+        elif cycle < 20:
+            return 5.0
+        # 15 segundos con pH 8
+        else:
+            return 8.0
 
     def generate_random_ce(self):
         # CE en mS/cm
