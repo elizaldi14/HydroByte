@@ -1,4 +1,8 @@
 import sys
+from PySide6.QtWidgets import QApplication
+from app.main_window import HydroponicMonitor
+from PySide6.QtGui import QIcon
+from PySide6.QtCore import QTimer
 import os
 import platform
 import serial
@@ -83,12 +87,27 @@ if __name__ == "__main__":
         )
 
     # Icono de ventana
+    
+    # Mostrar la ventana maximizada antes de mostrar la notificación
+    window.showMaximized()
+    
+    # Usa .ico para Windows taskbar si existe
     ico_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.ico'))
     png_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utils', 'img', 'logo_pi.png'))
     if os.path.exists(ico_path):
         window.setWindowIcon(QIcon(ico_path))
     elif os.path.exists(png_path):
         window.setWindowIcon(QIcon(png_path))
+
+    
+    # Programar la notificación para mostrar después de que la ventana esté visible
+    QTimer.singleShot(100, lambda: window.mostrar_notificacion(
+        title="Serial Desconectado" if isinstance(serial_conn, MockSerial) else "Serial Conectado",
+        message="No se pudo conectar al puerto serial. Usando modo simulado." if isinstance(serial_conn, MockSerial) else 
+               ("Se ha conectado correctamente a los sensores." if serial_conn.is_open else 
+                "No se pudo conectar al puerto serial. Usando modo simulado."),
+        status="error" if isinstance(serial_conn, MockSerial) or not serial_conn.is_open else "success"
+    ))
 
     window.showMaximized()
     sys.exit(app.exec())

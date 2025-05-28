@@ -27,7 +27,7 @@ class HydroponicMonitor(QMainWindow):
         self.theme_manager = ThemeManager()
         self.data_generator = DataGenerator()
         self.notification_manager = NotificationManager()  # Instancia del manejador de notificaciones
-        
+
         self.setup_ui()
         self.setup_data()
         self.apply_theme()
@@ -42,35 +42,30 @@ class HydroponicMonitor(QMainWindow):
         self.timer.timeout.connect(self.update_data)
         self.timer.start(1000)  # Actualizar cada 3 segundos
 
-    def mostrar_estado_conexion(self):
-        """Muestra una notificación con el estado de la conexión serial"""
-        is_mock = (
-            self.serial_conn is None or
-            (hasattr(self.serial_conn, '__class__') and 'Mock' in self.serial_conn.__class__.__name__) or
-            (hasattr(self.serial_conn, 'is_mock') and self.serial_conn.is_mock)
-        )
+    # def mostrar_estado_conexion(self):
+    #     """Muestra una notificación con el estado de la conexión serial"""
+    #     is_mock = (
+    #         self.serial_conn is None or
+    #         (hasattr(self.serial_conn, '__class__') and 'Mock' in self.serial_conn.__class__.__name__) or
+    #         (hasattr(self.serial_conn, 'is_mock') and self.serial_conn.is_mock)
+    #     )
         
-        if is_mock:
-            self.mostrar_notificacion(
-                title="Serial Desconectado",
-                message="No se pudo conectar al puerto serial. Usando modo simulado.",
-                status="error"
-            )
-        else:
-            self.mostrar_notificacion(
-                title="Serial Conectado",
-                message="Se ha conectado correctamente a los sensores.",
-                status="success"
-            )
+    #     if is_mock:
+    #         self.mostrar_notificacion(
+    #             title="Serial Desconectado",
+    #             message="No se pudo conectar al puerto serial. Usando modo simulado.",
+    #             status="error"
+    #         )
+    #     else:
+    #         self.mostrar_notificacion(
+    #             title="Serial Conectado",
+    #             message="Se ha conectado correctamente a los sensores.",
+    #             status="success"
+    #         )
 
     def mostrar_notificacion(self, message="Operación exitosa", status="info", title=None):
         """
         Muestra una notificación en la aplicación.
-        
-        Args:
-            message (str): Mensaje a mostrar
-            status (str): Estado de la notificación ('success', 'warning', 'error', 'info')
-            title (str, optional): Título personalizado. Si no se proporciona, se usará uno por defecto según el estado.
         """
         if title is None:
             title = {
@@ -80,6 +75,7 @@ class HydroponicMonitor(QMainWindow):
                 'info': 'Información'
             }.get(status, 'Notificación')
         
+        # Crear una nueva notificación cada vez
         notification = Notification(self, title, message, status, self.theme_manager)
         self.notification_manager.add_notification(notification)
     
