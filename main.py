@@ -9,6 +9,7 @@ import serial
 import time
 import serial.tools.list_ports
 import threading
+from utils.data_generator import DataGenerator  # Asegúrate de importar tu clase
 
 # Configuración para escalado DPI multiplataforma (esto va ANTES de QApplication)
 os.environ["QT_SCALE_FACTOR"] = "1"  # Escala base (puedes ajustar si es necesario)
@@ -65,13 +66,14 @@ if __name__ == "__main__":
         serial_conn = MockSerial()
 
     pump_serial = PumpSerial(serial_conn)
-
+    data_generator = DataGenerator(serial_conn)
+    
     # Iniciar hilo de lectura
     serial_thread = threading.Thread(target=read_serial_data, args=(serial_conn,), daemon=True)
     serial_thread.start()
 
     # Crear y mostrar ventana
-    window = HydroponicMonitor(pump_serial)
+    window = HydroponicMonitor(pump_serial, data_generator=data_generator)
 
     # if isinstance(serial_conn, MockSerial):
     #     window.mostrar_notificacion(

@@ -21,11 +21,11 @@ import random
 from app.widgets.notification import Notification, NotificationManager
 
 class HydroponicMonitor(QMainWindow):
-    def __init__(self, serial_conn, parent=None):
+    def __init__(self, serial_conn, data_generator=None, parent=None):
         super().__init__(parent)
         self.serial_conn = serial_conn
         self.theme_manager = ThemeManager()
-        self.data_generator = DataGenerator()
+        self.data_generator = data_generator if data_generator else DataGenerator()
         self.notification_manager = NotificationManager()  # Instancia del manejador de notificaciones
 
         self.setup_ui()

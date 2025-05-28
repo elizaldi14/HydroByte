@@ -3,7 +3,6 @@ from utils.serial_reader import latest_data  # Datos reales sin modificar
 import random
 import sqlite3
 from utils.alerts import *
-from app.widgets.pump_control import send_command
 
 DB_PATH = "hydrobyte.sqlite"
 
@@ -15,6 +14,79 @@ statusSensor = {
 }
 
 class DataGenerator:
+    def __init__(self, serial_connection=None):
+        self.serial_conn = serial_connection  # Guardamos la conexión serial
+        self.generate_random_ph()
+        self.realtime_data = [
+            {
+                "name": "pH",
+                "data": [],
+                "color": LIGHT_COLORS["ph_color"]
+            },
+            {
+                "name": "EC (mS/cm)",
+                "data": [],
+                "color": LIGHT_COLORS["ec_color"]
+            },
+            {
+                "name": "Temperatura (°C)",
+                "data": [],
+                "color": LIGHT_COLORS["temp_color"]
+            },
+            {
+                "name": "Nivel de Agua (cm)",
+                "data": [],
+                "color": LIGHT_COLORS["dist_color"]
+            }
+        ]
+        self.historical_data = []
+        self.load_historical_data_from_db()
+
+    def send_command(self, command):
+        """
+        Envía un comando por serial a las bombas
+        
+        Args:
+            command (str): '8' para subir pH, '9' para bajar pH
+        Returns:
+            bool: True si el comando se envió correctamente, False en caso contrario
+        """
+        if command not in ('8', '9'):
+            print(f"Error: Comando {command} no válido. Solo se aceptan '8' o '9'")
+            return False
+            
+        if not self.serial_conn:
+            print("Error: No hay conexión serial disponible")
+            return False
+            
+        try:
+            # Convertir a bytes (sin salto de línea)
+            command_byte = command.encode('ascii')
+            
+            # Intentar enviar el comando
+            try:
+                bytes_sent = self.serial_conn.write(command_byte)
+                # Si write no devuelve nada, asumimos que se envió correctamente
+                bytes_sent = len(command_byte) if bytes_sent is None else bytes_sent
+            except Exception as write_error:
+                print(f"Error al escribir en el puerto serial: {write_error}")
+                return False
+            
+            # Solo intentar hacer flush si el objeto lo soporta
+            try:
+                if hasattr(self.serial_conn, 'flush'):
+                    self.serial_conn.flush()  # Asegurar que se envíe inmediatamente
+            except Exception as flush_error:
+                print(f"Advertencia: No se pudo hacer flush del puerto: {flush_error}")
+                # Continuamos aunque falle el flush
+                
+            print(f"Comando '{command}' enviado correctamente (bytes: {bytes_sent})")
+            return True  # Asumimos éxito si llegamos hasta aquí
+            
+        except Exception as e:
+            print(f"Error al enviar comando '{command}': {e}")
+            return False
+
     def generate_random_ph(self):
         min_ph = 5.5 * 0.8
         max_ph = 6.2 * 1.2
@@ -36,33 +108,7 @@ class DataGenerator:
         max_dist = 40 * 1.2
         return round(random.uniform(min_dist, max_dist), 1)    
 
-    def __init__(self):
-        self.generate_random_ph()
-        self.realtime_data = [
-            {
-                "name": "pH",
-                "data": [],
-                "color": LIGHT_COLORS["ph_color"]
-            },
-            {
-                "name": "EC (mS/cm)",
-                "data": [],
-                "color": LIGHT_COLORS["ec_color"]
-            },
-            {
-                "name": "Temperatura (°C)",
-                "data": [],
-                "color": LIGHT_COLORS["temp_color"]
-            },
-            {
-                "name": "Distancia (cm)",
-                "data": [],
-                "color": LIGHT_COLORS["dist_color"]
-            }
-        ]
 
-        self.historical_data = []
-        self.load_historical_data_from_db()
 
     def get_realtime_data(self):
         return self.realtime_data
@@ -72,6 +118,8 @@ class DataGenerator:
 
     def update_realtime_data(self):
         global latest_data
+    
+
 
         # Cargar rangos óptimos desde la base de datos
         conn = sqlite3.connect(DB_PATH)
@@ -90,12 +138,21 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["ph"] = True  
-                    if v < 5:
-                        send_command(8)
-                        print("Subir")
-                    elif v > 10:
-                        send_command(9)
-                        print("Bajar")
+                    
+                    # Control de pH
+                    if v < min_ph:
+                        print(f"pH bajo ({v:.2f} < {min_ph:.2f}): Enviando comando para subir pH...")
+                        if self.send_command("8"):
+                            print("Comando para subir pH enviado correctamente")
+                        else:
+                            print("Error al enviar comando para subir pH")
+                            
+                    elif v > max_ph:
+                        print(f"pH alto ({v:.2f} > {max_ph:.2f}): Enviando comando para bajar pH...")
+                        if self.send_command("9"):
+                            print("Comando para bajar pH enviado correctamente")
+                        else:
+                            print("Error al enviar comando para bajar pH")
 
             elif series["name"] == "EC (mS/cm)":
                 v = latest_data.get("tds")
