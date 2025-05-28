@@ -3,6 +3,7 @@ from utils.serial_reader import latest_data  # Datos reales sin modificar
 import random
 import sqlite3
 from utils.alerts import *
+from app.widgets.pump_control import send_command
 
 DB_PATH = "hydrobyte.sqlite"
 
@@ -81,7 +82,7 @@ class DataGenerator:
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                v = latest_data.get("ph")
+                v = self.generate_random_ph()
                 min_ph, max_ph = ranges.get(1, (5.5, 6.5))  # ID 1 para pH
                 if v is None or v == 0:
                     series["data"].append(0)
@@ -89,8 +90,13 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["ph"] = True  
-                    if v < 5 or v > 10:
-                        enviarAlertaPH(v)  # Enviar alerta si el pH está fuera de rango
+                    if v < 5:
+                        send_command(8)
+                        print("Subir")
+                    elif v > 10:
+                        send_command(9)
+                        print("Bajar")
+
             elif series["name"] == "EC (mS/cm)":
                 v = latest_data.get("tds")
                 min_ce, max_ce = ranges.get(2, (1.2, 1.6))  # ID 2 para EC
