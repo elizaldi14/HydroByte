@@ -232,7 +232,7 @@ class Sidebar(QWidget):
             self.colors = {
                 'primary': "#1E293B",
                 'text': "#F8FAFC",
-                'hover': "#334155",
+                'hover': "#E0FFEE",
                 'hover_text': "#BFDBFE",
                 'border': "#334155",
                 'secondary': "#0F172A"
@@ -241,11 +241,12 @@ class Sidebar(QWidget):
             self.colors = {
                 'primary': "#FFFFFF",
                 'text': "#1E293B",
-                'hover': "#F0F9FF",
+                'hover': "#aaf0ff",
                 'hover_text': "#0F172A",
                 'border': "#E2E8F0",
                 'secondary': "#F0F2F5"
             }
+            
 
         self.setStyleSheet(f"""
             QWidget {{
