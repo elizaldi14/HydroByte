@@ -81,7 +81,7 @@ class DataGenerator:
 
         for series in self.realtime_data:
             if series["name"] == "pH":
-                v = self.generate_random_ph()
+                v = latest_data.get("ph")
                 min_ph, max_ph = ranges.get(1, (5.5, 6.5))  # ID 1 para pH
                 if v is None or v == 0:
                     series["data"].append(0)
@@ -89,7 +89,7 @@ class DataGenerator:
                 else:
                     series["data"].append(v)
                     statusSensor["ph"] = True  
-                    if v < min_ph or v > max_ph:
+                    if v < 5 or v > 10:
                         enviarAlertaPH(v)  # Enviar alerta si el pH está fuera de rango
             elif series["name"] == "EC (mS/cm)":
                 v = latest_data.get("tds")

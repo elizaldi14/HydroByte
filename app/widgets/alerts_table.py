@@ -18,7 +18,7 @@ class AlertsTable(QTableWidget):
         self.setMinimumHeight(300)
         self.setFont(QFont("Segoe UI", 12))
         self.page = 0
-        self.rows_per_page = 15
+        self.rows_per_page = 21
         self.full_alerts = []
         self.filtered_alerts = []
         self.search_text = ''
@@ -76,12 +76,17 @@ class AlertsTable(QTableWidget):
 
     def set_alerts(self, alerts):
         self.full_alerts = alerts
-        self.filtered_alerts = alerts
         self.page = 0
-        self.update_table()
+        self.search(self.search_text)  # Esto también llama a update_table()
+        
+        # 🔄 Actualizar botones y etiqueta de paginación desde la ventana principal
+        main_window = self.window()
+        if hasattr(main_window, 'update_alerts_pagination'):
+            main_window.update_alerts_pagination()
+
+
     
     def load_alerts_from_db(self, db_path='hydrobyte.sqlite'):
-        """Consulta las alertas desde la base de datos SQLite y actualiza los datos internos."""
         try:
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
@@ -102,25 +107,19 @@ class AlertsTable(QTableWidget):
             alerts = cursor.fetchall()
             conn.close()
 
-            # Verificar si hay nuevas alertas
+            if alerts == self.full_alerts:
+                return
+
+            # Hay nuevas alertas
             if alerts and (not self.full_alerts or alerts[0][0] != self.full_alerts[0][0]):
-                # Hay nuevas alertas, mostrar notificación
-                new_alert = alerts[0]  # La más reciente está primero
-                sensor_name = new_alert[1]
-                message = new_alert[2]
-                
-                # Obtener la ventana principal y mostrar notificación
+                sensor_name = alerts[0][1]
+                message = alerts[0][2]
+
                 main_window = self.window()
                 if hasattr(main_window, 'mostrar_alerta'):
                     main_window.mostrar_alerta(sensor_name, message, "warning")
 
-            # Actualizar los datos internos
             self.set_alerts(alerts)
-
-            self.full_alerts = alerts
-            self.filtered_alerts = alerts
-            self.page = 0  # Reinicia a la primera página
-            self.update_table()  # Usa tu función existente para reflejarlo visualmente
 
         except sqlite3.Error as e:
             print(f"Error al consultar la base de datos: {e}")
@@ -176,3 +175,5 @@ class AlertsTable(QTableWidget):
             self.setCurrentCell(prev_row, self.currentColumn())
         else:
             super().keyPressEvent(event)
+
+
